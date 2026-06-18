@@ -1,20 +1,18 @@
-import React from 'react'
-import { Route,Routes } from 'react-router-dom'
-import { Dashboard } from './../pages/dashboard/Dashboard.jsx';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-export const AllRoutes = () => {
+import Dashboard from "../pages/dashboard/Dashboard";
+import {Complaints} from "../pages/Complaints/Complaints";
+
+
+const AllRoutes = () => {
   return (
-    <div>
-<Routes>
+    <Routes>
+      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/complaints" element={<Complaints />} />
+    </Routes>
+  );
+};
 
-<Route path='/' element={<Dashboard/>}/>
-<Route path='/Dashboard' element={<Dashboard/>}/>
-</Routes>
-
-
-
-
-
-    </div>
-  )
-}
+export default AllRoutes;

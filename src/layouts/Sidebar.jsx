@@ -1,287 +1,198 @@
 import React from "react";
-
 import { Link, NavLink } from "react-router-dom";
 
-
-export const Sidebar = ({ isSidebarOpen }) => {
+export const Sidebar = ({ isSidebarOpen = true }) => {
   return (
-
-    <div
-      className={`overflow-visible h-screen bg-blue-900 text-white fixed left-0 top-0 shadow-lg flex flex-col overflow-y-auto overflow-x-visible
-  ${isSidebarOpen ? "w-64" : "w-24"}`}
+    <aside
+      className={`fixed left-0 top-0 h-screen bg-[#0B1F63] text-white flex flex-col shadow-xl transition-all duration-300 overflow-y-auto ${
+        isSidebarOpen ? "w-[280px]" : "w-[90px]"
+      }`}
     >
-      <div className="p-4 border-b border-blue-800">
-        <Link to="/"
-         title={!isSidebarOpen ? "SOCIETY Management System" : ""}
+      {/* LOGO */}
+      <div className="h-[85px] flex items-center px-4">
+        <Link
+          to="/dashboard"
+          className={`flex items-center w-full ${
+            isSidebarOpen ? "gap-3" : "justify-center"
+          }`}
+          title="Society Management System"
+        >
+          <i className="bi bi-buildings text-3xl flex-shrink-0"></i>
 
-          className={`flex items-center ${isSidebarOpen ? "gap-3" : "justify-center"}`}>
-
-          <i className="bi bi-buildings" style={{ fontSize: "36px" }}></i>
-         
           {isSidebarOpen && (
-            <div>
-              <h2 className="font-bold text-lg">SOCIETY</h2>
-              <p className="text-xs text-dark-200">MANAGEMENT SYSTEM</p>
+            <div className="flex flex-col leading-tight">
+              <h2 className="text-xl font-bold">Society</h2>
+              <p className="text-[11px] text-blue-200">
+                MANAGEMENT SYSTEM
+              </p>
             </div>
           )}
         </Link>
       </div>
 
-
-      <ul className="mt-4 space-y-1 px-2 flex-1">
+      {/* MENU */}
+      <div className="flex-1 px-3 py-4 space-y-1">
 
         <NavLink
           to="/dashboard"
-title={!isSidebarOpen ? "Dashboard" : ""}
+          title="Dashboard"
           className={({ isActive }) =>
-            `flex items-center rounded-lg transition ${isSidebarOpen
-              ? "gap-3 p-3"
-              : "justify-center p-3"
-            } ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-            }`
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
           }
         >
           <i className="bi bi-microsoft text-xl"></i>
-
           {isSidebarOpen && <span>Dashboard</span>}
-
         </NavLink>
 
+        <NavLink to="/resident" title="Residents"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-people text-xl"></i>
+          {isSidebarOpen && <span>Residents</span>}
+        </NavLink>
 
+        <NavLink to="/flats" title="Flats"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-buildings text-xl"></i>
+          {isSidebarOpen && <span>Flats</span>}
+        </NavLink>
 
-        {isSidebarOpen && (<h6>MAIN MODULE</h6>)}
+        <NavLink to="/maintenance" title="Maintenance"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-tools text-xl"></i>
+          {isSidebarOpen && <span>Maintenance</span>}
+        </NavLink>
 
+        <NavLink to="/complaints" title="Complaints"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-exclamation-circle text-xl"></i>
+          {isSidebarOpen && <span>Complaints</span>}
+        </NavLink>
 
-        <li>
-          <NavLink
-            to="/resident"
-title={!isSidebarOpen ? "Resident" : ""}
-            className={({ isActive }) =>
-              `flex items-center rounded-lg transition ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"
-              } ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-people text-xl"></i>
+        <NavLink to="/visitors" title="Visitors"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-person-badge text-xl"></i>
+          {isSidebarOpen && <span>Visitors</span>}
+        </NavLink>
 
-            {isSidebarOpen && <span>Resident</span>}
-          </NavLink>
-        </li>
+        <NavLink to="/staff" title="Staff"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-person-workspace text-xl"></i>
+          {isSidebarOpen && <span>Staff</span>}
+        </NavLink>
 
+        <NavLink to="/notices" title="Notices"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-megaphone text-xl"></i>
+          {isSidebarOpen && <span>Notices</span>}
+        </NavLink>
 
+        <NavLink to="/amenities" title="Amenities"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-building-check text-xl"></i>
+          {isSidebarOpen && <span>Amenities</span>}
+        </NavLink>
 
-        <li>
-          <NavLink
-            to="/flats"
+        <NavLink to="/reports" title="Reports"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-bar-chart text-xl"></i>
+          {isSidebarOpen && <span>Reports</span>}
+        </NavLink>
 
-title={!isSidebarOpen ? "Flats" : ""}
+        <NavLink to="/finance" title="Finance"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-cash-stack text-xl"></i>
+          {isSidebarOpen && <span>Finance</span>}
+        </NavLink>
 
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-building"></i>
-            {isSidebarOpen && <span>Flats</span>}
-          </NavLink>
-        </li>
-
-
-        <li>
-          <NavLink
-            to="/maintenance"
-
-title={!isSidebarOpen ? "Mainteance" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-             ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-tools"></i>
-            {isSidebarOpen && <span>Mainteance</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/complaints"
-title={!isSidebarOpen ? "Complaints" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-             ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-exclamation-circle"></i>
-            {isSidebarOpen && <span>Complaints</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/visitors"
-title={!isSidebarOpen ? "Visitors" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-person-badge"></i>
-            {isSidebarOpen && <span>Visitors</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/staff"
-title={!isSidebarOpen ? "Staff" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-             ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-person-workspace"></i>
-            {isSidebarOpen && <span>Staff</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/notices"
-title={!isSidebarOpen ? "Notices" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-             ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-megaphone"></i>
-            {isSidebarOpen && <span>Notices</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/amenities"
-title={!isSidebarOpen ? "Amenities" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition   ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-building-check"></i>
-            {isSidebarOpen && <span>Amenities</span>}
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/reports"
-title={!isSidebarOpen ? "Reports" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-file-earmark-bar-graph"></i>
-            {isSidebarOpen && <span>Reports</span>}
-
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/finance"
-title={!isSidebarOpen ? "Finance" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-cash-stack"></i>
-            {isSidebarOpen && <span>Finance</span>}
-
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink
-            to="/settings"
-title={!isSidebarOpen ? "Settings" : ""}
-
-            className={({ isActive }) =>
-              `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-            ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-              }`
-            }
-          >
-            <i className="bi bi-gear"></i>
-            {isSidebarOpen && <span>Settings</span>}
-
-          </NavLink>
-        </li>
-      </ul>
-
-      <div className="px-3 mt-2">
-        {isSidebarOpen && (<h6 className="text-xs text-blue-200 mb-2">OTHER</h6>)}
-        <ul className="space-y-1">
-          <li>
-            <NavLink
-              to="/messages"
-title={!isSidebarOpen ? "Messages" : ""}
-
-              className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-              ${isActive ? "bg-blue-800" : "hover:bg-blue-1000"
-                }`
-              }
-            >
-              <i className="bi bi-chat-dots"></i>
-              {isSidebarOpen && <span>Messages</span>}
-
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/help-support"
-title={!isSidebarOpen ? "help & Support" : ""}
-
-              className={({ isActive }) =>
-                `flex items-center gap-3 p-3 rounded-lg transition  ${isSidebarOpen ? "gap-3 p-3" : "justify-center p-3"}
-              ${isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                }`
-              }
-            >
-              <i className="bi bi-question-circle"></i>
-              {isSidebarOpen && <span>Help & Support</span>}
-            </NavLink>
-          </li>
-        </ul>
+        <NavLink to="/settings" title="Settings"
+          className={({ isActive }) =>
+            `flex items-center rounded-xl transition ${
+              isSidebarOpen ? "gap-3 px-4 py-3" : "justify-center py-3"
+            } ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
+          }
+        >
+          <i className="bi bi-gear text-xl"></i>
+          {isSidebarOpen && <span>Settings</span>}
+        </NavLink>
       </div>
 
+      {/* BOTTOM */}
+      <div className="px-3 py-3">
 
-      <div className="text-xs text-blue-200 p-4 border-t border-blue-800 mt-3">
-        {isSidebarOpen && <span> © 2025 Society MS. All Rights Reserved</span>}
+        <NavLink to="/messages" title="Messages"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-800"
+        >
+          <i className="bi bi-chat-dots"></i>
+          {isSidebarOpen && <span>Messages</span>}
+        </NavLink>
 
+        <NavLink to="/help-support" title="Help & Support"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-800"
+        >
+          <i className="bi bi-question-circle"></i>
+          {isSidebarOpen && <span>Help & Support</span>}
+        </NavLink>
+
+        <div className="mt-3 pt-3 border-t border-blue-800">
+          {isSidebarOpen && (
+            <p className="text-center text-[11px] text-blue-300">
+              © 2025 Society Management System
+            </p>
+          )}
+        </div>
       </div>
-
-    </div>
+    </aside>
   );
 };

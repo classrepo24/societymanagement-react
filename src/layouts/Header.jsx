@@ -1,42 +1,65 @@
-import React from 'react'
-import profile from '../assets/profile.svg'
+import React from "react";
+import profile from "../assets/profile.svg";
 
-export const Header = ({setIsSidebarOpen}) => {
+export const Header = ({ setIsSidebarOpen }) => {
   return (
-    <div className='flex items-center justify-between px-6 py-4 bg-white shadow'>
+    <div className="h-16 bg-white flex items-center justify-between px-6 border-b border-gray-200">
 
+      {/* Left */}
+      <div className="flex items-center gap-5">
 
-        <div className='flex items-center'>
-            <button  onClick={()=>setIsSidebarOpen(show => !show)} className='text-2xl cursor-pointer'> ☰ </button>
-        </div>
-        
+        <button
+          onClick={() => setIsSidebarOpen((show) => !show)}
+          className="text-xl text-gray-700"
+        >
+          <i className="bi bi-list"></i>
+        </button>
 
-      
-<div className='flex-1 max-w-md mx-6'>
-      <input
-        type="text"
-        placeholder="Search..."
-        className='w-full border border-gray-300 rounded-lg px-4 py-2 outline-none'
-      />
-</div>
+        <div className="relative w-[380px]">
+          <input
+            type="text"
+            placeholder="Search anything..."
+            className="w-full border border-gray-300 rounded-lg py-2 pl-4 pr-10 outline-none"
+          />
 
-
-<div className='flex items-center gap-6'>
-     <button className="text-xl cursor-pointer">
-            🔔 
-    </button>
-
-    <div className="h-10 border-l border-gray-200"></div>
-
-      <div className="flex items-center gap-3">
-       <img src={profile} alt="Profile" className='w-12 h-13 rounded-full p-2 bg-gray-100'/>
-
-        <div>
-          <h4 className='font-semibold'>Admin User ^</h4>
-          <p className='text-sm text-gray-500'>Society Admin</p>
+          <i className="bi bi-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
         </div>
       </div>
-</div>
+
+      {/* Right */}
+      <div className="flex items-center gap-5">
+
+        <div className="relative">
+          <i className="bi bi-bell text-xl text-gray-700 cursor-pointer"></i>
+
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+            5
+          </span>
+        </div>
+
+        <div className="h-8 border-l border-gray-300"></div>
+
+        <div className="flex items-center gap-3 cursor-pointer">
+          <img
+            src={profile}
+            alt="profile"
+            className="w-10 h-10 rounded-full border"
+          />
+
+          <div>
+            <h4 className="text-sm font-semibold">
+              Admin User
+            </h4>
+
+            <p className="text-xs text-gray-500">
+              Super Admin
+            </p>
+          </div>
+
+          <i className="bi bi-chevron-down text-sm"></i>
+        </div>
+
+      </div>
     </div>
-  )
-}
+  );
+};

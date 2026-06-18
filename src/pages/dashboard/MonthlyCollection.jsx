@@ -27,113 +27,75 @@ export const MonthlyCollection = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm">
-      <div className="flex justify-between items-center mb-4">
-        
-        <h2 className="text-lg font-semibold">
-          Monthly Collection
-        </h2>
+    <div className="bg-white rounded-xl shadow-md p-4 h-full overflow-hidden">
 
-        <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm">
-          <option>this year</option>
-          <option>Last year</option>
+      {/* HEADER */}
+      <div className="flex justify-between items-start mb-3">
+        <div>
+          <h2 className="text-base font-semibold text-gray-800">
+            Monthly Collection
+          </h2>
+          <p className="text-xs text-gray-500">
+            Collected vs Expected Amount
+          </p>
+        </div>
+
+        <select className="border border-gray-200 rounded-lg px-2 py-1 text-xs bg-white shadow-sm">
+          <option>This Year</option>
+          <option>Last Year</option>
         </select>
       </div>
 
-      <div className="h-64">
+      {/* CHART (REDUCED HEIGHT FIX) */}
+      <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          
           <LineChart data={data}>
-            
             <CartesianGrid strokeDasharray="3 3" />
 
             <XAxis dataKey="month" />
-            
             <YAxis />
 
             <Tooltip />
-            <Legend
-  verticalAlign="top"
-  align="center"
-  height={36}
-/>
+            <Legend verticalAlign="top" />
 
             <Line
               type="monotone"
               dataKey="collected"
-              stroke="#3b82f6"
-              strokeWidth={3}
-              dot={true}
+              stroke="#2563eb"
+              strokeWidth={2.5}
+              dot={{ r: 2 }}
             />
 
             <Line
               type="monotone"
               dataKey="expected"
               stroke="#10b981"
-              strokeWidth={3}
-              dot={true}
+              strokeWidth={2.5}
+              dot={{ r: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
-<div className="flex gap-3 mt-4">
-  <div className="flex-1 bg-blue-50 rounded-lg p-3">
-    <div className="flex justify-between items-center">
-      <div>
-        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-        <i className="bi bi-cash-stack text-blue-600"></i>
+
+      {/* STATS (COMPACT) */}
+      <div className="grid grid-cols-3 gap-2 mt-3">
+
+        <div className="bg-blue-50 rounded-lg p-2">
+          <p className="text-[10px] text-gray-500"> Total Collected</p>
+          <h3 className="text-sm font-bold text-gray-800">₹4.58L</h3>
+        </div>
+
+        <div className="bg-green-50 rounded-lg p-2">
+          <p className="text-[10px] text-gray-500"> Total Expected</p>
+          <h3 className="text-sm font-bold text-gray-800">₹5.00L</h3>
+        </div>
+
+        <div className="bg-purple-50 rounded-lg p-2">
+          <p className="text-[10px] text-gray-500">Collection Rate</p>
+          <h3 className="text-sm font-bold text-gray-800">91.6%</h3>
+        </div>
+
       </div>
-        <p className="text-xs text-gray-500">
-          Total Collected
-        </p>
-
-        <h3 className="text-lg font-bold text-gray-800">
-          ₹4,58,200
-        </h3>
-      </div>
-
-      
-    </div>
-  </div>
-
-  <div className="flex-1 bg-green-50 rounded-lg p-3">
-    <div className="flex justify-between items-center">
-      <div>
-        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-        <i className="bi bi-wallet2 text-green-600"></i>
-      </div>
-        <p className="text-xs text-gray-500">
-          Total Expected
-        </p>
-
-        <h3 className="text-lg font-bold text-gray-800">
-          ₹5,00,000
-        </h3>
-      </div>
-
-      
-    </div>
-  </div>
-
-  <div className="flex-1 bg-purple-50 rounded-lg p-3">
-    <div className="flex justify-between items-center">
-      <div>
-        <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-        <i className="bi bi-graph-up-arrow text-purple-600"></i>
-      </div>
-        <p className="text-xs text-gray-500">
-          Collection Rate
-        </p>
-
-        <h3 className="text-lg font-bold text-gray-800">
-          91.6%
-        </h3>
-      </div>
-
-      
-    </div>
-  </div>
-</div>
 
     </div>
   );

@@ -1,157 +1,104 @@
-import { Sidebar } from "../../layouts/Sidebar";
-import { Header } from "../../layouts/Header";
-import { DashboardCard } from "./DashboardCard";
-import { useState } from "react";
-import { MonthlyCollection } from "./MonthlyCollection";
-import { ComplaintTrends } from "./ComplaintTrends";
-import {VisitorStatistics} from "./VisitorStatistics"
-import { QuickActions } from "./QuickActions";
-import {StaffAttendanceOverview} from './StaffAttendanceOverview'
-import {Complaints } from './Complaints'
+import React, { useState } from "react";
+import DashboardCards from "./DashboardCards";
+import {MonthlyCollection} from "./MonthlyCollection";
+import {ComplaintTrends} from "./ComplaintTrends";
+import {QuickActions} from "./QuickActions";
+import { VisitorStatistics } from "./VisitorStatistics";
+import { StaffAttendanceOverview } from "./StaffAttendanceOverview";
+import { RecentComplaints } from "./RecentComplaints";
 
+const Dashboard = () => {
+  const dates = [];
 
-const today = new Date().toISOString().split("T")[0];
-export const Dashboard = () => {
+  for (let i = 0; i < 30; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
 
-  const[isSidebarOpen,setIsSidebarOpen] = useState(false)
+    dates.push(
+      d.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    );
+  }
+
+  const [selectedDate, setSelectedDate] = useState(dates[0]);
+
   return (
-    
-    <>
+    <div className="p-6 bg-gray-100 min-h-screen">
 
-<Sidebar isSidebarOpen={isSidebarOpen} />
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
 
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Dashboard
+          </h1>
 
+          <p className="text-gray-500 mt-1">
+            Welcome back, Admin! Here's what's happening in your society.
+          </p>
+        </div>
 
-<div className={isSidebarOpen ? "ml-64 bg-blue-50 min-h-screen" : "ml-24 bg-blue-50 min-h-screen"}>
+        {/* DATE SELECTOR */}
+        <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-2 shadow-sm">
+          <i className="bi bi-calendar3 text-gray-600"></i>
 
-
-<Header setIsSidebarOpen={setIsSidebarOpen} />
-
-
-<div className="px-6 pt-6 flex justify-between items-start">
-  <div>
-    <h1 className="text-3xl font-bold m-0">
-      Dashboard
-    </h1>
-
-    <p className="text-gray-500 mt-1">
-      Welcome back, Admin! Here's what's happening in your society.
-    </p>
-  </div>
-
-  <input
-    type="date"
-    defaultValue={today}
-    className="border px-3 py-2 rounded-lg"
-  />
-</div>
-
-
-
-<div className="flex justify-between gap-4 mt-6 px-6">
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-purple-400 text-white rounded-full p-6">
-        <i className="bi bi-people-fill"></i>
-      </div>
-    }
-    title="Total Residents"
-    count={0}
-    Percentage="3.08%" 
-  />
-  
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-blue-400 text-white rounded-full p-6">
-        <i className="bi bi-building"></i>
-      </div>
-    }
-    title="Total Flats"
-    count={0}
-    Percentage="3.08%"
-  />
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-orange-400 text-white rounded-full p-6">
-        <i className="bi bi-hourglass-split"></i>
-      </div>
-    }
-    title="Pending Maintenance"
-    count={0}
-    Percentage="3.08%"
-  />
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-red-400 text-white rounded-full p-6">
-        <i className="bi bi-chat-dots-fill"></i>
-      </div>
-    }
-    title="Open Complaints"
-    count={0}
-    Percentage="3.08%"
-  />
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-green-400 text-white rounded-full p-6">
-        <i className="bi bi-people-fill"></i>
-      </div>
-    }
-    title="Visitors Today"
-    count={0}
-    Percentage="3.08%"
-  />
-
-  <DashboardCard
-    icon={
-      <div className="w-10 h-10 flex items-center justify-center bg-blue-700 text-white rounded-full p-6">
-        <i className="bi bi-person-add"></i>
-      </div>
-    }
-    title="Staff Attendance"
-    count={0}
-    Percentage="3.08%"
-  />
-
-</div>
-
-
-<div className="flex gap-6 px-6 mt-6">
-          <div className="flex-[2]">
-            <MonthlyCollection />
-          </div>
-
-          <div className="flex-[2]">
-            <ComplaintTrends />
-          </div>
-
-          <div className="flex-1">
-            <QuickActions />
-         </div>
-</div>
-
-
-
-        <div className="flex gap-6 px-6 mt-6 mb-8">
-          <div className="flex-[2]">
-            <VisitorStatistics />
-          </div>
-
-          <div className="flex-[2]">
-            <StaffAttendanceOverview />
-          </div>
-
-          <div className="flex-1">
-            <Complaints />
-          </div>
+          <select
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="outline-none bg-transparent cursor-pointer text-gray-700"
+          >
+            {dates.map((date) => (
+              <option key={date} value={date}>
+                {date}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
-     
-    </>
+      {/* TOP CARDS */}
+      <div className="mb-6">
+        <DashboardCards />
+      </div>
+{/* ROW 1 */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+  <div className="h-[360px]">
+    <MonthlyCollection />
+  </div>
+
+  <div className="h-[360px]">
+    <ComplaintTrends />
+  </div>
+
+  <div className="h-[360px]">
+    <QuickActions />
+  </div>
+
+</div>
+{/* ROW 2 */}
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+  <div className="h-[360px]">
+    <VisitorStatistics/>
+  </div>
+
+  <div className="h-[360px]">
+    <StaffAttendanceOverview/>
+  </div>
+
+  <div className="h-[360px]">
+<RecentComplaints/>
+  </div>
+
+</div>
+
+</div>
   );
 };
+
+export default Dashboard;
