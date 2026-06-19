@@ -1,12 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import Allroutes from './routes/Allroutes'
+const App = () => {
 
-function App() {
   return (
-    <div className="App">
-      <h2 className='text-lg text-blue-600'>Supriya</h2>
+    <div>
+      
+     
+      <Allroutes/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
