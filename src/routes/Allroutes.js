@@ -12,7 +12,7 @@ import ResetPassword from "../pages/authentication/ResetPassword";
 import PassSuccess from "../pages/authentication/PassSuccess";
 
 import Registration from "../pages/authentication/Registration";
-
+import  Visitors  from "../pages/visitors/Visitors";
 
 const Allroutes = () => {
   return (
@@ -33,7 +33,7 @@ const Allroutes = () => {
       <Route path="/forgot" element={<Forgot />} />
       <Route
         path="/forgotcodeverification"
-        element={<ForgotCodeVerification />}
+        element={<ForgotCodeVerification />}                
       />
       <Route
         path="/resetpassword"
@@ -42,8 +42,10 @@ const Allroutes = () => {
       <Route
         path="/passsuccess"
         element={<PassSuccess />}
+
       />          
-    </Routes>
+      <Route path="/visitors" element={<Visitors />} />
+      </Routes>
   );
 };
 

@@ -3,7 +3,7 @@ import { Outlet, useLocation,useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const location = useLocation();
- const navigate = useNavigate();
+//  const navigate = useNavigate();
   const steps = [
     {
       no: 1,
@@ -90,7 +90,7 @@ const Registration = () => {
                 {steps.map((step) => (
                   <div
                     key={step.no}
-                    onClick={()=>navigate(step.path)}
+                    // onClick={()=>navigate(step.path)}
                     className="flex flex-col items-center text-center w-10 md:w-16 lg:w-24"
                   >
                     <div

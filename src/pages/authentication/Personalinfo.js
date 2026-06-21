@@ -4,27 +4,38 @@ import { useNavigate } from "react-router-dom";
 const Personalinfo = () => {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    fullName: "",
-    dob: "",
-    email: "",
-    mobile: "",
-    alternateMobile: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [form, setForm] = useState(() => {
+  const savedData = sessionStorage.getItem("personalInfo");
 
+  return savedData
+    ? JSON.parse(savedData)
+    : {
+        fullName: "",
+        dob: "",
+        email: "",
+        mobile: "",
+        alternateMobile: "",
+        password: "",
+        confirmPassword: "",
+      };
+});
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const updatedForm = {
+    ...form,
+    [e.target.name]: e.target.value,
   };
 
+  setForm(updatedForm);
+
+  sessionStorage.setItem(
+    "personalInfo",
+    JSON.stringify(updatedForm)
+  );
+};
   const validate = () => {
     let newErrors = {};
 
@@ -65,10 +76,15 @@ const Personalinfo = () => {
   };
 
   const handleNext = () => {
-    if (validate()) {
-      navigate("/register/societyinfo");
-    }
-  };
+  if (validate()) {
+    sessionStorage.setItem(
+      "personalInfo",
+      JSON.stringify(form)
+    );
+
+    navigate("/register/societyinfo");
+  }
+};
 
   return (
     <div className="w-full">

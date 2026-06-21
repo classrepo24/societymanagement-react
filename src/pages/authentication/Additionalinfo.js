@@ -4,144 +4,186 @@ import { useNavigate } from "react-router-dom";
 const Additionalinfo = () => {
   const navigate = useNavigate();
 
-  const [total, setTotal] = useState(1);
+  // Load members from sessionStorage
+  const [members, setMembers] = useState(() => {
+    const saved = sessionStorage.getItem("additionalInfo");
+    return saved ? JSON.parse(saved) : [{ name: "", relation: "" }];
+  });
 
-  const [members, setMembers] = useState([
-    { name: "", relation: "" },
-  ]);
+  // Load total from sessionStorage
+  const [total, setTotal] = useState(() => {
+    const saved = sessionStorage.getItem("additionalTotal");
+    return saved ? JSON.parse(saved) : 1;
+  });
 
+  // ➕ Add member
+  const plus = (e) => {
+    e.preventDefault();
+
+    const newTotal = total + 1;
+    const updated = [...members, { name: "", relation: "" }];
+
+    setTotal(newTotal);
+    setMembers(updated);
+
+    sessionStorage.setItem("additionalInfo", JSON.stringify(updated));
+    sessionStorage.setItem("additionalTotal", JSON.stringify(newTotal));
+  };
+
+  // ➖ Remove member
   const minus = (e) => {
     e.preventDefault();
 
     if (total > 1) {
-      setTotal(total - 1);
-      setMembers(members.slice(0, -1));
+      const newTotal = total - 1;
+      const updated = members.slice(0, -1);
+
+      setTotal(newTotal);
+      setMembers(updated);
+
+      sessionStorage.setItem("additionalInfo", JSON.stringify(updated));
+      sessionStorage.setItem("additionalTotal", JSON.stringify(newTotal));
     }
   };
 
-  const plus = (e) => {
-    e.preventDefault();
+  // 📝 Update input
+  const handleChange = (index, field, value) => {
+    const updated = [...members];
+    updated[index][field] = value;
 
-    setTotal(total + 1);
-    setMembers([
-      ...members,
-      { name: "", relation: "" },
-    ]);
+    setMembers(updated);
+    sessionStorage.setItem("additionalInfo", JSON.stringify(updated));
+  };
+
+  // 🚀 Next step
+  const handleNext = () => {
+    navigate("/register/verification");
   };
 
   return (
     <div className="w-full">
       <form className="w-full min-h-[900px] bg-white shadow-lg rounded-xl p-8 flex flex-col">
-          <h1 className="flex items-center gap-3 text-3xl font-bold mb-6">
-         <span className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg">
-           3
+
+        {/* Title */}
+        <h1 className="flex items-center gap-3 text-3xl font-bold mb-6">
+          <span className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg">
+            3
           </span>
-         Family Details
-         </h1>
+          Family Details
+        </h1>
 
         <div className="w-full max-w-[90%]">
-          {/* Total Members */}
+
+          {/* Counter */}
           <div className="mb-8 flex flex-col items-center">
-            <label className="block mb-4 text-lg font-semibold text-center">
+            <label className="block mb-4 text-lg font-semibold">
               No. of Family Members
             </label>
 
-            <div className="w-full max-w-md flex items-center justify-center gap-6">
+            <div className="flex items-center gap-6">
               <button
                 onClick={minus}
-                className="w-12 h-12 bg-gray-200 rounded-lg text-2xl font-bold hover:bg-gray-300"
+                className="w-12 h-12 bg-gray-200 rounded-lg text-2xl font-bold"
               >
                 -
               </button>
 
-              <span className="text-2xl font-bold min-w-[40px] text-center">
-                {total}
-              </span>
+              <span className="text-2xl font-bold">{total}</span>
 
               <button
                 onClick={plus}
-                className="w-12 h-12 bg-blue-600 text-white rounded-lg text-2xl font-bold hover:bg-blue-700"
+                className="w-12 h-12 bg-blue-600 text-white rounded-lg text-2xl font-bold"
               >
                 +
               </button>
             </div>
           </div>
 
-          {/* Family Members */}
+          {/* Members */}
           <div className="space-y-6">
             {members.map((member, index) => (
-              <div
-                key={index}
-                className="border border-gray-200 rounded-lg p-5"
-              >
+              <div key={index} className="border p-5 rounded-lg">
+
                 <h3 className="text-lg font-semibold mb-4">
                   Family Member {index + 1}
                 </h3>
 
-                <div className="space-y-4">
-                  {/* Full Name */}
-                  <div>
-                    <label className="block mb-2 font-medium">
-                      Full Name
-                    </label>
+                {/* Name */}
+                <div className="mb-4">
+                  <label className="block mb-2 font-medium">
+                    Full Name
+                  </label>
 
-                    <input
-                      type="text"
-                      placeholder="Enter Name"
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-
-                  {/* Relation */}
-                  <div>
-                    <label className="block mb-2 font-medium">
-                      Relation
-                    </label>
-
-                    <select className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                      <option value="">Select Relation</option>
-                      <option value="Father">Father</option>
-                      <option value="Mother">Mother</option>
-                      <option value="Brother">Brother</option>
-                      <option value="Sister">Sister</option>
-                      <option value="Son">Son</option>
-                      <option value="Daughter">Daughter</option>
-                    </select>
-                  </div>
+                  <input
+                    type="text"
+                    value={member.name}
+                    onChange={(e) =>
+                      handleChange(index, "name", e.target.value)
+                    }
+                    placeholder="Enter Name"
+                    className="w-full border rounded-lg p-3"
+                  />
                 </div>
+
+                {/* Relation */}
+                <div>
+                  <label className="block mb-2 font-medium">
+                    Relation
+                  </label>
+
+                  <select
+                    value={member.relation}
+                    onChange={(e) =>
+                      handleChange(index, "relation", e.target.value)
+                    }
+                    className="w-full border rounded-lg p-3"
+                  >
+                    <option value="">Select Relation</option>
+                    <option value="Father">Father</option>
+                    <option value="Mother">Mother</option>
+                    <option value="Brother">Brother</option>
+                    <option value="Sister">Sister</option>
+                    <option value="Son">Son</option>
+                    <option value="Daughter">Daughter</option>
+                  </select>
+                </div>
+
               </div>
             ))}
           </div>
 
-          {/* Add Member Button */}
+          {/* Add Button */}
           <div className="mt-6">
             <button
               type="button"
               onClick={plus}
-              className="w-full bg-white text-blue-600 border border-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition"
+              className="w-full border border-blue-600 text-blue-600 py-3 rounded-lg"
             >
               + Add Another Member
             </button>
           </div>
 
-          {/* Navigation Buttons */}
+          {/* Navigation */}
           <div className="flex justify-between pt-8 mt-8">
+
             <button
               type="button"
               onClick={() => navigate("/register/societyinfo")}
-              className="bg-white text-gray-700 border border-gray-300 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
+              className="border px-8 py-3 rounded-lg"
             >
               ← Back
             </button>
 
             <button
               type="button"
-              onClick={() => navigate("/register/verification")}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              onClick={handleNext}
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg"
             >
               Next →
             </button>
+
           </div>
+
         </div>
       </form>
     </div>

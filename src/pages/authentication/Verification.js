@@ -1,149 +1,221 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Verification = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
+  // ✅ email restore
+  const [email, setEmail] = useState(() => {
+    return sessionStorage.getItem("verificationEmail") || "";
+  });
+
+  // ✅ code restore
+  const [code, setCode] = useState(() => {
+    return sessionStorage.getItem("verificationCode") || "";
+  });
+
   const [errors, setErrors] = useState({});
 
+  const [showSendPopup, setShowSendPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const [codeSent, setCodeSent] = useState(() => {
+    return sessionStorage.getItem("codeSent") === "true";
+  });
+
+  // ---------------------------
+  // EMAIL VALIDATION FUNCTION
+  // ---------------------------
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // ---------------------------
+  // SESSION SAVE
+  // ---------------------------
+  useEffect(() => {
+    sessionStorage.setItem("verificationEmail", email);
+  }, [email]);
+
+  useEffect(() => {
+    sessionStorage.setItem("verificationCode", code);
+  }, [code]);
+
+  useEffect(() => {
+    sessionStorage.setItem("codeSent", codeSent);
+  }, [codeSent]);
+
+  // ---------------------------
+  // SEND CODE
+  // ---------------------------
   const handleSendCode = () => {
     let newErrors = {};
 
     if (!email.trim()) {
-      newErrors.email = "Please enter email address";
+      newErrors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Enter valid email address";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      alert("Verification code sent successfully");
+      setCodeSent(true);
+      setShowSendPopup(true);
     }
   };
 
+  // ---------------------------
+  // VERIFY
+  // ---------------------------
   const handleVerify = (e) => {
     e.preventDefault();
 
     let newErrors = {};
 
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Enter valid email address";
+    }
+
+    if (!codeSent) {
+      newErrors.code = "Please send code first";
+    }
+
     if (!code.trim()) {
-      newErrors.code = "Please enter verification code";
+      newErrors.code = "Verification code is required";
+    } else if (code.length < 4) {
+      newErrors.code = "Enter valid verification code";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigate("/login");
+      // clear all session data
+      sessionStorage.removeItem("personalInfo");
+      sessionStorage.removeItem("societyInfo");
+      sessionStorage.removeItem("additionalInfo");
+      sessionStorage.removeItem("additionalTotal");
+
+      sessionStorage.removeItem("verificationEmail");
+      sessionStorage.removeItem("verificationCode");
+      sessionStorage.removeItem("codeSent");
+
+      setShowSuccessPopup(true);
     }
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+
+      {/* ---------------- SEND POPUP ---------------- */}
+      {showSendPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl w-[320px] text-center">
+            <h2 className="text-xl font-bold">Code Sent 📩</h2>
+            <p className="text-gray-600 mt-2">
+              Verification code sent to email
+            </p>
+
+            <button
+              onClick={() => setShowSendPopup(false)}
+              className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- SUCCESS POPUP ---------------- */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl w-[320px] text-center">
+            <h2 className="text-xl font-bold">Success 🎉</h2>
+            <p className="text-gray-600 mt-2">
+              Verification completed successfully
+            </p>
+
+            <button
+              onClick={() => {
+                setShowSuccessPopup(false);
+                navigate("/login");
+              }}
+              className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- FORM ---------------- */}
       <form
         onSubmit={handleVerify}
-        className="w-full min-h-[900px] bg-white shadow-lg rounded-xl p-8 flex flex-col"
+        className="w-full min-h-[900px] bg-white p-8 rounded-xl"
       >
-        <h1 className="flex items-center gap-3 text-3xl font-bold mb-6">
-        <span className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg">
-        4
-        </span>
-         Verification
+        <h1 className="text-3xl font-bold mb-6">
+          Verification
         </h1>
 
-        <p className="text-center text-1xl font-bold text-gray-600 mb-8">
-          A verification code has been sent to your email address.
-        </p>
+        {/* EMAIL */}
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setErrors({});
+          }}
+          className="w-full p-3 border rounded-lg"
+          placeholder="Enter email"
+        />
 
-        <div className="w-full max-w-[90%]">
-          <div className="space-y-6">
-            {/* Email */}
-            <div>
-              <label className="block mb-2 font-medium">
-                Email Address
-              </label>
+        {errors.email && (
+          <p className="text-red-500 text-sm">{errors.email}</p>
+        )}
 
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setErrors({ ...errors, email: "" });
-                }}
-                className={`w-full rounded-lg p-3 border focus:outline-none focus:ring-2 ${
-                  errors.email
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300 focus:ring-blue-500"
-                }`}
-              />
+        {/* SEND CODE */}
+        <button
+          type="button"
+          onClick={handleSendCode}
+          className="w-full bg-blue-600 text-white py-3 rounded-lg mt-4"
+        >
+          Send Code
+        </button>
 
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email}
-                </p>
-              )}
-            </div>
+        {/* CODE */}
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => {
+            setCode(e.target.value);
+            setErrors({});
+          }}
+          className="w-full p-3 border rounded-lg mt-6"
+          placeholder="Enter verification code"
+        />
 
-            {/* Send Code */}
-            <div>
-              <button
-                type="button"
-                onClick={handleSendCode}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-              >
-                Send Code
-              </button>
-            </div>
+        {errors.code && (
+          <p className="text-red-500 text-sm">{errors.code}</p>
+        )}
 
-            {/* Verification Code */}
-            <div>
-              <label className="block mb-2 font-medium">
-                Verification Code
-              </label>
+        {/* BUTTONS */}
+        <div className="flex justify-between mt-8">
+          <button
+            type="button"
+            onClick={() => navigate("/register/additionalinfo")}
+            className="border px-6 py-2 rounded-lg"
+          >
+            ← Back
+          </button>
 
-              <input
-                type="text"
-                placeholder="Enter verification code"
-                value={code}
-                onChange={(e) => {
-                  setCode(e.target.value);
-                  setErrors({ ...errors, code: "" });
-                }}
-                className={`w-full rounded-lg p-3 border focus:outline-none focus:ring-2 ${
-                  errors.code
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300 focus:ring-blue-500"
-                }`}
-              />
-
-              {errors.code && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.code}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex justify-between pt-8 mt-8">
-            <button
-              type="button"
-              onClick={() =>
-                navigate("/register/additionalinfo")
-              }
-              className="bg-white text-gray-700 border border-gray-300 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
-            >
-              ← Back
-            </button>
-
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
-              Verify & Register
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg"
+          >
+            Verify & Register
+          </button>
         </div>
       </form>
     </div>
