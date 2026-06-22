@@ -32,7 +32,7 @@ export const Sidebar = ({ isSidebarOpen = true }) => {
 
       {/* MENU */}
       <div className="flex-1 px-3 py-4 space-y-1">
-
+{isSidebarOpen && <p className="py-3">MAIN MENU</p>}
         <NavLink
           to="/dashboard"
           title="Dashboard"
@@ -170,7 +170,7 @@ export const Sidebar = ({ isSidebarOpen = true }) => {
 
       {/* BOTTOM */}
       <div className="px-3 py-3">
-
+{isSidebarOpen && <p>OTHER</p>}
         <NavLink to="/messages" title="Messages"
           className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-800"
         >
