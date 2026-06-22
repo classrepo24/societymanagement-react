@@ -456,8 +456,9 @@ const insideVisitors = visitors.filter(
       {/* <VisitorStatsCards/> */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold">Visitor Management</h1>
-          <p className="text-gray-500 text-sm">
+          <p>Dashboard / <span className="font-bold">Visitors</span> </p>
+          <h1 className="text-2xl font-semibold mt-2">Visitor Management</h1>
+          <p className="text-gray-500 text-sm mt-1">
             Track and manage all visitors in the society.
           </p>
         </div>
@@ -521,6 +522,7 @@ const insideVisitors = visitors.filter(
 
       {/* GRID: TABLE + CHART SPACE */}
       <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
 
         <VisitorsTable
             ctiveTab={activeTab}
@@ -535,6 +537,7 @@ const insideVisitors = visitors.filter(
             itemsPerPage={itemsPerPage}
             getStatusStyle={getStatusStyle}
         />
+        </div>
         <VisitorCharts/>
       {/* CURRENTLY INSIDE VISITORS */}
 

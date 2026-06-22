@@ -5,14 +5,14 @@ const InsideVisitorsTable = ({showAllVisitors,setShowAllVisitors,insideVisitors}
     <>
       {/* CURRENTLY INSIDE VISITORS */}
       <div className="bg-white rounded-xl shadow p-4 mt-2">
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-lg font-semibold mb-2">
     Currently Inside Visitors ({insideVisitors.length})
      </h2>
 
   <table className="w-full text-sm">
     <thead className="bg-green-150 border-b">
       <tr>
-        <th className="text-left p-3">Visitor Details</th>
+        <th className="text-left pl-3">Visitor Details</th>
         <th className="text-left">Whom to Visit</th>
         <th className="text-left">Flat / Wing</th>
         <th className="text-left">In Time</th>
@@ -25,12 +25,24 @@ const InsideVisitorsTable = ({showAllVisitors,setShowAllVisitors,insideVisitors}
    <tbody>
   {(showAllVisitors? insideVisitors: insideVisitors.slice(0, 1)).map((v, i) => (
     <tr key={i} className="border-b hover:bg-gray-50">
+      
       <td className="p-3">
-        <div className="font-medium">{v.name}</div>
-        <div className="text-gray-500 text-xs">
-          {v.phone}
-        </div>
-      </td>
+      <div className="flex items-center gap-3">
+    
+    {/* Profile Avatar */}
+    <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold">
+      {v.name.charAt(0)}
+    </div>
+
+    {/* Name + Phone */}
+    <div>
+      <div className="font-medium">{v.name}</div>
+      <div className="text-gray-500 text-xs">
+        {v.phone}
+      </div>
+     </div>
+     </div>
+    </td>
 
       <td>{v.whom}</td>
       <td>{v.flat}</td>

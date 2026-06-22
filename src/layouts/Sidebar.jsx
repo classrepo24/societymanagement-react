@@ -4,8 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 export const Sidebar = ({ isSidebarOpen }) => {
   return (
     <aside
-      // className={`h-screen bg-[#01214a] text-white transition-all duration-300${isSidebarOpen ? "w-[280px]" : "w-[90px]"}`}
-      className={`h-screen bg-blue-600 text-white transition-all duration-300${isSidebarOpen ? "w-[280px]" : "w-[90px]"}`}
+      className={`h-screen bg-[#01214a] text-white transition-all duration-300${isSidebarOpen ? "w-[280px]" : "w-[90px]"}`}
+      // className={`h-screen bg-blue-600 text-white transition-all duration-300${isSidebarOpen ? "w-[280px]" : "w-[90px]"}`}
     >
       {/* LOGO */}
       <div className="h-[85px] flex items-center px-4">

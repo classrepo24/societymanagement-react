@@ -23,22 +23,29 @@ const VisitorsTable = ({
             <div className="flex items-center justify-between mb-4">
 
   {/* LEFT: TABS */}
-  <div className="flex gap-6 text-sm font-bold">
+  <div className="flex gap-6 text-sm font-bold items-end">
     {["All Visitors", "Inside Society", "Exited", "Pre Registered"].map((tab) => (
       <button
-        key={tab}
-        onClick={() => {
-           setActiveTab(tab);
-           setCurrentPage(1);
-           }}
-        className={`pb-2 ${
-          activeTab === tab
-            ? "border-b-2 border-blue-600 text-blue-600"
-            : "text-gray-900"
-        }`}
-      >
-        {tab}
-      </button>
+  key={tab}
+  onClick={() => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  }}
+  className={`relative pb-2 inline-block transition-all duration-200 ${
+    activeTab === tab
+      ? "text-blue-600"
+      : "text-gray-900"
+  }`}
+>
+  {tab}
+
+  {/* underline */}
+  <span
+    className={`absolute left-0 -bottom-1 h-[2px] w-full transition-all duration-300 ${
+      activeTab === tab ? "bg-blue-600" : "bg-transparent"
+    }`}
+  />
+</button>
       
     ))}
   </div>
@@ -67,7 +74,7 @@ const VisitorsTable = ({
             <table className="w-full text-sm   border-collapse">
   <thead className=" border-b bg-gray-100">
     <tr>
-      <th className="text-left pt-4 pb-4">Visitor Details</th>
+      <th className="text-left p-4">Visitor Details</th>
       <th className="pr-2 ">Whom to Visit</th>
       <th className="pr-2">Flat/Wing</th>
       <th className="pr-2">Purpose</th>
@@ -83,8 +90,17 @@ const VisitorsTable = ({
       <tr key={i} className="border-b  hover:bg-gray-50">
 
         <td className="p-2">
-          <div className="font-medium">{v.name}</div>
-          <div className="text-xs text-gray-400">{v.phone}</div>
+        <div className="flex items-center gap-3">
+    
+        <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold">
+             {v.name.charAt(0)}
+          </div>
+
+          <div>
+         <div className="font-medium">{v.name}</div>
+         <div className="text-xs text-gray-400">{v.phone}</div>
+        </div>
+         </div>
         </td>
 
         <td className="pl-4">{v.whom}</td>
