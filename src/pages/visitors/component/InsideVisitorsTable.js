@@ -10,7 +10,7 @@ const InsideVisitorsTable = ({showAllVisitors,setShowAllVisitors,insideVisitors}
      </h2>
 
   <table className="w-full text-sm">
-    <thead className="bg-green-50 border-b">
+    <thead className="bg-green-150 border-b">
       <tr>
         <th className="text-left p-3">Visitor Details</th>
         <th className="text-left">Whom to Visit</th>
