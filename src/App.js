@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { Sidebar } from "./layouts/Sidebar";
 import { Header } from "./layouts/Header";
-import Allroutes from "./routes/Allroutes";
+import AllRoutes from "./routes/Allroutes";
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
 
-      {/* Sidebar */}
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+      {/* SIDEBAR */}
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
 
-      {/* Right Side */}
-      <div className="flex flex-col flex-1">
+      {/* MAIN AREA */}
+      <div className="flex flex-col flex-1 min-w-0">
 
-        {/* Header */}
+        {/* HEADER */}
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4">
-          <Allroutes />
+        {/* CONTENT */}
+        <main className="flex-1 overflow-auto min-w-0 p-4">
+          <AllRoutes/>
         </main>
 
       </div>

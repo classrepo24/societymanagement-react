@@ -3,11 +3,15 @@ import InsideVisitorsTable from "./component/InsideVisitorsTable";
 import VisitorsTable from "./component/VisitorsTable";
 import VisitorCharts from "./component/VisitorCharts";
 import VisitorsHeaderSection from "./component/VisitorsHeaderSection";
+import AddVisitorModal from "./component/AddVisitorModal";
 const Visitors = () => {
 const [activeTab, setActiveTab] = useState("All Visitors");
 const [currentPage, setCurrentPage] = useState(1);
 const [showAllVisitors, setShowAllVisitors] = useState(false);
-
+const [showAddVisitorModal, setShowAddVisitorModal] = useState(false);
+const [sortField, setSortField] = useState(null);
+const [sortOrder, setSortOrder] = useState("asc");
+const [showSortIcons, setShowSortIcons] = useState({});
 const itemsPerPage = 5;
   const visitors = [
   {
@@ -68,11 +72,11 @@ const itemsPerPage = 5;
   {
     name: "Sneha Kulkarni",
     phone: "9765432101",
-    date: "2026-06-19",
+    date: "2026-06-23",
     whom: "Mr. Mehta",
     flat: "C-210",
-    purpose: "Guest",
-    inTime: "3:10 PM",
+    purpose: "Meeting",
+    inTime: "8:00 PM",
     outTime: "-",
     status: "inside",
   },
@@ -83,18 +87,18 @@ const itemsPerPage = 5;
     whom: "Society Office",
     flat: "Office",
     purpose: "Maintenance",
-    inTime: "8:30 AM",
+    inTime: "8:00 AM",
     outTime: "10:00 AM",
     status: "exited",
   },
   {
     name: "Anjali Nair",
     phone: "9876501234",
-    date: "2026-06-18",
+    date: "2026-06-23",
     whom: "Mrs. Iyer",
     flat: "D-101",
-    purpose: "Guest",
-    inTime: "4:00 PM",
+    purpose: " office Meeting",
+    inTime: "8:00 PM",
     outTime: "-",
     status: "inside",
   },
@@ -104,7 +108,7 @@ const itemsPerPage = 5;
     date: "2026-06-18",
     whom: "Mr. Arora",
     flat: "A-502",
-    purpose: "Business Meeting",
+    purpose: "Meeting",
     inTime: "1:20 PM",
     outTime: "2:45 PM",
     status: "exited",
@@ -112,11 +116,11 @@ const itemsPerPage = 5;
   {
     name: "Neha Jain",
     phone: "9865321470",
-    date: "2026-06-17",
+    date: "2026-06-23",
     whom: "Mrs. Gupta",
     flat: "B-404",
     purpose: "Friend Visit",
-    inTime: "5:15 PM",
+    inTime: "8:00 PM",
     outTime: "-",
     status: "inside",
   },
@@ -138,7 +142,7 @@ const itemsPerPage = 5;
     date: "2026-06-16",
     whom: "Mrs. Shah",
     flat: "D-203",
-    purpose: "Guest",
+    purpose: "Personal",
     inTime: "6:00 PM",
     outTime: "-",
     status: "inside",
@@ -149,7 +153,7 @@ const itemsPerPage = 5;
     date: "2026-06-16",
     whom: "Mr. Rao",
     flat: "A-202",
-    purpose: "Courier",
+    purpose: "Personal",
     inTime: "10:10 AM",
     outTime: "10:25 AM",
     status: "exited",
@@ -160,7 +164,7 @@ const itemsPerPage = 5;
     date: "2026-06-15",
     whom: "Mrs. Khanna",
     flat: "B-302",
-    purpose: "Guest",
+    purpose: "Personal",
     inTime: "7:00 PM",
     outTime: "-",
     status: "inside",
@@ -171,7 +175,7 @@ const itemsPerPage = 5;
     date: "2026-06-15",
     whom: "Mr. Tiwari",
     flat: "C-111",
-    purpose: "Plumber",
+    purpose: "Personal",
     inTime: "11:45 AM",
     outTime: "1:15 PM",
     status: "exited",
@@ -193,7 +197,7 @@ const itemsPerPage = 5;
   date: "2026-06-15",
   whom: "Mr. Tiwari",
   flat: "C-111",
-  purpose: "Plumber",
+  purpose: "Service",
   inTime: "11:45 AM",
   outTime: "1:15 PM",
   status: "exited",
@@ -204,7 +208,7 @@ const itemsPerPage = 5;
   date: "2026-06-16",
   whom: "Mrs. Batra",
   flat: "D-305",
-  purpose: "Guest",
+  purpose: "Service",
   inTime: "2:40 PM",
   outTime: "-",
   status: "inside",
@@ -226,7 +230,7 @@ const itemsPerPage = 5;
   date: "2026-06-17",
   whom: "Mrs. Chawla",
   flat: "B-505",
-  purpose: "Friend Visit",
+  purpose: "Delivery",
   inTime: "5:45 PM",
   outTime: "-",
   status: "inside",
@@ -234,7 +238,7 @@ const itemsPerPage = 5;
 {
   name: "Nitin Agarwal",
   phone: "9877412589",
-  date: "2026-06-17",
+  date: "2026-06-23",
   whom: "Society Office",
   flat: "Office",
   purpose: "Vendor Meeting",
@@ -248,7 +252,7 @@ const itemsPerPage = 5;
   date: "2026-06-18",
   whom: "Mr. Siddiqui",
   flat: "C-407",
-  purpose: "Guest",
+  purpose: "Delivery",
   inTime: "8:10 PM",
   outTime: "-",
   status: "inside",
@@ -306,6 +310,19 @@ const itemsPerPage = 5;
   return true;
 });
 
+const sortedVisitors = [...filteredVisitors].sort((a, b) => {
+  if (!sortField) return 0;
+
+  const aVal = a[sortField];
+  const bVal = b[sortField];
+
+  if (sortOrder === "asc") {
+    return aVal > bVal ? 1 : -1;
+  }
+
+  return aVal < bVal ? 1 : -1;
+});
+
 const today = new Date();
 const todayStr = today.toISOString().split("T")[0];
 
@@ -315,9 +332,9 @@ last7Days.setDate(today.getDate() - 7);
 const last30Days = new Date();
 last30Days.setDate(today.getDate() - 30);
 
-const totalPages = Math.ceil(filteredVisitors.length / itemsPerPage);
+const totalPages = Math.ceil(sortedVisitors.length / itemsPerPage);
 
-const paginatedVisitors = filteredVisitors.slice(
+const paginatedVisitors = sortedVisitors.slice(
   (currentPage - 1) * itemsPerPage,
   currentPage * itemsPerPage
 );
@@ -344,8 +361,18 @@ const insideVisitors = visitors.filter(
 
        const totalVisitors = visitors.length;
 
-const todayGrowth = visitorsToday; // temporary
-const weekGrowth = thisWeek;
+const yesterdayVisitors = visitors.filter(v => {
+  const d = new Date(v.date);
+  const y = new Date();
+  y.setDate(y.getDate() - 1);
+  return d.toDateString() === y.toDateString();
+}).length;
+
+const todayGrowth =
+  yesterdayVisitors === 0
+    ? 100
+    : ((visitorsToday - yesterdayVisitors) / yesterdayVisitors) * 100;
+       const weekGrowth = thisWeek;
 const monthGrowth = thisMonth;
 
 return (
@@ -361,7 +388,13 @@ return (
   todayGrowth={todayGrowth}
   weekGrowth={weekGrowth}
   monthGrowth={monthGrowth}
+  setShowAddVisitorModal={setShowAddVisitorModal}
 /> 
+  {showAddVisitorModal && (
+        <AddVisitorModal
+          onClose={() => setShowAddVisitorModal(false)}
+        />
+      )}
 
       {/* GRID: TABLE + CHART SPACE */}
       <div className="grid grid-cols-3 gap-4">
@@ -379,10 +412,19 @@ return (
             endPage={endPage}
             itemsPerPage={itemsPerPage}
             getStatusStyle={getStatusStyle}
+            sortField={sortField}
+            sortOrder={sortOrder}
+            setSortField={setSortField}
+            setSortOrder={setSortOrder}
+            sortedVisitors={sortedVisitors}
+            showSortIcons={showSortIcons}
+            setShowSortIcons={setShowSortIcons}
         />
         </div>
         <VisitorCharts 
-         totalVisitors={totalVisitors}/>
+         totalVisitors={totalVisitors}
+         visitors={visitors}
+         />
 
       {/* CURRENTLY INSIDE VISITORS */}
 

@@ -12,7 +12,27 @@ const VisitorsTable = ({
   endPage,
   itemsPerPage,
   getStatusStyle,
+  sortField,
+  sortOrder,
+  setSortField,
+    setSortOrder,
+  showSortIcons,
+ setShowSortIcons,
+  
 }) => {
+  const handleSort = (field) => {
+  setShowSortIcons((prev) => ({
+    ...prev,
+    [field]: true,
+  }));
+
+  if (sortField === field) {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  } else {
+    setSortField(field);
+    setSortOrder("asc");
+  }
+};
   return (
      <>
 
@@ -55,12 +75,11 @@ const VisitorsTable = ({
 
     {/* Filter Button */}
     <button className="flex items-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white">
-      <span>🔽</span>
+      <span><i className="bi bi-funnel"></i></span>
       Filters
     </button>
 
     <div className="flex items-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white">
-  <span>📅</span>
   <span>
     <input type="date"></input>
   </span>
@@ -74,13 +93,103 @@ const VisitorsTable = ({
             <table className="w-full text-sm   border-collapse">
   <thead className=" border-b bg-gray-100">
     <tr>
-      <th className="text-left p-4">Visitor Details</th>
-      <th className="pr-2 ">Whom to Visit</th>
-      <th className="pr-2">Flat/Wing</th>
-      <th className="pr-2">Purpose</th>
+     <th
+  onClick={() => handleSort("name")}
+  className="text-left p-4 cursor-pointer"
+>
+  <div className="flex items-center">
+    Visitor Details
+
+    {sortField === "name" && (
+      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+        <span className={sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▲
+        </span>
+        <span className={sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▼
+        </span>
+      </span>
+    )}
+  </div>
+</th>
+    <th
+  onClick={() => handleSort("whom")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Whom to Visit
+
+    {sortField === "whom" && (
+      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+        <span className={sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▲
+        </span>
+        <span className={sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▼
+        </span>
+      </span>
+    )}
+  </div>
+</th>
+<th
+  onClick={() => handleSort("flat")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Flat/Wing
+
+    {sortField === "flat" && (
+      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+        <span className={sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▲
+        </span>
+        <span className={sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▼
+        </span>
+      </span>
+    )}
+  </div>
+</th>
+<th
+  onClick={() => handleSort("purpose")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Purpose
+
+    {sortField === "purpose" && (
+      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+        <span className={sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▲
+        </span>
+        <span className={sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▼
+        </span>
+      </span>
+    )}
+  </div>
+</th>
       <th className="pr-2">In Time</th>
       <th className="pr-2">Out Time</th>
-      <th className="pr-2">Status</th>
+      <th
+  onClick={() => handleSort("status")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Status
+
+    {sortField === "status" && (
+      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+        <span className={sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▲
+        </span>
+        <span className={sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>
+          ▼
+        </span>
+      </span>
+    )}
+  </div>
+</th>
       <th className="pr-2">Actions</th>
     </tr>
   </thead>
@@ -195,3 +304,4 @@ const VisitorsTable = ({
 }
 
 export default VisitorsTable
+  

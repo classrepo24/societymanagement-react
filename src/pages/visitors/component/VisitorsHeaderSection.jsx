@@ -8,6 +8,8 @@ const VisitorsHeaderSection = ({
   todayGrowth,
   weekGrowth,
   monthGrowth,
+    setShowAddVisitorModal,
+
 }) => {
   const cards = [
     {
@@ -66,14 +68,16 @@ const VisitorsHeaderSection = ({
             Pre-Register Visitor
           </button>
 
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-            + Add New Visitor
-          </button>
+          <button
+            onClick={() => setShowAddVisitorModal(true)}
+             className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+             + Add New Visitor
+        </button>
         </div>
-      </div>
+        </div>
 
       {/* CARDS */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-4 gap-4 mb-2">
         {cards.map((card, index) => (
           <div
             key={index}
