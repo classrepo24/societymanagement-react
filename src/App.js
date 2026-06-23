@@ -7,17 +7,25 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
 
-      <div
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? "ml-[280px]" : "ml-[90px]"
-        }`}
-      >
+      {/* SIDEBAR */}
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
+
+      {/* MAIN AREA */}
+      <div className="flex flex-col flex-1 min-w-0">
+
+        {/* HEADER */}
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
-        <AllRoutes />
+        {/* CONTENT */}
+        <main className="flex-1 overflow-auto min-w-0 p-4">
+          <AllRoutes />
+        </main>
+
       </div>
     </div>
   );
