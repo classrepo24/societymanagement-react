@@ -22,8 +22,9 @@ function App() {
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
         {/* CONTENT */}
-        <main className="flex-1 overflow-auto min-w-0 p-4">
-          <AllRoutes />
+<main className="flex-1 overflow-auto min-w-0  pb-4">
+  
+            <AllRoutes />
         </main>
 
       </div>

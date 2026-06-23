@@ -118,7 +118,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
         )}
       </div>
 
-      {/* FOOTER (ALWAYS VISIBLE) */}
+      {/* FOOTER  */}
       <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">
         {isSidebarOpen ? "© 2025 Society System" : "©"}
       </div>

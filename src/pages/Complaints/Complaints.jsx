@@ -118,11 +118,11 @@ const [complaints,setComplaints] = useState([
 
   {
     id: "CMP-2025-158",
-    category: "Clining",
+    category: "Cleaning",
     title: "Garbage not colleted since 2 days",
     raisedBy: "Sunita Sonawale",
     flatNo: "C-13",
-    priority: "high",
+    priority: "High",
     status: "Overdue",
     raisedOn: "2026-06-20",
   },
@@ -147,6 +147,38 @@ const [complaints,setComplaints] = useState([
   raisedOn: "2026-06-21",
 },
 
+{
+  id: "CMP-2025-159",
+  category: "Security",
+  title: "Main gate lock issue",
+  raisedBy: "Vikram Mehta",
+  flatNo: "D-104",
+  priority: "High",
+  status: "Open",
+  raisedOn: "2026-06-22",
+},
+{
+  id: "CMP-2025-160",
+  category: "Water",
+  title: "Tap leakage in kitchen",
+  raisedBy: "Neha Kulkarni",
+  flatNo: "A-303",
+  priority: "Low",
+  status: "Resolved",
+  raisedOn: "2026-06-19",
+},
+{
+  id: "CMP-2025-161",
+  category: "Cleaning",
+  title: "Lift area not cleaned properly",
+  raisedBy: "Amit Shah",
+  flatNo: "B-110",
+  priority: "Medium",
+  status: "In Progress",
+  raisedOn: "2026-06-21",
+},
+
+
 ]);
 
 
@@ -164,6 +196,21 @@ const [openMenu, setOpenMenu] = useState(null);
 
   const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+const [formData, setFormData] = useState({
+  category: "",
+  title: "",
+  raisedBy: "",
+  flatNo: "",
+  priority: "Low",
+  status: "Open",
+  raisedOn: "",
+});
+
+
+
 
   let filteredComplaints = complaints || [];
 
@@ -187,11 +234,86 @@ if (selectedCategory !== "All") {
     (item) => item.category === selectedCategory
   );
 }
+
+
+const [sortConfig, setSortConfig] = useState({
+  key: "",
+  direction: "asc",
+});
+
+const handleSort = (key) => {
+  setSortConfig((prev) => ({
+    key,
+    direction:
+      prev.key === key && prev.direction === "asc"
+        ? "desc"
+        : "asc",
+  }));
+};
+
+if (sortConfig.key) {
+  filteredComplaints = [...filteredComplaints].sort((a, b) => {
+    let aValue = a[sortConfig.key];
+    let bValue = b[sortConfig.key];
+
+    // PRIORITY SORT
+    if (sortConfig.key === "priority") {
+      const priorityOrder = {
+        Low: 1,
+        Medium: 2,
+        High: 3,
+      };
+
+      aValue = priorityOrder[aValue] || 0;
+      bValue = priorityOrder[bValue] || 0;
+    }
+
+    // STATUS SORT 
+    if (sortConfig.key === "status") {
+      const statusOrder = {
+        Open: 1,
+        "In Progress": 2,
+        Resolved: 3,
+        Overdue: 4,
+      };
+
+      aValue = statusOrder[aValue] || 0;
+      bValue = statusOrder[bValue] || 0;
+    }
+
+    // DATE SORT
+    if (sortConfig.key === "raisedOn") {
+      aValue = new Date(aValue);
+      bValue = new Date(bValue);
+    }
+
+    // NORMAL SORT
+    if (aValue < bValue) {
+      return sortConfig.direction === "asc" ? -1 : 1;
+    }
+
+    if (aValue > bValue) {
+      return sortConfig.direction === "asc" ? 1 : -1;
+    }
+
+    return 0;
+  });
+}
+
+
+
+
+
+
   return (
     
 <div className="p-4 sm:p-6 bg-[#fbfbfe] w-full">
+
        {/* HEADER */}
-<div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 mb-6">        <div>
+<div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 mb-6 overflow-hidden">      
+    
+    
+      <div>
           <h1 className="text-3xl font-bold">Complaint Management</h1>
           <p className="text-gray-500 mt-1">
             Track, manage and resolve complaints raised by residents.
@@ -203,22 +325,23 @@ if (selectedCategory !== "All") {
             <i className="bi bi-gear-fill"></i> Complaint Settings
           </button>
 
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 text-sm">
-            <i className="bi bi-plus-lg"></i> New Complaint
-          </button>
+          <button
+  onClick={() => setIsOpen(true)}
+  className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 text-sm"
+>
+  <i className="bi bi-plus-lg"></i> New Complaint
+</button>
         </div>
       </div>
 
-      {/* MAIN */}
-<div className="flex gap-6 w-full min-h-[calc(100vh-120px)] items-start">
-                {/* LEFT */}
-<div className="flex-1 min-w-0 flex flex-col  gap-6">         
+    {/* MAIN */}
+<div className="flex flex-col xl:flex-row gap-6 w-full min-h-[calc(100vh-120px)] min-w-0">
+  {/* LEFT */}
+<div className="flex-1 min-w-0 overflow-x-auto flex flex-col gap-6">
     
     
-         {/* CARDS */}
-<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-
-
+            {/* CARDS */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
     {cards.map((c, i) => (
 <div
   key={i}
@@ -239,19 +362,32 @@ if (selectedCategory !== "All") {
           {/* TABLE */}
 <div className="flex-1 bg-white p-4 rounded-xl shadow overflow-y-auto flex flex-col">            {/* TABS */}
 <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
-<div className="font-semibold flex gap-6 border-b overflow-x-auto whitespace-nowrap">
+<div className="font-semibold flex gap-6 border-b overflow-x-auto overflow-y-auto whitespace-nowrap">
   {["All", "Open", "In Progress", "Resolved", "Overdue"].map((tab) => (
-    <button
-      key={tab}
-      onClick={() => setActiveTab(tab)}
-      className={`pb-2 text-sm transition ${
-        activeTab === tab
-          ? "text-blue-600 border-b-2 border-blue-600"
-          : "text-gray-500 border-b-2 border-transparent"
-      }`}
-    >
-      {tab}
-    </button>
+   <button
+  key={tab}
+  onClick={() => {
+    setActiveTab(tab);
+
+    if (tab === "All") {
+      setSelectedCategory("All");
+      setSelectedDate("");
+    }
+  }}
+  className={`pb-2 text-sm transition ${
+    tab === "All"
+      ? activeTab === "All" &&
+        selectedCategory === "All" &&
+        !selectedDate
+        ? "text-blue-600 border-b-2 border-blue-600"
+        : "text-gray-500"
+      : activeTab === tab
+      ? "text-blue-600 border-b-2 border-blue-600"
+      : "text-gray-500"
+  }`}
+>
+  {tab}
+</button>
   ))}
 
 </div>
@@ -297,25 +433,74 @@ if (selectedCategory !== "All") {
             </div>
 
             {/* TABLE */}
-<div className="w-full  border-collapse flex-1 overflow-y-auto bg-white flex flex-col">
-    
-        <div className="flex-1 overflow-y-auto">
-            
-<table className="min-w-[1000px] w-full border-collapse">
-    
-        <thead>
-                  <tr className="bg-[#fbfbfe] border-gray-200">
-                    <th className="px-4 py-3">Complaint Id</th>
-                    <th className="px-4 py-3">Category</th>
-                    <th className="px-4 py-3">Title</th>
-                    <th className="px-4 py-3">Raised By</th>
-                    <th className="px-4 py-3">Flat No</th>
-                    <th className="px-4 py-3">Priority</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3">Raised On</th>
-                    <th className="px-4 py-3">Action</th>
-                  </tr>
-                </thead>
+<div className="flex-1  bg-white flex flex-col">
+<div className="w-full overflow-x-auto   ">
+  <table className="min-w-[1000px] w-max">
+
+                  <thead>
+                    <tr className="bg-[#fbfbfe] border-gray-200">
+                      <th
+                        onClick={() => handleSort("id")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Complaint Id ↕
+                      </th>
+
+                      <th
+                        onClick={() => handleSort("category")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Category ↕
+                      </th>
+
+
+
+                      <th
+                        onClick={() => handleSort("title")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Title↕
+                      </th>
+
+                      <th
+                        onClick={() => handleSort("raisedBy")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Raised By ↕
+                      </th>
+
+
+                      <th
+                        onClick={() => handleSort("flatNo")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Flat No ↕
+                      </th>
+
+                      <th
+                        onClick={() => handleSort("priority")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Priority ↕
+                      </th>
+
+                      <th
+                        onClick={() => handleSort("status")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Status ↕
+                      </th>
+
+                      <th
+                        onClick={() => handleSort("raisedOn")}
+                        className="px-4 py-3 cursor-pointer"
+                      >
+                        Raised On ↕
+                      </th>
+
+                      <th className="px-4 py-3">Action</th>
+                    </tr>
+                  </thead>
 
                 <tbody>
   {filteredComplaints.map((item, index) => (
@@ -537,8 +722,9 @@ if (selectedCategory !== "All") {
           </div>
         </div>
 {/* RIGHT */}
-<div className="w-full xl:w-[350px] flex-shrink-0 flex flex-col gap-6">
-  <div className="w-full bg-white border border-gray-200 rounded-xl p-4">
+
+<div className="w-[340px] flex-shrink-0 space-y-5">
+      <div className="w-full bg-white border border-gray-200 rounded-xl p-4">
     <CategoryChart />
   </div>
 
@@ -716,6 +902,82 @@ if (selectedCategory !== "All") {
   </div>
 )}
 
+
+
+{/* new complaint */}
+
+{isOpen && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    
+    <div className="bg-white w-[400px] p-6 rounded-lg">
+
+      {/* HEADER */}
+      <div className="flex justify-between mb-4">
+        <h2 className="text-xl font-semibold">New Complaint</h2>
+        <button onClick={() => setIsOpen(false)}>✖</button>
+      </div>
+
+      {/* FORM */}
+      <form className="space-y-3">
+
+        <input
+          name="category"
+          placeholder="Category"
+          className="w-full border p-2"
+        />
+
+        <input
+          name="title"
+          placeholder="Title"
+          className="w-full border p-2"
+        />
+
+        <input
+          name="raisedBy"
+          placeholder="Raised By"
+          className="w-full border p-2"
+        />
+
+        <input
+          name="flatNo"
+          placeholder="Flat No"
+          className="w-full border p-2"
+        />
+
+        <select name="priority" className="w-full border p-2">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+
+        <input
+          type="date"
+          name="raisedOn"
+          className="w-full border p-2"
+        />
+
+        {/* BUTTONS */}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="w-1/2 border py-2"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="w-1/2 bg-green-600 text-white py-2"
+          >
+            Save
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+)}
 
     </div>
   );

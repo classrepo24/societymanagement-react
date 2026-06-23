@@ -26,7 +26,7 @@ const Dashboard = () => {
   const [selectedDate, setSelectedDate] = useState(dates[0]);
 
   return (
-    <div className="p-6 bg-blue-50 min-h-screen">
+    <div className="p-6 bg-[#fbfbfe] min-h-screen">
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
