@@ -5,7 +5,8 @@ import {
   Cell,
   ResponsiveContainer,
   Tooltip,
-  LineChart,
+  Area,
+  AreaChart,
   Line,
   XAxis,
   YAxis,
@@ -52,7 +53,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
   }));
 
   const total =
-  purposeData.reduce((sum, item) => sum + item.value, 0);
+    purposeData.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <div className="col-span-1 flex flex-col gap-3">
@@ -104,36 +105,36 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
 
           {/* LEGEND */}
           <div className="space-y-2 text-sm pl-4">
-  {purposeData.map((item, index) => {
-    const percentage =
-      total > 0
-        ? ((item.value / total) * 100).toFixed(1)
-        : 0;
+            {purposeData.map((item, index) => {
+              const percentage =
+                total > 0
+                  ? ((item.value / total) * 100).toFixed(1)
+                  : 0;
 
-    return (
+              return (
 
 
-      <div key={index} className="flex items-center  gap-2">
-        <span
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: COLORS[index] }}
-        />
+                <div key={index} className="flex items-center  gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: COLORS[index] }}
+                  />
 
-        <span className="w-20">{item.name}</span>
+                  <span className="w-20">{item.name}</span>
 
-        <span className="font-medium ml-10">
-          {item.value}
-        </span>
+                  <span className="font-medium ml-10">
+                    {item.value}
+                  </span>
 
-        <span className="text-xs text-gray-500">
-          ({percentage}%)
-        </span>
+                  <span className="text-xs text-gray-500">
+                    ({percentage}%)
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    );
-  })}
-</div>
-</div>
-</div>
 
       {/* LINE CHART */}
       <div className="bg-white rounded-xl shadow p-4">
@@ -143,12 +144,39 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
 
         <div className="h-[160px]">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={timeData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" tick={{ fontSize: 12 }} interval={2} />
+            <AreaChart data={timeData}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="time"
+                tick={{ fontSize: 12 }}
+                interval={0.5}
+                tickFormatter={(value) => {
+                  const hour = parseInt(value.split(":")[0]);
+
+                  const labels = {
+                    3: "3 AM",
+                    6: "6 AM",
+                    9: "9 AM",
+                    12: "12 PM",
+                    15: "3 PM",
+                    18: "6 PM",
+                    21: "9 PM",
+                  };
+
+                  return labels[hour] || "";
+                }}
+              />
               <YAxis ticks={[0, 2, 4, 6, 8]} tick={{ fontSize: 12 }} />
               <Tooltip />
-
+              <Area
+                type="monotone"
+                dataKey="visitors"
+                stroke="#0a47cc"
+                fill="#0a47cc"
+                fillOpacity={0.2}
+                legendType="none"
+              />
+              
               <Line
                 type="monotone"
                 dataKey="visitors"
@@ -166,7 +194,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
                   </span>
                 )}
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>

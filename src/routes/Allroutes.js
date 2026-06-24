@@ -45,7 +45,9 @@ const Allroutes = () => {
 
       />          
       <Route path="/visitors" element={<Visitors />} />
+
       </Routes>
+
   );
 };
 
