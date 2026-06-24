@@ -181,7 +181,13 @@ const [complaints,setComplaints] = useState([
 
 ]);
 
+const generateId = () => {
+  const year = new Date().getFullYear();
 
+  const nextNumber = complaints.length + 1;
+
+  return `CMP-${year}-${String(nextNumber).padStart(3, "0")}`;
+};
 
 const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -208,7 +214,7 @@ const [formData, setFormData] = useState({
   status: "Open",
   raisedOn: "",
 });
-
+const [errors, setErrors] = useState({});
 
 
 
@@ -249,7 +255,31 @@ const handleSort = (key) => {
         ? "desc"
         : "asc",
   }));
+  
 };
+const renderSortIcon = (key) => (
+  <span className="inline-flex flex-col ml-1 gap-[1px]">
+    <span
+      className={`text-[7px] ${
+        sortConfig.key === key && sortConfig.direction === "asc"
+          ? "text-blue-600"
+          : "text-gray-400"
+      }`}
+    >
+      ▲
+    </span>
+
+    <span
+      className={`text-[7px] ${
+        sortConfig.key === key && sortConfig.direction === "desc"
+          ? "text-blue-600"
+          : "text-gray-400"
+      }`}
+    >
+      ▼
+    </span>
+  </span>
+);
 
 if (sortConfig.key) {
   filteredComplaints = [...filteredComplaints].sort((a, b) => {
@@ -439,66 +469,81 @@ if (sortConfig.key) {
 
                   <thead>
                     <tr className="bg-[#fbfbfe] border-gray-200">
+
                       <th
                         onClick={() => handleSort("id")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Complaint Id ↕
+                        <span className="inline-flex items-center">
+                          Complaint Id {renderSortIcon("id")}
+                        </span>
                       </th>
 
                       <th
                         onClick={() => handleSort("category")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Category ↕
+                        <span className="inline-flex items-center">
+                          Category {renderSortIcon("category")}
+                        </span>
                       </th>
-
-
 
                       <th
                         onClick={() => handleSort("title")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Title↕
+                        <span className="inline-flex items-center">
+                          Title {renderSortIcon("title")}
+                        </span>
                       </th>
 
                       <th
                         onClick={() => handleSort("raisedBy")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Raised By ↕
+                        <span className="inline-flex items-center">
+                          Raised By {renderSortIcon("raisedBy")}
+                        </span>
                       </th>
-
 
                       <th
                         onClick={() => handleSort("flatNo")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Flat No ↕
+                        <span className="inline-flex items-center">
+                          Flat No {renderSortIcon("flatNo")}
+                        </span>
                       </th>
 
                       <th
                         onClick={() => handleSort("priority")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Priority ↕
+                        <span className="inline-flex items-center">
+                          Priority {renderSortIcon("priority")}
+                        </span>
                       </th>
 
                       <th
                         onClick={() => handleSort("status")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Status ↕
+                        <span className="inline-flex items-center">
+                          Status {renderSortIcon("status")}
+                        </span>
                       </th>
 
                       <th
                         onClick={() => handleSort("raisedOn")}
                         className="px-4 py-3 cursor-pointer"
                       >
-                        Raised On ↕
+                        <span className="inline-flex items-center">
+                          Raised On {renderSortIcon("raisedOn")}
+                        </span>
                       </th>
 
                       <th className="px-4 py-3">Action</th>
+
                     </tr>
                   </thead>
 
@@ -902,83 +947,187 @@ if (sortConfig.key) {
   </div>
 )}
 
-
-
-{/* new complaint */}
-
+{/* new complaints */}
 {isOpen && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    
-    <div className="bg-white w-[400px] p-6 rounded-lg">
+
+    <div className="bg-white w-[420px] p-6 rounded-xl shadow-lg">
 
       {/* HEADER */}
-      <div className="flex justify-between mb-4">
-        <h2 className="text-xl font-semibold">New Complaint</h2>
-        <button onClick={() => setIsOpen(false)}>✖</button>
+      <div className="flex justify-between items-center border-b pb-3 mb-4">
+        <h2 className="text-lg font-semibold">Create New Complaint</h2>
+        <button
+          onClick={() => {
+            setIsOpen(false);
+            setErrors({});
+          }}
+          className="text-gray-500 hover:text-red-500"
+        >
+          ✖
+        </button>
       </div>
 
       {/* FORM */}
-      <form className="space-y-3">
+      <form
+        className="space-y-3"
+        onSubmit={(e) => {
+          e.preventDefault();
 
-        <input
-          name="category"
-          placeholder="Category"
-          className="w-full border p-2"
-        />
+          let err = {};
 
-        <input
-          name="title"
-          placeholder="Title"
-          className="w-full border p-2"
-        />
+          if (!formData.category) err.category = "Please select category";
+          if (!formData.title) err.title = "Please enter title";
+          if (!formData.raisedBy) err.raisedBy = "Please enter raised by";
+          if (!formData.flatNo) err.flatNo = "Please enter flat no";
+          if (!formData.raisedOn) err.raisedOn = "Please select date";
 
-        <input
-          name="raisedBy"
-          placeholder="Raised By"
-          className="w-full border p-2"
-        />
+          setErrors(err);
 
-        <input
-          name="flatNo"
-          placeholder="Flat No"
-          className="w-full border p-2"
-        />
+          if (Object.keys(err).length > 0) return;
 
-        <select name="priority" className="w-full border p-2">
+          const newComplaint = {
+            id: generateId(),
+            ...formData,
+          };
+
+          setComplaints((prev) => [newComplaint, ...prev]);
+
+          setFormData({
+            category: "",
+            title: "",
+            raisedBy: "",
+            flatNo: "",
+            priority: "Low",
+            status: "Open",
+            raisedOn: "",
+          });
+
+          setErrors({});
+          setIsOpen(false);
+        }}
+      >
+
+        {/* CATEGORY */}
+        <div>
+          <select
+            value={formData.category}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          >
+            <option value="">Select Category</option>
+            <option>Plumbing</option>
+            <option>Electricity</option>
+            <option>Water</option>
+            <option>Cleaning</option>
+            <option>Security</option>
+          </select>
+          {errors.category && (
+            <p className="text-red-500 text-xs">{errors.category}</p>
+          )}
+        </div>
+
+        {/* TITLE */}
+        <div>
+          <input
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            placeholder="Title"
+            className="w-full border p-2 rounded"
+          />
+          {errors.title && (
+            <p className="text-red-500 text-xs">{errors.title}</p>
+          )}
+        </div>
+
+        {/* RAISED BY */}
+        <div>
+          <input
+            value={formData.raisedBy}
+            onChange={(e) =>
+              setFormData({ ...formData, raisedBy: e.target.value })
+            }
+            placeholder="Raised By"
+            className="w-full border p-2 rounded"
+          />
+          {errors.raisedBy && (
+            <p className="text-red-500 text-xs">{errors.raisedBy}</p>
+          )}
+        </div>
+
+        {/* FLAT NO */}
+        <div>
+          <input
+            value={formData.flatNo}
+            onChange={(e) =>
+              setFormData({ ...formData, flatNo: e.target.value })
+            }
+            placeholder="Flat No"
+            className="w-full border p-2 rounded"
+          />
+          {errors.flatNo && (
+            <p className="text-red-500 text-xs">{errors.flatNo}</p>
+          )}
+        </div>
+
+        {/* PRIORITY */}
+        <select
+          value={formData.priority}
+          onChange={(e) =>
+            setFormData({ ...formData, priority: e.target.value })
+          }
+          className="w-full border p-2 rounded"
+        >
           <option>Low</option>
           <option>Medium</option>
           <option>High</option>
         </select>
 
-        <input
-          type="date"
-          name="raisedOn"
-          className="w-full border p-2"
-        />
+        {/* DATE */}
+        <div>
+          <input
+            type="date"
+            value={formData.raisedOn}
+            onChange={(e) =>
+              setFormData({ ...formData, raisedOn: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
+          {errors.raisedOn && (
+            <p className="text-red-500 text-xs">{errors.raisedOn}</p>
+          )}
+        </div>
 
         {/* BUTTONS */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 pt-2">
+
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
-            className="w-1/2 border py-2"
+            onClick={() => {
+              setIsOpen(false);
+              setErrors({});
+            }}
+            className="w-1/2 border py-2 rounded hover:bg-gray-100"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            className="w-1/2 bg-green-600 text-white py-2"
+            className="w-1/2 bg-green-600 text-white py-2 rounded hover:bg-green-700"
           >
-            Save
+            Save Complaint
           </button>
+
         </div>
 
       </form>
     </div>
   </div>
 )}
-
     </div>
   );
 };
