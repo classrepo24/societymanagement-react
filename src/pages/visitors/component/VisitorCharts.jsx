@@ -54,6 +54,8 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
 
   const total =
     purposeData.reduce((sum, item) => sum + item.value, 0);
+    
+    const isMobile = window.innerWidth < 640;
 
   return (
     <div className="col-span-1 flex flex-col gap-3">
@@ -64,11 +66,9 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
           Visitors by Purpose
         </h2>
 
-        <div className="flex items-center">
-
+        <div className="flex flex-col md:flex-col lg:flex-row items-center lg:items-start">
           {/* CHART */}
-          <div className="w-40 h-[160px] relative">
-
+          <div className="w-full sm:w-60 h-[160px] relative">
             <div className="absolute inset-0 z-0">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -104,7 +104,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
           </div>
 
           {/* LEGEND */}
-          <div className="space-y-2 text-sm pl-4">
+          <div className="space-y-2 text-xs sm:text-sm pl-0 sm:pl-4 w-full">
             {purposeData.map((item, index) => {
               const percentage =
                 total > 0
@@ -114,19 +114,21 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
               return (
 
 
-                <div key={index} className="flex items-center  gap-2">
+                <div
+                  key={index}
+                  className="flex items-center justify-between gap-2 ml-6 mt-4 flex-wrap"
+                >
                   <span
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index] }}
                   />
 
-                  <span className="w-20">{item.name}</span>
-
-                  <span className="font-medium ml-10">
+                  <span className="flex-1">{item.name}</span>
+                  <span className="font-medium ">
                     {item.value}
                   </span>
 
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs mr-16 text-gray-500">
                     ({percentage}%)
                   </span>
                 </div>
@@ -142,25 +144,25 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
           Visitors by Time
         </h2>
 
-        <div className="h-[160px]">
+        <div className="h-[220px] sm:h-[160px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={timeData}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="time"
-                tick={{ fontSize: 12 }}
+                  tick={{ fontSize: isMobile ? 8 : 12 }}
                 interval={0.5}
                 tickFormatter={(value) => {
                   const hour = parseInt(value.split(":")[0]);
 
                   const labels = {
-                    3: "3 AM",
-                    6: "6 AM",
-                    9: "9 AM",
-                    12: "12 PM",
-                    15: "3 PM",
-                    18: "6 PM",
-                    21: "9 PM",
+                    3: "3AM",
+                    6: "6AM",
+                    9: "9AM",
+                    12: "12PM",
+                    15: "3PM",
+                    18: "6PM",
+                    21: "9PM",
                   };
 
                   return labels[hour] || "";
@@ -176,7 +178,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
                 fillOpacity={0.2}
                 legendType="none"
               />
-              
+
               <Line
                 type="monotone"
                 dataKey="visitors"

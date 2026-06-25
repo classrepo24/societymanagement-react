@@ -49,7 +49,7 @@ const VisitorsHeaderSection = ({
   return (
     <>
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
         <div>
           <p>
             Dashboard / <span className="font-bold">Visitors</span>
@@ -64,7 +64,7 @@ const VisitorsHeaderSection = ({
           </p>
         </div>
 
-        <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           <button onClick={() => setShowPreRegisterVisitorModal(true)} className="px-4 py-2 border rounded-lg text-sm">
            <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
           </button>
@@ -78,12 +78,11 @@ const VisitorsHeaderSection = ({
       </div>
 
       {/* CARDS */}
-      <div className="grid grid-cols-4 gap-4 mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-2">
         {cards.map((card, index) => (
           <div
             key={index}
-            className="bg-white p-4 rounded-xl shadow flex items-start gap-4 h-32"
-          >
+className="bg-white p-4 rounded-xl shadow flex items-start gap-4 min-h-[120px]">
             <div
               className={`w-16 h-16 ${card.bg} ${card.color} rounded-full flex items-center justify-center text-xl`}
             >
@@ -93,7 +92,7 @@ const VisitorsHeaderSection = ({
             <div>
               <p className="text-gray-500 text-sm">{card.title}</p>
 
-              <h2 className="text-2xl font-bold">{card.value ?? 0}</h2>
+             <h2 className="text-xl sm:text-2xl font-bold">{card.value ?? 0}</h2>
 
               {/* 🔥 GROWTH ADDED HERE */}
 

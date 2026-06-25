@@ -491,8 +491,8 @@ const Visitors = () => {
       )}
 
       {/* GRID: TABLE + CHART SPACE */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="col-span-1 lg:col-span-2">
 
           <VisitorsTable
             activeTab={activeTab}

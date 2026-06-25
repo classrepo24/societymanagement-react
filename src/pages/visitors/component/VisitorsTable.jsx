@@ -48,10 +48,9 @@ const VisitorsTable = ({
       <div className="col-span-2">
         <div className="bg-white rounded-xl shadow p-4">
 
-          <div className="flex items-center justify-between mb-4">
-
+<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
             {/* LEFT: TABS */}
-            <div className="flex gap-6 text-sm font-bold items-end">
+<div className="flex gap-4 lg:gap-6 text-sm font-bold items-end overflow-x-auto  pb-2 scrollbar-hide">
               {["All Visitors", "Inside Society", "Exited", "Pre Registered"].map((tab) => (
                 <button
                   key={tab}
@@ -77,21 +76,22 @@ const VisitorsTable = ({
             </div>
 
             {/* RIGHT: FILTER + DATE */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
 
               {/* Filter Button */}
-              <button className="flex items-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white">
+              <button className="flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white w-full sm:w-auto">
                 <span><i className="bi bi-funnel"></i></span>
                 Filters
               </button>
 
-              <div className="flex items-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white">
+<div className="flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white w-full sm:w-auto">
                 <span>
                   <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                  />
+  type="date"
+  value={selectedDate}
+  onChange={(e) => setSelectedDate(e.target.value)}
+  className="w-full sm:w-auto outline-none"
+/>
                 </span>
               </div>
 
@@ -100,7 +100,8 @@ const VisitorsTable = ({
           </div>
 
           {/* TABLE */}
-          <table className="w-full text-sm   border-collapse">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[1000px] text-sm border-collapse">
             <thead className=" border-b bg-gray-100">
               <tr>
                 <th
@@ -368,63 +369,69 @@ const VisitorsTable = ({
               ))}
             </tbody>
           </table>
-          {/* TABLE FOOTER */}
-          <div className="flex items-center justify-between mt-2 pt-3 ">
-
-            <p className="text-sm text-gray-500">
-              Showing{" "}
-              {filteredVisitors.length === 0
-                ? 0
-                : (currentPage - 1) * itemsPerPage + 1}
-              {" "}to{" "}
-              {Math.min(
-                currentPage * itemsPerPage,
-                filteredVisitors.length
-              )}{" "}
-              of {filteredVisitors.length} entries
-            </p>
-
-            <div className="flex items-center gap-2">
-              <button
-                className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                onClick={() => {
-                  if (currentPage > 1) {
-                    setCurrentPage(currentPage - 1);
-                  }
-                }}
-                disabled={currentPage === 1}
-              >
-                &lt;
-              </button>
-
-              {Array.from(
-                { length: endPage - startPage + 1 },
-                (_, i) => startPage + i).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-8 h-8 border rounded ${currentPage === page
-                      ? "bg-blue-600 text-white"
-                      : "hover:bg-gray-100"
-                      }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-
-              <button
-                className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                onClick={() => {
-                  if (currentPage < totalPages) {
-                    setCurrentPage(currentPage + 1);
-                  }
-                }}
-                disabled={currentPage === totalPages}
-              >&gt;
-              </button>
-            </div>
-
           </div>
+          {/* TABLE FOOTER */}
+        {/* TABLE FOOTER */}
+<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-3 pt-3">
+
+  {/* Left */}
+  <p className="text-sm text-gray-500 text-center sm:text-left">
+    Showing{" "}
+    {filteredVisitors.length === 0
+      ? 0
+      : (currentPage - 1) * itemsPerPage + 1}{" "}
+    to{" "}
+    {Math.min(
+      currentPage * itemsPerPage,
+      filteredVisitors.length
+    )}{" "}
+    of {filteredVisitors.length} entries
+  </p>
+
+  {/* Right */}
+<div className="flex justify-center sm:justify-end items-center gap-1 sm:gap-2 flex-nowrap overflow-x-auto scrollbar-hide">
+    <button
+      className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
+      onClick={() => {
+        if (currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
+      }}
+      disabled={currentPage === 1}
+    >
+      &lt;
+    </button>
+
+    {Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    ).map((page) => (
+      <button
+        key={page}
+        onClick={() => setCurrentPage(page)}
+        className={`w-8 h-8 border rounded ${
+          currentPage === page
+            ? "bg-blue-600 text-white"
+            : "hover:bg-gray-100"
+        }`}
+      >
+        {page}
+      </button>
+    ))}
+
+    <button
+      className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
+      onClick={() => {
+        if (currentPage < totalPages) {
+          setCurrentPage(currentPage + 1);
+        }
+      }}
+      disabled={currentPage === totalPages}
+    >
+      &gt;
+    </button>
+  </div>
+</div>
 
         </div>
       </div>
