@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { CategoryChart } from "./CategoryChart";
 import { StatusChart } from "./StatusChart";
 import { RecentComplaints } from "./RecentComplaints";
-
-
-
+// import { Sidebar } from "../../layouts/Sidebar";
+import { useModal } from "../../context/ModalContext";
+import { NavLink } from "react-router-dom";
 
 const cards = [
   {
@@ -80,8 +80,14 @@ const getStatusStyle = (s) => {
   }
 };
 
+
+
 export const Complaints = () => {
 
+
+
+
+const { modal, closeModal } = useModal();
     
 const [complaints,setComplaints] = useState([
   {
@@ -339,6 +345,7 @@ if (sortConfig.key) {
     
 <div className="p-4 sm:p-6 bg-[#fbfbfe] w-full">
 
+
        {/* HEADER */}
 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 mb-6 overflow-hidden">      
     
@@ -351,9 +358,13 @@ if (sortConfig.key) {
         </div>
 
 <div className="flex flex-wrap gap-3">
-              <button className="px-4 py-2 bg-white rounded-lg flex items-center gap-2 text-sm">
-            <i className="bi bi-gear-fill"></i> Complaint Settings
-          </button>
+              <NavLink
+  to="/complaints/settings"
+  className="px-4 py-2 bg-white rounded-lg flex items-center gap-2 text-sm hover:bg-gray-100"
+>
+  <i className="bi bi-gear-fill"></i>
+  Complaint Settings
+</NavLink>
 
           <button
   onClick={() => setIsOpen(true)}
@@ -702,59 +713,73 @@ if (sortConfig.key) {
       <td className="px-4 py-3">{item.raisedOn}</td>
 
       {/* ACTIONS */}
+
 <td className="px-4 py-3 text-center relative">
 
-  {/* 3 DOT BUTTON */}
-  <button
-    onClick={() =>
-      setOpenMenu(openMenu === index ? null : index)
-    }
-    className="w-8 h-8 flex items-center justify-center rounded-md border hover:bg-gray-100"
-  >
-    ⋮
-  </button>
-
-  {/* DROPDOWN MENU */}
-  {openMenu === index && (
-    <div className="absolute right-4 mt-1 w-32 bg-white border rounded-lg shadow-lg z-20">
-
+  {/* EDIT MODE → SHOW SAVE */}
+  {item.isEditing ? (
+    <button
+      onClick={() => {
+        setComplaints((prev) =>
+          prev.map((c, i) =>
+            i === index ? { ...c, isEditing: false } : c
+          )
+        );
+        setOpenMenu(null);
+      }}
+      className="px-3 py-1 bg-green-500 text-white rounded"
+    >
+      Save
+    </button>
+  ) : (
+    <>
+      {/* 3 DOT BUTTON */}
       <button
-  onClick={() => {
-    setEditData(item);
-    setOpenMenu(null);
-  }}
-  className="w-full text-left px-4 py-2 hover:bg-gray-100"
->
-   Edit
-</button>
-
-
-      <button
-        onClick={() => {
-          setComplaints((prev) =>
-            prev.map((c, i) =>
-              i === index ? { ...c, isEditing: false } : c
-            )
-          );
-          setOpenMenu(null);
-        }}
-        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+        onClick={() =>
+          setOpenMenu(openMenu === index ? null : index)
+        }
+        className="w-8 h-8 flex items-center justify-center rounded-md border hover:bg-gray-100"
       >
-         Save
+        ⋮
       </button>
 
-                      <button
-                          onClick={() => {
-                              setDeleteId(item);
-                              setOpenMenu(null);
-                          }}
-                          className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
-                      >
-                           Delete
-                      </button>
+      {/* DROPDOWN */}
+      {openMenu === index && (
+        <div className="absolute right-4 mt-1 w-32 bg-white border rounded-lg shadow-lg z-20">
 
-    </div>
+          {/* EDIT */}
+          <button
+            onClick={() => {
+              setComplaints((prev) =>
+                prev.map((c, i) =>
+                  i === index
+                    ? { ...c, isEditing: true }
+                    : c
+                )
+              );
+              setOpenMenu(null);
+            }}
+            className="w-full text-left px-4 py-2 hover:bg-gray-100"
+          >
+            Edit
+          </button>
+
+          {/* DELETE */}
+          <button
+            onClick={() => {
+              setDeleteId(item);
+              setOpenMenu(null);
+            }}
+            className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
+          >
+            Delete
+          </button>
+
+        </div>
+      )}
+    </>
   )}
+
 </td>
     </tr>
   ))}
@@ -766,6 +791,9 @@ if (sortConfig.key) {
 
           </div>
         </div>
+
+
+
 {/* RIGHT */}
 
 <div className="w-[340px] flex-shrink-0 space-y-5">
@@ -784,126 +812,6 @@ if (sortConfig.key) {
 </div>
       </div>
 
-      {editData && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-    <div className="bg-white w-[420px] rounded-xl p-5 shadow-lg max-h-[90vh] overflow-y-auto">
-
-      <h2 className="text-lg font-bold mb-4">Edit Complaint</h2>
-
-      {/* Complaint ID (readonly) */}
-      <input
-        value={editData.id}
-        disabled
-        className="w-full border px-3 py-2 rounded mb-3 bg-gray-100"
-      />
-
-      {/* Category */}
-      <input
-        value={editData.category}
-        onChange={(e) =>
-          setEditData({ ...editData, category: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-        placeholder="Category"
-      />
-
-      {/* Title */}
-      <input
-        value={editData.title}
-        onChange={(e) =>
-          setEditData({ ...editData, title: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-        placeholder="Title"
-      />
-
-      {/* Raised By */}
-      <input
-        value={editData.raisedBy}
-        onChange={(e) =>
-          setEditData({ ...editData, raisedBy: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-        placeholder="Raised By"
-      />
-
-      {/* Flat No */}
-      <input
-        value={editData.flatNo}
-        onChange={(e) =>
-          setEditData({ ...editData, flatNo: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-        placeholder="Flat No"
-      />
-
-      {/* Priority */}
-      <select
-        value={editData.priority}
-        onChange={(e) =>
-          setEditData({ ...editData, priority: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-      >
-        <option>High</option>
-        <option>Medium</option>
-        <option>Low</option>
-      </select>
-
-      {/* Status */}
-      <select
-        value={editData.status}
-        onChange={(e) =>
-          setEditData({ ...editData, status: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-      >
-        <option>Open</option>
-        <option>In Progress</option>
-        <option>Resolved</option>
-        <option>Overdue</option>
-      </select>
-
-      {/* Raised On (readonly or editable if you want) */}
-      <input
-        type="date"
-        value={editData.raisedOn}
-        onChange={(e) =>
-          setEditData({ ...editData, raisedOn: e.target.value })
-        }
-        className="w-full border px-3 py-2 rounded mb-3"
-      />
-
-      {/* Buttons */}
-      <div className="flex justify-end gap-2 mt-4">
-
-        <button
-          onClick={() => setEditData(null)}
-          className="px-4 py-2 border rounded"
-        >
-          Cancel
-        </button>
-
-        <button
-          onClick={() => {
-            setComplaints((prev) =>
-              prev.map((c) =>
-                c.id === editData.id ? editData : c
-              )
-            );
-            setEditData(null);
-          }}
-          className="px-4 py-2 bg-green-500 text-white rounded"
-        >
-          Save
-        </button>
-
-      </div>
-
-    </div>
-  </div>
-)}
 
 {/* delete */}
 
@@ -1128,6 +1036,126 @@ if (sortConfig.key) {
     </div>
   </div>
 )}
+
+{/* raise complaints popup quick links */}
+
+{modal?.module === "complaints" &&
+ modal?.type === "raiseComplaint" && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div className="bg-white w-[400px] p-6 rounded-xl">
+
+      <div className="flex justify-between mb-4">
+        <h2 className="text-lg font-semibold">Raise Complaint</h2>
+
+        <button onClick={closeModal}>
+          ✖
+        </button>
+      </div>
+
+      <input
+        placeholder="Title"
+        className="w-full border p-2 mb-3"
+      />
+
+      <input
+        placeholder="Raised By"
+        className="w-full border p-2 mb-3"
+      />
+
+      <select className="w-full border p-2 mb-3">
+        <option>Plumbing</option>
+        <option>Electricity</option>
+        <option>Water</option>
+      </select>
+
+      <button className="w-full bg-green-600 text-white py-2 rounded">
+        Save
+      </button>
+
+    </div>
+  </div>
+)}
+
+
+{/* my complaints */}
+
+
+{modal?.module === "complaints" &&
+ modal?.type === "myComplaints" && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div className="bg-white w-[600px] p-5 rounded-xl">
+
+      <div className="flex justify-between mb-4">
+        <h2 className="text-lg font-semibold">My Complaints</h2>
+
+        <button onClick={closeModal}>
+          ✖
+        </button>
+      </div>
+
+      {/* LIST */}
+      <div className="max-h-[300px] overflow-y-auto">
+        {complaints.map((c) => (
+          <div
+            key={c.id}
+            className="border-b py-2 text-sm flex justify-between"
+          >
+            <span>{c.title}</span>
+            <span className="text-gray-500">{c.status}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+)}
+
+
+
+{/* Categorie All */}
+
+{modal?.module === "complaints" &&
+ modal?.type === "categories" && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div className="bg-white w-[450px] p-5 rounded-xl">
+
+      {/* HEADER */}
+      <div className="flex justify-between mb-4">
+        <h2 className="text-lg font-semibold">Complaint Categories</h2>
+
+        <button onClick={closeModal}>
+          ✖
+        </button>
+      </div>
+
+      {/* CATEGORY LIST */}
+      <div className="space-y-2">
+
+        {[
+          "Plumbing",
+          "Electricity",
+          "Water",
+          "Cleaning",
+          "Security",
+        ].map((cat, i) => (
+          <div
+            key={i}
+            className="flex justify-between items-center border p-2 rounded"
+          >
+            <span>{cat}</span>
+            <span className="text-xs text-gray-500">Active</span>
+          </div>
+        ))}
+
+      </div>
+
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
