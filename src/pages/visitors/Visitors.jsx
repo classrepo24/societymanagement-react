@@ -9,14 +9,21 @@ import AddVisitorModal from "./component/AddVisitorModal";
 import PreRegisterVisitorModal from "./component/PreRegisterVisitorModal";
 import ViewVisitorModal from "./component/ViewVisitorModal";
 import DeleteVisitorModal from "./component/DeleteVisitorModal";
+import VisitorLog from "./component/VisitorLog";
+import VisitorPurpose from "./component/VisitorPurpose";
 const Visitors = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All Visitors");
   const [currentPage, setCurrentPage] = useState(1);
+
   const [showAllVisitors, setShowAllVisitors] = useState(false);
   const [showAddVisitorModal, setShowAddVisitorModal] = useState(false);
   const [showPreRegisterVisitorModal, setShowPreRegisterVisitorModal] = useState(false);
+  const [showVisitorLog,setShowVisitorLog] = useState (false)
+  const [showVisitorPurpose,setShowVisitorPurpose] = useState(false)
+
+
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [showSortIcons, setShowSortIcons] = useState({});
@@ -327,6 +334,12 @@ const Visitors = () => {
     if (modal === "preregister") {
       setShowPreRegisterVisitorModal(true);
     }
+    if (modal === "log") {
+      setShowVisitorLog(true);
+    }
+    if (modal === "purpose") {
+      setShowVisitorPurpose(true);
+    }
   }, [location]);
 
   const getStatusStyle = (status) => {
@@ -439,7 +452,27 @@ const Visitors = () => {
         setShowPreRegisterVisitorModal={setShowPreRegisterVisitorModal}
       />
       
-      {showPreRegisterVisitorModal && (
+
+      {showAddVisitorModal && (
+        <AddVisitorModal
+          onClose={() => {
+            setShowAddVisitorModal(false);
+            navigate("/visitors");
+          }}
+        />
+      )}
+
+
+      {showVisitorLog && (
+        <VisitorLog
+          onClose={() => {
+            setShowVisitorLog(false);
+            navigate("/visitors");
+          }}
+        />
+      )}
+       
+       {showPreRegisterVisitorModal && (
         <PreRegisterVisitorModal
           onClose={() => {
             setShowPreRegisterVisitorModal(false);
@@ -448,10 +481,10 @@ const Visitors = () => {
         />
       )}
 
-      {showAddVisitorModal && (
-        <AddVisitorModal
+      {showVisitorPurpose && (
+        <VisitorPurpose
           onClose={() => {
-            setShowAddVisitorModal(false);
+            setShowVisitorPurpose(false);
             navigate("/visitors");
           }}
         />

@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 
-const AddVisitorModal = ({ onClose }) => {
+const PreRegisterVisitorModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
-    purpose: "",
-    flatNo: "",
+    email: "",
+    company: "",
+    idProofType: "",
+    idProofNumber: "",
     vehicleNo: "",
-    expectedTime: "",
+    visitorsCount: "",
+    whomToVisit: "",
+    flatNo: "",
+    purpose: "",
+    arrivalDate: "",
+    arrivalTime: "",
+    outTime: "",
+    remarks: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -27,237 +36,487 @@ const AddVisitorModal = ({ onClose }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Visitor name is required";
-    }
+    // Visitor Information
+    if (!formData.name.trim())
+      newErrors.name = "Full Name is required";
 
-    if (!formData.mobile.trim()) {
-      newErrors.mobile = "Mobile number is required";
-    } else if (!/^[0-9]{10}$/.test(formData.mobile)) {
-      newErrors.mobile = "Enter a valid 10-digit mobile number";
-    }
+    if (!formData.mobile.trim())
+      newErrors.mobile = "Mobile Number is required";
+    else if (!/^[0-9]{10}$/.test(formData.mobile))
+      newErrors.mobile = "Enter valid 10 digit mobile number";
 
-    if (!formData.flatNo.trim()) {
-      newErrors.flatNo = "Flat number is required";
-    }
 
-    if (!formData.purpose) {
-      newErrors.purpose = "Please select a purpose";
-    }
+    if (!formData.idProofType)
+      newErrors.idProofType = "Select ID Proof Type";
 
-    if (!formData.vehicleNo.trim()) {
-      newErrors.vehicleNo = "Vehicle number is required";
-    }
+    if (!formData.idProofNumber?.trim())
+      newErrors.idProofNumber = "ID Proof Number is required";
 
-    if (!formData.expectedTime) {
-      newErrors.expectedTime = "Expected exit time is required";
-    }
+    if (!formData.visitorsCount)
+      newErrors.visitorsCount = "Number of Visitors is required";
+
+    // Visit Details
+    if (!formData.whomToVisit)
+      newErrors.whomToVisit = "Select Resident";
+
+    if (!formData.flatNo)
+      newErrors.flatNo = "Flat / Wing is required";
+
+    if (!formData.purpose)
+      newErrors.purpose = "Select Purpose";
+
+    if (!formData.arrivalDate)
+      newErrors.arrivalDate = "Visit Date is required";
+
+    if (!formData.arrivalTime)
+      newErrors.arrivalTime = "In Time is required";
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    console.log(formData);
+    console.log({
+      ...formData,
+      status: "preRegistered",
+    });
 
     onClose();
   };
-
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6">
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-semibold">
+    <div className="fixed inset-0 bg-black/40 flex items-center  justify-center z-50">
+      <div className="bg-white rounded-xl shadow-xl w-full overflow-y-auto max-w-3xl h-[95vh] p-4 flex flex-col">
+
+        {/* Header */}
+        <div className="flex justify-between items-center pb-3 border-b">
+          <h2 className="text-xl font-semibold text-gray-800">
             Add New Visitor
           </h2>
 
           <button
             onClick={onClose}
-            className="text-gray-500 text-xl"
+            className="text-gray-500 hover:text-black text-2xl"
           >
             ×
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            {/* Visitor Name */}
-            <div>
-              <label className="block text-sm mb-1">
-                Visitor Name{" "}
-                <span className="text-red-500">*</span>
-              </label>
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 flex flex-col justify-between mt-2"
+        >
 
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter Visitor Name"
-                className={`w-full border rounded-lg p-2 ${errors.name ? "border-red-500" : ""
-                  }`}
-              />
+          <div>
 
-              {errors.name && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.name}
-                </p>
-              )}
+            {/* SECTION 1 */}
+            <div className="mb-3">
+              <h3 className="text-blue-600 font-semibold mb-2">
+                1. Visitor Information
+              </h3>
+
+              <div className="grid grid-cols-3 gap-3">
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.name ? "border-red-500" : ""
+                      }`}
+                    placeholder="Enter mobile number"
+                  />
+
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Mobile Number <span className="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    type="text"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.mobile ? "border-red-500" : ""
+                      }`}
+                    placeholder="Enter mobile number"
+                  />
+
+                  {errors.mobile && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.mobile}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Email(Optional)
+                  </label>
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter email address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm mb-1">
+                    Company / Organization(Optional)
+                  </label>
+
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter company name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    ID Proof Type <span className="text-red-500">*</span>
+                  </label>
+
+                  <select
+                    name="idProofType"
+                    value={formData.idProofType}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.idProofType ? "border-red-500" : ""
+                      }`}
+
+                  >
+                    <option value="">Select ID type</option>
+                    <option>Aadhar</option>
+                    <option>PAN</option>
+                    <option>Passport</option>
+                    <option>Driving License</option>
+                  </select>
+
+                  {errors.idProofType && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.idProofType}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    ID Proof Number <span className="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    type="text"
+                    name="idProofNumber"
+                    value={formData.idProofNumber}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.idProofNumber ? "border-red-500" : ""
+                      }`}
+                    placeholder="Enter ID number"
+                  />
+
+                  {errors.idProofNumber && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.idProofNumber}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Vehicle Number(optional)
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border rounded-lg px-3 py-2"
+                    placeholder="Vehicle Number"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Number of Visitors <span className="text-red-500">*</span>
+                  </label>
+
+                  <select
+                    name="visitorsCount"
+                    value={formData.visitorsCount}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.visitorsCount ? "border-red-500" : ""
+                      }`}
+                  >
+                    <option value="">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+
+                  {errors.visitorsCount && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.visitorsCount}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Upload ID Proof(Optional)
+                  </label>
+
+                  <input
+                    type="file"
+                    className="w-full border rounded-lg px-3 py-2"
+                  />
+                  <p className=" text-gray-500 text-[12px] ml-6">JPG,PNG,PDF up to 2MB</p>
+                </div>
+
+              </div>
             </div>
 
-            {/* Mobile Number */}
-            <div>
-              <label className="block text-sm mb-1">
-                Mobile Number{" "}
-                <span className="text-red-500">*</span>
-              </label>
+            {/* SECTION 2 */}
+            <div className="border-t pt-4 mb-3">
+              <h3 className="text-blue-600 font-semibold mb-3">
+                2. Visit Details
+              </h3>
 
-              <input
-                type="tel"
-                name="mobile"
-                maxLength={10}
-                value={formData.mobile}
-                onChange={handleChange}
-                placeholder="Enter Mobile Number"
-                className={`w-full border rounded-lg p-2 ${errors.mobile ? "border-red-500" : ""
-                  }`}
-              />
+              <div className="grid grid-cols-3 gap-2">
 
-              {errors.mobile && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.mobile}
-                </p>
-              )}
+                <div>
+                  <label className="block text-sm mb-1">
+                    Whom To Visit <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="whomToVisit"
+                    value={formData.whomToVisit}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.whomToVisit ? "border-red-500" : ""
+                      }`}
+                  >
+                    <option value="">Select Resident</option>
+                  </select>
+
+                  {errors.whomToVisit && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.whomToVisit}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Flat / Wing <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="flatNo"
+                    value={formData.flatNo}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.flatNo ? "border-red-500" : ""
+                      }`}
+                  >
+                    <option value="">Select Flat</option>
+                  </select>
+
+                  {errors.flatNo && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.flatNo}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Purpose of Visit<span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="purpose"
+                    value={formData.purpose}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.purpose ? "border-red-500" : ""
+                      }`}
+                  >
+                    <option value="">Select Purpose</option>
+                    <option>Personal</option>
+                    <option>Delivery</option>
+                    <option>Service</option>
+
+                    <option>Meeting</option>
+                    <option>Guest</option>
+                  </select>
+
+                  {errors.purpose && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.purpose}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                    Visit Date. <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    name="arrivalDate"
+                    value={formData.arrivalDate}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.arrivalDate ? "border-red-500" : ""
+                      }`}
+                  />
+
+                  {errors.arrivalDate && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.arrivalDate}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                   In Time  <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="time"
+                    name="arrivalTime"
+                    value={formData.arrivalTime}
+                    onChange={handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 ${errors.arrivalTime ? "border-red-500" : ""
+                      }`}
+                  />
+
+                  {errors.arrivalTime && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.arrivalTime}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">
+                     Out Time(Expected)
+                  </label>
+                  <input
+                    type="time"
+                    name="outTime"
+                    value={formData.outTime}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-3 py-2"
+                  />
+
+
+                </div>
+
+              </div>
+
+              <div className="mt-2">
+                <label className="block text-sm mb-1">
+                  Additional Notes(Optional)
+                </label>
+
+                <textarea
+                  rows="1"
+                  name="remarks"
+                  value={formData.remarks}
+                  onChange={handleChange}
+                  className="w-full border rounded-lg px-3 py-2"
+                  placeholder="Enter any Additional notes"
+                />
+              </div>
             </div>
 
-            {/* Flat No */}
-            <div>
-              <label className="block text-sm mb-1">
-                Flat No{" "}
-                <span className="text-red-500">*</span>
-              </label>
+            {/* ================= SECTION 3 ================= */}
+            <div className="border-t pt-3">
+              <h3 className="text-blue-600 font-semibold mb-3">
+                3. Additional Information
+              </h3>
 
-              <input
-                type="text"
-                name="flatNo"
-                value={formData.flatNo}
-                onChange={handleChange}
-                placeholder="Enter Flat Number"
-                className={`w-full border rounded-lg p-2 ${errors.flatNo ? "border-red-500" : ""
-                  }`}
-              />
+              <div className="grid grid-cols-2 pt-4 gap-4">
 
-              {errors.flatNo && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.flatNo}
-                </p>
-              )}
+                {/* Notify Resident */}
+                <div className=" rounded-lg px-1 ">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-800">
+                      Pre-Registered
+                    </span>
+
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all peer-checked:after:translate-x-5"></div>
+                    </label>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-2">
+                    Save visitor for faster check-in next time
+                  </p>
+                </div>
+
+                {/* Notify Security */}
+                <div className=" rounded-lg p-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-800">
+                      Notify Security
+                    </span>
+
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        defaultChecked
+                      />
+                      <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all peer-checked:after:translate-x-5"></div>
+                    </label>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-2">
+                    Send notification to the resident
+                  </p>
+                </div>
+
+
+
+              </div>
             </div>
 
-            {/* Purpose */}
-            <div>
-              <label className="block text-sm mb-1">
-                Purpose{" "}
-                <span className="text-red-500">*</span>
-              </label>
-
-              <select
-                name="purpose"
-                value={formData.purpose}
-                onChange={handleChange}
-                className={`w-full border rounded-lg p-2 ${errors.purpose ? "border-red-500" : ""
-                  }`}
+            <div className="flex justify-end gap-3 mt-2 pt-3 border-t">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 border border-blue-600 text-blue-600 rounded-lg"
               >
-                <option value="">Select Purpose</option>
-                <option value="Personal">Personal</option>
-                <option value="Delivery">Delivery</option>
-                <option value="Service">Service</option>
-                <option value="Meeting">Meeting</option>
-                <option value="Others">Others</option>
-              </select>
+                Cancel
+              </button>
 
-              {errors.purpose && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.purpose}
-                </p>
-              )}
-            </div>
-
-            {/* Vehicle Number */}
-            <div>
-              <label className="block text-sm mb-1">
-                Vehicle Number{" "}
-                <span className="text-red-500">*</span>
-              </label>
-
-              <input
-                type="text"
-                name="vehicleNo"
-                value={formData.vehicleNo}
-                onChange={handleChange}
-                placeholder="Enter Vehicle Number"
-                className={`w-full border rounded-lg p-2 ${errors.vehicleNo ? "border-red-500" : ""
-                  }`}
-              />
-
-              {errors.vehicleNo && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.vehicleNo}
-                </p>
-              )}
-            </div>
-
-            {/* Expected Exit Time */}
-            <div>
-              <label className="block text-sm mb-1">
-                Expected Exit Time{" "}
-                <span className="text-red-500">*</span>
-              </label>
-
-              <input
-                type="datetime-local"
-                name="expectedTime"
-                value={formData.expectedTime}
-                onChange={handleChange}
-                className={`w-full border rounded-lg p-2 ${errors.expectedTime
-                    ? "border-red-500"
-                    : ""
-                  }`}
-              />
-
-              {errors.expectedTime && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.expectedTime}
-                </p>
-              )}
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg"
+              >
+                Save Visitor
+              </button>
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border rounded-lg hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Add Visitor
-            </button>
-          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default AddVisitorModal;
+export default PreRegisterVisitorModal;

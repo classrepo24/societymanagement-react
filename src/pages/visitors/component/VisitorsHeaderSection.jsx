@@ -66,13 +66,13 @@ const VisitorsHeaderSection = ({
 
         <div className="flex gap-3">
           <button onClick={() => setShowPreRegisterVisitorModal(true)} className="px-4 py-2 border rounded-lg text-sm">
-            Pre-Register Visitor
+           <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
           </button>
 
           <button
             onClick={() => setShowAddVisitorModal(true)}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-            + Add New Visitor
+            <i className="bi bi-plus"></i> Add New Visitor
           </button>
         </div>
       </div>

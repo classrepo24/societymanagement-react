@@ -122,7 +122,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
         {location.pathname === "/visitors" && (
           <>
             {isSidebarOpen && (
-              <p className="text-[15px] text-blue-300 px-2 mt-3">
+              <p className="text-[10px] text-blue-300 px-2 mt-3">
                 QUICK LINKS
               </p>
             )}
@@ -135,7 +135,9 @@ export const Sidebar = ({ isSidebarOpen }) => {
               {isSidebarOpen && "Add New Visitor"}
             </button>
 
-            <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
+            <button 
+            onClick={()=> navigate("/visitors?modal=log")}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
               <i className="bi bi-journal-text"></i>
               {isSidebarOpen && "Visitor Log"}
             </button>
@@ -148,7 +150,10 @@ export const Sidebar = ({ isSidebarOpen }) => {
               {isSidebarOpen && "Pre-Registered Visitors"}
             </button>
 
-            <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
+            <button 
+            onClick={()=> navigate("/visitors?modal=purpose")}
+
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
               <i className="bi bi-tags"></i>
               {isSidebarOpen && "Visitor Purpose"}
             </button>

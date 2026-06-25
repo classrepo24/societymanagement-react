@@ -12,12 +12,12 @@ const DeleteVisitorModal = ({
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl p-6 w-[400px] shadow-xl">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+          {/* <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
             <i className="bi bi-trash text-red-600 text-xl"></i>
-          </div>
+          </div> */}
 
           <div>
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold text-red-700 text-lg">
               Delete Visitor
             </h3>
             <p className="text-sm text-gray-500">
@@ -27,9 +27,8 @@ const DeleteVisitorModal = ({
         </div>
 
         <p className="text-gray-700 mb-6">
-          Are you sure you want to delete{" "}
+          Are you sure you want to delete this Visitor{" "}
           <span className="font-semibold">
-            {visitor?.name}
           </span>
           ?
         </p>

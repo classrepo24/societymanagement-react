@@ -37,6 +37,7 @@ const VisitorsTable = ({
       setSortOrder("asc");
     }
   };
+  
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -219,8 +220,65 @@ const VisitorsTable = ({
                     </span>
                   </div>
                 </th>
-                <th className="pr-2">In Time</th>
-                <th className="pr-2">Out Time</th>
+                <th
+  onClick={() => handleSort("inTime")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    In Time
+
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span
+        className={
+          sortField === "inTime" && sortOrder === "asc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▲
+      </span>
+      <span
+        className={
+          sortField === "inTime" && sortOrder === "desc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▼
+      </span>
+    </span>
+  </div>
+</th>
+
+<th
+  onClick={() => handleSort("outTime")}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Out Time
+
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span
+        className={
+          sortField === "outTime" && sortOrder === "asc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▲
+      </span>
+      <span
+        className={
+          sortField === "outTime" && sortOrder === "desc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▼
+      </span>
+    </span>
+  </div>
+</th>
                 <th
                   onClick={() => handleSort("status")}
                   className="cursor-pointer"
