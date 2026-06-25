@@ -73,6 +73,7 @@ export const ComplaintSettings = () => {
 const [deleteCategory, setDeleteCategory] = useState(null);
   const [categoryData, setCategoryData] = useState(categories);
   const [showAddCategory, setShowAddCategory] = useState(false);
+  const [categoryErrors, setCategoryErrors] = useState({});
 
   const priorities = [
     {
@@ -233,7 +234,7 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
   <div className="flex flex-col gap-5">
 
    {/* COMPLAINT CATEGORIES */}
-<div className="bg-white border border-[#e8ecf5] rounded-xl min-h-[400px] overflow-hidden shadow-sm flex flex-col">
+<div className="bg-white border border-[#e8ecf5] rounded-xl min-h-[500px] overflow-hidden shadow-sm flex flex-col">
   {/* HEADER */}
   <div className="flex items-start justify-between px-5 py-4 border-b border-[#edf0f6]">
     <div>
@@ -636,7 +637,7 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
           </p>
         </div>
 
-        <div className="overflow-x-auto  ">
+        <div className="overflow-x-auto">
           <table className="w-full min-w-[350px]">
             <thead className="bg-[#fbfcff] border-b border-[#edf0f6]">
               <tr className="text-[10px]">
@@ -871,6 +872,7 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
 
 
 {/* ADD CATEGORY POPUP */}
+{/* ADD CATEGORY POPUP */}
 {showAddCategory && (
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
     <div className="bg-white w-full max-w-[420px] rounded-xl shadow-lg overflow-hidden">
@@ -886,7 +888,10 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
         </div>
 
         <button
-          onClick={() => setShowAddCategory(false)}
+          onClick={() => {
+            setShowAddCategory(false);
+            setCategoryErrors({});
+          }}
           className="w-8 h-8 rounded-md text-[#617097] hover:bg-[#f3f5fa]"
         >
           <i className="bi bi-x-lg text-[13px]"></i>
@@ -894,39 +899,91 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
       </div>
 
       <div className="p-5 space-y-4">
+        {/* CATEGORY NAME */}
         <div>
           <label className="block text-[11px] font-semibold text-[#263765] mb-1.5">
-            Category Name
+            Category Name <span className="text-red-500">*</span>
           </label>
+
           <input
             id="newCategoryName"
             type="text"
             placeholder="Enter category name"
-            className="w-full border border-[#dce3f0] rounded-md px-3 py-2 text-[12px] outline-none focus:border-[#075df2]"
+            onChange={() =>
+              setCategoryErrors((prev) => ({
+                ...prev,
+                name: "",
+              }))
+            }
+            className={`w-full border rounded-md px-3 py-2 text-[12px] outline-none ${
+              categoryErrors.name
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#dce3f0] focus:border-[#075df2]"
+            }`}
           />
+
+          {categoryErrors.name && (
+            <p className="text-red-500 text-[10px] mt-1">
+              Please enter category name.
+            </p>
+          )}
         </div>
 
+        {/* DESCRIPTION */}
         <div>
           <label className="block text-[11px] font-semibold text-[#263765] mb-1.5">
-            Description
+            Description <span className="text-red-500">*</span>
           </label>
+
           <textarea
             id="newCategoryDescription"
             rows="3"
             placeholder="Enter category description"
-            className="w-full border border-[#dce3f0] rounded-md px-3 py-2 text-[12px] outline-none resize-none focus:border-[#075df2]"
+            onChange={() =>
+              setCategoryErrors((prev) => ({
+                ...prev,
+                description: "",
+              }))
+            }
+            className={`w-full border rounded-md px-3 py-2 text-[12px] outline-none resize-none ${
+              categoryErrors.description
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#dce3f0] focus:border-[#075df2]"
+            }`}
           />
+
+          {categoryErrors.description && (
+            <p className="text-red-500 text-[10px] mt-1">
+              Please enter category description.
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
+          {/* ICON */}
           <div>
             <label className="block text-[11px] font-semibold text-[#263765] mb-1.5">
-              Icon
+              Icon <span className="text-red-500">*</span>
             </label>
+
             <select
               id="newCategoryIcon"
-              className="w-full border border-[#dce3f0] rounded-md px-3 py-2 text-[11px] outline-none bg-white"
+              defaultValue=""
+              onChange={() =>
+                setCategoryErrors((prev) => ({
+                  ...prev,
+                  icon: "",
+                }))
+              }
+              className={`w-full border rounded-md px-3 py-2 text-[11px] outline-none bg-white ${
+                categoryErrors.icon
+                  ? "border-red-500"
+                  : "border-[#dce3f0] focus:border-[#075df2]"
+              }`}
             >
+              <option value="" disabled>
+                Select icon
+              </option>
               <option value="bi bi-tools">Tools</option>
               <option value="bi bi-droplet-fill">Water</option>
               <option value="bi bi-lightning-charge-fill">Electricity</option>
@@ -934,16 +991,38 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
               <option value="bi bi-building-fill">Building</option>
               <option value="bi bi-tag-fill">Other</option>
             </select>
+
+            {categoryErrors.icon && (
+              <p className="text-red-500 text-[10px] mt-1">
+                Please select an icon.
+              </p>
+            )}
           </div>
 
+          {/* COLOR */}
           <div>
             <label className="block text-[11px] font-semibold text-[#263765] mb-1.5">
-              Color
+              Color <span className="text-red-500">*</span>
             </label>
+
             <select
               id="newCategoryColor"
-              className="w-full border border-[#dce3f0] rounded-md px-3 py-2 text-[11px] outline-none bg-white"
+              defaultValue=""
+              onChange={() =>
+                setCategoryErrors((prev) => ({
+                  ...prev,
+                  color: "",
+                }))
+              }
+              className={`w-full border rounded-md px-3 py-2 text-[11px] outline-none bg-white ${
+                categoryErrors.color
+                  ? "border-red-500"
+                  : "border-[#dce3f0] focus:border-[#075df2]"
+              }`}
             >
+              <option value="" disabled>
+                Select color
+              </option>
               <option value="bg-[#075df2]">Blue</option>
               <option value="bg-[#ef4444]">Red</option>
               <option value="bg-[#f59e0b]">Orange</option>
@@ -951,13 +1030,22 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
               <option value="bg-[#8b5cf6]">Purple</option>
               <option value="bg-[#64748b]">Gray</option>
             </select>
+
+            {categoryErrors.color && (
+              <p className="text-red-500 text-[10px] mt-1">
+                Please select a color.
+              </p>
+            )}
           </div>
         </div>
       </div>
 
       <div className="px-5 py-4 border-t border-[#edf0f6] flex justify-end gap-3">
         <button
-          onClick={() => setShowAddCategory(false)}
+          onClick={() => {
+            setShowAddCategory(false);
+            setCategoryErrors({});
+          }}
           className="px-4 py-2 border border-[#dce3f0] rounded-md text-[#52618a] text-[12px]"
         >
           Cancel
@@ -972,8 +1060,15 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
             const icon = document.getElementById("newCategoryIcon").value;
             const color = document.getElementById("newCategoryColor").value;
 
-            if (!name) {
-              alert("Please enter category name");
+            const errors = {};
+
+            if (!name) errors.name = true;
+            if (!description) errors.description = true;
+            if (!icon) errors.icon = true;
+            if (!color) errors.color = true;
+
+            if (Object.keys(errors).length > 0) {
+              setCategoryErrors(errors);
               return;
             }
 
@@ -981,12 +1076,13 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
               ...prev,
               {
                 name,
-                description: description || "No description added",
+                description,
                 icon,
                 color,
               },
             ]);
 
+            setCategoryErrors({});
             setShowAddCategory(false);
           }}
           className="px-4 py-2 bg-[#075df2] text-white rounded-md text-[12px] flex items-center gap-2"
@@ -998,7 +1094,6 @@ const [deleteAssignment, setDeleteAssignment] = useState(null);
     </div>
   </div>
 )}
-
 
 
 
