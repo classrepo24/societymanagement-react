@@ -168,7 +168,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
                   return labels[hour] || "";
                 }}
               />
-              <YAxis ticks={[0, 2, 4, 6, 8]} tick={{ fontSize: 12 }} />
+              <YAxis ticks={[0,10,20,30,40]} tick={{ fontSize: 12 }} />
               <Tooltip />
               <Area
                 type="monotone"

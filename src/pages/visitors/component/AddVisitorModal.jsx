@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PreRegisterVisitorModal = ({ onClose }) => {
+const AddVisitorModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -519,4 +519,4 @@ const PreRegisterVisitorModal = ({ onClose }) => {
   );
 };
 
-export default PreRegisterVisitorModal;
+export default AddVisitorModal;

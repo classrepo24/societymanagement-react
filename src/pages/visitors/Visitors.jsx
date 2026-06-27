@@ -18,10 +18,12 @@ const Visitors = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [showAllVisitors, setShowAllVisitors] = useState(false);
+  
   const [showAddVisitorModal, setShowAddVisitorModal] = useState(false);
   const [showPreRegisterVisitorModal, setShowPreRegisterVisitorModal] = useState(false);
-  const [showVisitorLog,setShowVisitorLog] = useState (false)
-  const [showVisitorPurpose,setShowVisitorPurpose] = useState(false)
+  
+  const [showVisitorLog, setShowVisitorLog] = useState(false)
+  const [showVisitorPurpose, setShowVisitorPurpose] = useState(false)
 
 
   const [sortField, setSortField] = useState(null);
@@ -158,7 +160,7 @@ const Visitors = () => {
     },
     {
       name: "Meera Desai",
-      phone: "9811223344",
+      phone: "9811223349",
       date: "2026-06-16",
       whom: "Mrs. Shah",
       flat: "D-203",
@@ -180,7 +182,7 @@ const Visitors = () => {
     },
     {
       name: "Pooja Verma",
-      phone: "9873216540",
+      phone: "9873216541",
       date: "2026-06-15",
       whom: "Mrs. Khanna",
       flat: "B-302",
@@ -398,9 +400,6 @@ const Visitors = () => {
     totalPages
   );
 
-  const insideVisitors = visitors.filter(
-    (visitor) => visitor.status === "inside"
-  );
 
   const visitorsToday = visitors.filter(v => v.date === todayStr).length;
 
@@ -451,7 +450,7 @@ const Visitors = () => {
         setShowAddVisitorModal={setShowAddVisitorModal}
         setShowPreRegisterVisitorModal={setShowPreRegisterVisitorModal}
       />
-      
+
 
       {showAddVisitorModal && (
         <AddVisitorModal
@@ -471,8 +470,8 @@ const Visitors = () => {
           }}
         />
       )}
-       
-       {showPreRegisterVisitorModal && (
+
+      {showPreRegisterVisitorModal && (
         <PreRegisterVisitorModal
           onClose={() => {
             setShowPreRegisterVisitorModal(false);
@@ -492,7 +491,7 @@ const Visitors = () => {
 
       {/* GRID: TABLE + CHART SPACE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div className="col-span-1 lg:col-span-2">
+        <div className="col-span-1 lg:col-span-2">
 
           <VisitorsTable
             activeTab={activeTab}
@@ -549,7 +548,9 @@ const Visitors = () => {
       <InsideVisitorsTable
         showAllVisitors={showAllVisitors}
         setShowAllVisitors={setShowAllVisitors}
-        insideVisitors={insideVisitors}
+        insideVisitors={visitors.filter(v => v.status === "inside")}
+
+        setVisitors={setVisitors}
         setSelectedVisitor={setSelectedVisitor}
         setShowVisitorModal={setShowVisitorModal}
       />

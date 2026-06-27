@@ -1,15 +1,48 @@
-import React from "react";
+import { useState } from "react";
 
 const InsideVisitorsTable = ({
   showAllVisitors,
   setShowAllVisitors,
   insideVisitors,
+  setInsideVisitors,
+  setVisitors,
   setSelectedVisitor,
   setShowVisitorModal,
 }) => {
+  const handleCheckout = (phone) => {
+    setVisitors(prev =>
+      prev.map(v =>
+        v.phone === phone
+          ? {
+            ...v,
+            status: "exited",
+            outTime: new Date().toLocaleTimeString(),
+          }
+          : v
+      )
+    );
+  };
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 7;
+
+  const totalPages = Math.ceil(insideVisitors.length / itemsPerPage);
+
+  const paginatedVisitors = insideVisitors.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const startEntry = (currentPage - 1) * itemsPerPage + 1;
+
+  const endEntry = Math.min(
+    currentPage * itemsPerPage,
+    insideVisitors.length
+  );
   return (
     <>
-      <div className="bg-white rounded-xl shadow p-2 mt-1 flex flex-col">
+      <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
         <h2 className="text-md font-semibold pl-4 mb-1">
           Currently Inside Visitors ({insideVisitors.length})
         </h2>
@@ -28,13 +61,19 @@ const InsideVisitorsTable = ({
                   Flat / Wing
                 </th>
                 <th className="text-left whitespace-nowrap">
-                  In Time
-                </th>
-                <th className="text-left whitespace-nowrap">
                   Purpose
                 </th>
                 <th className="text-left whitespace-nowrap">
+                  In Time
+                </th>
+                <th className="text-left whitespace-nowrap">
+                  Out Time
+                </th>
+                <th className="text-left whitespace-nowrap">
                   Contact
+                </th>
+                <th className="text-left whitespace-nowrap">
+                  Status
                 </th>
                 <th className="text-left whitespace-nowrap">
                   Actions
@@ -44,11 +83,11 @@ const InsideVisitorsTable = ({
 
             <tbody>
               {(showAllVisitors
-                ? insideVisitors
-                : insideVisitors.slice(0, 1)
-              ).map((v, i) => (
+                ? paginatedVisitors
+                : paginatedVisitors.slice(0, 1)
+              ).map((v) => (
                 <tr
-                  key={i}
+                  key={v.phone}
                   className="border-b hover:bg-gray-50"
                 >
                   <td className="p-1 whitespace-nowrap">
@@ -70,16 +109,17 @@ const InsideVisitorsTable = ({
                     </div>
                   </td>
 
-                  <td className="whitespace-nowrap">
+
+                  {/* Name */}
+                  <td className="font-medium">
                     {v.whom}
                   </td>
 
-                  <td className="whitespace-nowrap">
-                    {v.flat}
-                  </td>
+
+
 
                   <td className="whitespace-nowrap">
-                    {v.inTime}
+                    {v.flat}
                   </td>
 
                   <td className="whitespace-nowrap">
@@ -87,7 +127,28 @@ const InsideVisitorsTable = ({
                   </td>
 
                   <td className="whitespace-nowrap">
+                    {v.inTime}
+                  </td>
+
+
+                  <td className="whitespace-nowrap">
+                    {v.outTime ? v.outTime : "-"}
+                  </td>
+
+                  <td className="whitespace-nowrap">
                     {v.phone}
+                  </td>
+                  <td className="whitespace-nowrap">
+                    <td className="whitespace-nowrap">
+                      <span
+                        className={`px-3 py-1 rounded-md text-xs font-medium  ${v.status === "inside"
+                          ? "bg-green-100 text-green-700 "
+                          : "bg-gray-100 text-gray-700 border-gray-300"
+                          }`}
+                      >
+                        {v.status === "inside" ? "inside" : "Exited"}
+                      </span>
+                    </td>
                   </td>
 
                   <td className="whitespace-nowrap">
@@ -102,8 +163,16 @@ const InsideVisitorsTable = ({
                         <i className="bi bi-eye"></i>
                       </button>
 
-                      <button className="w-8 h-8 rounded bg-green-100 text-green-600 flex items-center justify-center">
-                        <i className="bi bi-box-arrow-right"></i>
+                      <button
+                        onClick={() => handleCheckout(v.phone)}
+                        disabled={v.status === "exited"}
+                        className={`w-20 h-8 rounded flex items-center justify-center
+    ${v.status === "exited"
+                            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                            : "bg-red-50 w-[100px] border text-red-600"
+                          }`}
+                      >
+                        <i className="bi bi-box-arrow-right"></i> check out
                       </button>
                     </div>
                   </td>
@@ -114,11 +183,9 @@ const InsideVisitorsTable = ({
         </div>
 
         {/* Footer Button */}
-        <div className="mt-4 border rounded-lg p-1 text-center">
+        <div className="border rounded-lg p-1 text-center">
           <button
-            onClick={() =>
-              setShowAllVisitors(!showAllVisitors)
-            }
+            onClick={() => setShowAllVisitors(!showAllVisitors)}
             className="text-blue-600 font-medium hover:text-blue-700"
           >
             {showAllVisitors
@@ -126,6 +193,50 @@ const InsideVisitorsTable = ({
               : "View All Inside Visitors →"}
           </button>
         </div>
+
+        {showAllVisitors && (
+          <div className="flex justify-between items-center mt-3 px-2">
+            <div className="text-sm text-gray-500">
+              Showing {startEntry} to {endEntry} of {insideVisitors.length} entries
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+                className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
+              >
+                &lt;
+              </button>
+
+              {[...Array(totalPages)].map((_, index) => {
+                const page = index + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-8 h-8 rounded border flex items-center justify-center ${currentPage === page
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "bg-white text-gray-700 border-gray-300"
+                      }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              <button
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(p + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
