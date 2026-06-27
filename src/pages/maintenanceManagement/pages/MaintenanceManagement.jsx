@@ -2,10 +2,13 @@ import React from 'react'
 import { FiSettings, FiPlus } from "react-icons/fi";
 import MaintenanceCards from '../components/MaintenanceCards'
 import { MaintenanceTable } from '../components/MaintenanceTable';
-import { MaintananceOverview, MaintenanceOverview } from '../components/MaintenanceOverview';
+import { MaintenanceOverview } from '../components/MaintenanceOverview';
 import { RecentMaintenance } from '../components/RecentMaintenance';
+// import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const MaintenanceManagement = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="bg-[#fbfbfe] p-6">
@@ -26,6 +29,7 @@ export const MaintenanceManagement = () => {
           <div className="flex gap-4">
 
             <button
+            onClick={() => navigate("/maintenance-settings")}
               className="
               flex items-center gap-2
               px-5 py-3
@@ -62,8 +66,8 @@ export const MaintenanceManagement = () => {
 
         <MaintenanceCards />
         <MaintenanceTable />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mx-8 mt-8">
-          <MaintananceOverview />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mx-8 mt-8 items-start">
+          <MaintenanceOverview />
           <RecentMaintenance />
         </div>
 

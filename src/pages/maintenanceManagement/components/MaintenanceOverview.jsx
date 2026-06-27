@@ -12,9 +12,9 @@ const data = [
 
 const total = data.reduce((sum, item) => sum + item.value, 0);
 
-export const MaintananceOverview = () => {
+export const MaintenanceOverview = () => {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 self-star">
       <h2 className="text-3xl font-bold text-slate-900 mb-8">
         Maintenance Overview
       </h2>

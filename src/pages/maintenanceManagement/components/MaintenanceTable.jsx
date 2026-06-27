@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { FiFilter, FiCalendar, FiMoreVertical, } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiFilter, FiCalendar, FiMoreVertical, FiChevronsUpDown, FiArrowUp, FiArrowDown } from "react-icons/fi";
 import { requests } from "../data/maintenanceData";
+import { DeletePopup } from "../../../components/DeletePopup";
 
 
 const badgeStyles = {
@@ -21,13 +22,23 @@ const badgeStyles = {
 };
 
 export const MaintenanceTable = () => {
+    console.log("Static Data", requests);
     const [activeTab, setActiveTab] = useState("All Requests");
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [openMenu, setOpenMenu] = useState(null);
     const [editId, setEditId] = useState(null);
-    const [tableData, setTableData] = useState(requests);
+    const [sortConfig, setSortConfig] = useState({
+        key: null,
+        direction: "asc",
+    });
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
+    const [tableData, setTableData] = useState([]);
+    useEffect(() => {
+        setTableData(requests);
+    }, [requests])
     const handleDetele = (id) => {
         setTableData(tableData.filter((item) => item.id !== id));
     }
@@ -37,6 +48,29 @@ export const MaintenanceTable = () => {
     const handleSave = (id) => {
         setEditId(null);
     }
+    const handleSort = (key) => {
+        let direction = "asc";
+        if (sortConfig.key === key && sortConfig.direction === "asc") {
+            direction = "desc";
+        }
+        setSortConfig({ key, direction });
+    }
+    const getSortIcon = (key) => {
+        if (sortConfig.key !== key) {
+            return (
+                <span className="flex flex-col leading-none text-gray-400 text-[10px]">
+                    <span>▲</span>
+                    <span>▼</span>
+                </span>
+            );
+        }
+
+        return sortConfig.direction === "asc" ? (
+            <span className="text-grey-600 text-xs">▲</span>
+        ) : (
+            <span className="text-grey-600 text-xs">▼</span>
+        );
+    };
     const filteredRequests = tableData.filter((item) => {
         const statusMatch =
             activeTab === "All Requests"
@@ -54,7 +88,38 @@ export const MaintenanceTable = () => {
             (!endDate || itemDate <= new Date(endDate));
 
         return statusMatch && categoryMatch && dateMatch;
-    });
+    })
+        .sort((a, b) => {
+            if (!sortConfig.key) return 0;
+
+            if (sortConfig.key === "date") {
+                return sortConfig.direction === "asc"
+                    ? new Date(a.date) - new Date(b.date)
+                    : new Date(b.date) - new Date(a.date);
+            }
+
+            const aValue = a[sortConfig.key]?.toString().toLowerCase();
+            const bValue = b[sortConfig.key]?.toString().toLowerCase();
+
+            if (aValue < bValue) {
+                return sortConfig.direction === "asc" ? -1 : 1;
+            }
+
+            if (aValue > bValue) {
+                return sortConfig.direction === "asc" ? 1 : -1;
+            }
+
+            return 0;
+        });
+    const confirmDelete = () => {
+        setTableData(
+            tableData.filter((item) => item.id !== deleteId)
+        );
+
+        setShowDeletePopup(false);
+        setDeleteId(null);
+    };
+
     return (
         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden m-8">
 
@@ -127,15 +192,42 @@ export const MaintenanceTable = () => {
 
                     <thead className="bg-gray-50">
                         <tr className="text-left text-sm">
-                            <th className="p-5">Request ID</th>
-                            <th className="p-5">Title / Description</th>
-                            <th className="p-5">Category</th>
-                            <th className="p-5">Requested By</th>
-                            <th className="p-5">Flat / Wing</th>
-                            <th className="p-5">Priority</th>
-                            <th className="p-5">Status</th>
-                            <th className="p-5">Assigned To</th>
-                            <th className="p-5">Requested On</th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("id")}><div className="flex items-center gap-1">
+                                Request ID
+                                {getSortIcon("id")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("title")}><div className="flex items-center gap-1">
+                                Title / Description
+                                {getSortIcon("title")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("category")}><div className="flex items-center gap-1">
+                                Category
+                                {getSortIcon("category")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("resident")}><div className="flex items-center gap-1">
+                                Requested by
+                                {getSortIcon("resident")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("flat")}><div className="flex items-center gap-1">
+                                Flat / Wing
+                                {getSortIcon("flat")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("priority")}><div className="flex items-center gap-1">
+                                Priority
+                                {getSortIcon("priority")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("status")}><div className="flex items-center gap-1">
+                                Status
+                                {getSortIcon("status")}
+                            </div></th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("assigned")}><div className="flex items-center gap-1">
+                                Assigned ID
+                                {getSortIcon("assigned")}
+                            </div>Assigned To</th>
+                            <th className="p-5 cursor-pointer" onClick={() => handleSort("date")}><div className="flex items-center gap-1">
+                                Requested On
+                                {getSortIcon("date")}
+                            </div></th>
                             <th className="p-5">Actions</th>
                         </tr>
                     </thead>
@@ -184,7 +276,7 @@ export const MaintenanceTable = () => {
                                     ) : (
                                         <>
                                             <h3 className="font-semibold">{item.title}</h3>
-                                            <p className="text-gray-500 text-sm">{item.description}</p>
+                                            <p className="text-slate-500">{JSON.stringify(item.description)}</p>
                                         </>
                                     )}
                                 </td>
@@ -236,7 +328,17 @@ export const MaintenanceTable = () => {
                                             className="border px-2 py-1 rounded"
                                         />
                                     ) : (
-                                        item.resident
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={item.image}
+                                                alt={item.resident}
+                                                className="w-10 h-10 rounded-full object-cover border"
+                                            />
+
+                                            <span className="font-medium">
+                                                {item.resident}
+                                            </span>
+                                        </div>
                                     )}
                                 </td>
 
@@ -379,6 +481,7 @@ export const MaintenanceTable = () => {
                                         </>
                                     )}
                                 </td>
+                                {console.log(item), console.log(item.description), console.log(item.time)}
 
                                 <td className="p-5 relative">
                                     <button
@@ -410,7 +513,11 @@ export const MaintenanceTable = () => {
                                             )}
 
                                             <button
-                                                onClick={() => handleDetele(item.id)}
+                                                onClick={() => {
+                                                    setDeleteId(item.id);
+                                                    setShowDeletePopup(true);
+                                                    setOpenMenu(null);
+                                                }}
                                                 className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600"
                                             >
                                                 Delete
@@ -424,6 +531,15 @@ export const MaintenanceTable = () => {
 
                 </table>
             </div>
+            {showDeletePopup && (
+                <DeletePopup
+                    onClose={() => {
+                        setShowDeletePopup(false);
+                        setDeleteId(null);
+                    }}
+                    onConfirm={confirmDelete}
+                />
+            )}
         </div>
     );
 };

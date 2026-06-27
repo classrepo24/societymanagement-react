@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { requests } from "../data/maintenanceData";
 
+const badgeStyles = {
+    Pending: "bg-yellow-100 text-yellow-600",
+    "In Progress": "bg-blue-100 text-blue-600",
+    Completed: "bg-green-100 text-green-600",
+    Overdue: "bg-red-100 text-red-600",
+}
+const dotStyles = {
+    Pending: "bg-yellow-500",
+    "In Progress": "bg-blue-500",
+    Completed: "bg-green-500",
+    Overdue: "bg-red-500",
+};
+
 
 export const RecentMaintenance = () => {
     const [showAll, setShowAll] = useState(false);
@@ -32,22 +45,24 @@ export const RecentMaintenance = () => {
 
                             {/* Left Side */}
                             <div className="flex gap-4">
+                                {/* Timeline */}
                                 <div className="flex flex-col items-center">
                                     <div
-                                        className={`w-4 h-4 rounded-full ${item.color}`}
+                                        className={`w-3 h-3 rounded-full ${dotStyles[item.status]}`}
                                     />
 
                                     {index !== displayRequests.length - 1 && (
-                                        <div className="w-[2px] h-16 bg-gray-200 mt-1" />
+                                        <div className="w-[2px] h-16 bg-gray-300" />
                                     )}
                                 </div>
 
-                                <div>
-                                    <h3 className="text-xl font-semibold text-slate-900">
+                                {/* Content */}
+                                <div className="flex-1 pb-5">
+                                    <h3 className="text-lg font-semibold text-slate-900">
                                         {item.title}
                                     </h3>
 
-                                    <p className="text-gray-500 text-lg mt-1">
+                                    <p className="text-gray-500 mt-1">
                                         Requested by {item.resident}
                                     </p>
                                 </div>
@@ -56,7 +71,7 @@ export const RecentMaintenance = () => {
                             {/* Right Side */}
                             <div className="flex items-center gap-8">
                                 <span
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium ${item.badge}`}
+                                    className={`px-3 py-1 rounded text-sm ${badgeStyles[item.status]}`}
                                 >
                                     {item.status}
                                 </span>
@@ -67,8 +82,14 @@ export const RecentMaintenance = () => {
                             </div>
                         </div>
 
-                        {index !== requests.length - 1 && (
-                            <div className="border-b border-gray-200 mt-5" />
+                        {index !== displayRequests.length - 1 && (
+                            <div className="flex mt-3">
+                                {/* Vertical line continuation */}
+                                <div className="ml-[5px] w-[2px] h-4 bg-gray-300"></div>
+
+                                {/* Horizontal border */}
+                                <div className="flex-1 border-b border-gray-200"></div>
+                            </div>
                         )}
                     </div>
                 ))}
