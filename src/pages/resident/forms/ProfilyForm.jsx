@@ -78,12 +78,12 @@ export const ProfilyForm = ({
         "w-full h-[45px] px-3 border border-gray-300 rounded-md"
     return (
         <div className="w-full bg-white p-6">
-            <div className="w-full bg-white rounded-xl shadow-sm p-6">
+            <div className="w-full bg-white rounded-xl shadow-sm p-4 md:p-6">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 text-left">
                     Profile
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="col-span-3 flex flex-col items-center justify-center mb-8">
                         <label
                             htmlFor="profileImage"

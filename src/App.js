@@ -6,26 +6,26 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { RaiseMaintenanceRequest } from "./pages/maintenanceManagement/pages/raiseMaintenanceRequestComponents/RaiseMaintenanceRequest";
 import { MyRequest } from "../src/pages/maintenanceManagement/pages/myRequest/MyRequest";
 
-
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <Sidebar isSidebarOpen={isSidebarOpen} />
-      
-      <div
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? "ml-[280px]" : "ml-[90px]"
-        }`}
-      >
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      {/* SIDEBAR */}
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
+
+      {/* MAIN AREA */}
+      <div className="flex flex-col flex-1 min-w-0">
+        {/* HEADER */}
         <Header setIsSidebarOpen={setIsSidebarOpen} />
-        <RaiseMaintenanceRequest />
-        <MyRequest />
-        
 
-
-        <AllRoutes />
+        {/* CONTENT */}
+        <main className="flex-1 overflow-auto min-w-0">
+          <AllRoutes />
+        </main>
       </div>
     </div>
   );

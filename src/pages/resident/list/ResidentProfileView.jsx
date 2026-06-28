@@ -8,7 +8,8 @@ import { Resident } from "../pages/Resident";
 import { useNavigate } from "react-router-dom";
 import pencil from "../assets/pencil.svg"
 import { Link } from "react-router-dom";
-import { DeletePopup } from "../components/DeletePopup";
+import { DeletePopup } from "../../../components/DeletePopup";
+import { Breadcrumb } from "../../../components/Breadcrumb";
 
 export const ResidentProfileView = ({
     residentId,
@@ -63,7 +64,7 @@ export const ResidentProfileView = ({
     };
     const handleSave = (residentId) => {
         console.log("Resident ID:", residentId);
-    console.log("Edit Form:", editForm);
+        console.log("Edit Form:", editForm);
 
         dispatch(
             updateFamilyMember({
@@ -105,31 +106,24 @@ export const ResidentProfileView = ({
                 {residents.map((resident) => (
                     <div
                         key={resident.id}
-                        className="bg-white-100 border p-6 shadow-sm"
+                        className="bg-white-100 border shadow-sm"
                     >
-                        <div className="bg-white-100 min-h-screen p-6">
+                        <div className="bg-[#fbfbfe] min-h-screen p-6">
                             {/* Page Header */}
                             <div className="flex justify-between items-start mb-6">
 
                                 <div>
-                                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                                        <Link to="/resident-view">Residents</Link>
-                                        <span>/</span>
-                                        <span className="font-semibold text-gray-700">
-                                            Resident Profile
-                                        </span>
-                                    </div>
-
-                                    <h1 className="text-4xl font-bold">
-                                        Resident Profile
-                                    </h1>
-
-                                    <p className="text-gray-500 mt-1">
-                                        Manage resident information, family members and vehicles.
-                                    </p>
+                                    <Breadcrumb
+                                        items={[
+                                            { label: "Residents" },
+                                            { label: "Resident Profile" },
+                                        ]}
+                                        title="Resident Profile"
+                                        subtitle="Manage resident information, family members and vehicles."
+                                    />
                                 </div>
 
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 mt-10">
                                     {/* Buttons */}
                                     <button
                                         onClick={() => navigate("/resident-profile-view")}
@@ -689,6 +683,7 @@ export const ResidentProfileView = ({
                     }}
                 />
             )}
+
         </>
     );
 };

@@ -29,7 +29,7 @@ export const MaintenanceManagement = () => {
           <div className="flex gap-4">
 
             <button
-            onClick={() => navigate("/maintenance-settings")}
+            onClick={() => navigate("/maintenance-management/maintenance-settings")}
               className="
               flex items-center gap-2
               px-5 py-3
@@ -45,6 +45,7 @@ export const MaintenanceManagement = () => {
             </button>
 
             <button
+            onClick={() => navigate("/maintenance-management/raise-maintenance-request")}
               className="
               flex items-center gap-2
               px-5 py-3
