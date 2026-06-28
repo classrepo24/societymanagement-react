@@ -269,54 +269,45 @@ const menuItems = [
               </p>
             )}
 
-            <button
-              onClick={() =>{
-                 console.log("CLICKED");
-                
-                openModal({
-                  
-                  module: "complaints",
-                  type: "raiseComplaint",
-                })
-              }}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm"
+            <NavLink
+              to="/complaints/raise"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-3 py-2 rounded-lg w-full text-sm ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"
+                }`
+              }
             >
               <i className="bi bi-plus-circle"></i>
               {isSidebarOpen && "Raise Complaint"}
-            </button>
+            </NavLink>
 
-            <button
-              onClick={() =>
-                openModal({
-                  module: "complaints",
-                  type: "myComplaints",
-                })
+            <NavLink
+              to="/complaints/my-complaints"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-3 py-2 rounded-lg w-full text-sm ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"
+                }`
               }
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm"
             >
               <i className="bi bi-journal-check"></i>
               {isSidebarOpen && "My Complaints"}
-            </button>
+            </NavLink>
 
 
 
-            <button
-              onClick={() =>
-                openModal({
-                  module: "complaints",
-                  type: "categories",
-                })
+            <NavLink
+              to="/complaints/categories"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-3 py-2 rounded-lg w-full text-sm ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"
+                }`
               }
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm"
             >
               <i className="bi bi-folder2-open"></i>
               {isSidebarOpen && "Complaint Categories"}
-            </button>
+            </NavLink>
           </>
         )}
       </div>
 
-      {/* FOOTER (ALWAYS VISIBLE) */}
+      {/* FOOTER */}
       <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">
         {isSidebarOpen ? "© 2025 Society System" : "©"}
       </div>

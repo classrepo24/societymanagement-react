@@ -87,7 +87,6 @@ export const Complaints = () => {
 
 
 
-const { modal, closeModal } = useModal();
     
 const [complaints,setComplaints] = useState([
   {
@@ -206,7 +205,6 @@ const [openMenu, setOpenMenu] = useState(null);
 
   const [selectedDate, setSelectedDate] = useState("");
 
-  const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -339,6 +337,29 @@ if (sortConfig.key) {
 
 
 
+const [uploadedFiles, setUploadedFiles] = useState([]);
+
+const handleFileUpload = (e) => {
+  const files = Array.from(e.target.files);
+
+  const formatted = files.map((file) => ({
+    id: Date.now() + Math.random(),
+    name: file.name,
+    size: (file.size / 1024 / 1024).toFixed(1),
+    type: file.type,
+    preview: file.type.startsWith("image/")
+      ? URL.createObjectURL(file)
+      : null,
+  }));
+
+  setUploadedFiles((prev) => [...prev, ...formatted]);
+};
+
+const deleteFile = (id) => {
+  setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
+};
+
+
 
 
   return (
@@ -358,13 +379,13 @@ if (sortConfig.key) {
         </div>
 
 <div className="flex flex-wrap gap-3">
-              <NavLink
-  to="/complaints/settings"
-  className="px-4 py-2 bg-white rounded-lg flex items-center gap-2 text-sm hover:bg-gray-100"
->
-  <i className="bi bi-gear-fill"></i>
-  Complaint Settings
-</NavLink>
+          <NavLink
+            to="/complaints/settings"
+            className="px-4 py-2 bg-white rounded-lg flex items-center gap-2 text-sm hover:bg-gray-100"
+          >
+            <i className="bi bi-gear-fill"></i>
+            Complaint Settings
+          </NavLink>
 
           <button
   onClick={() => setIsOpen(true)}
@@ -813,6 +834,8 @@ if (sortConfig.key) {
       </div>
 
 
+
+
 {/* delete */}
 
 {deleteId && (
@@ -854,6 +877,9 @@ if (sortConfig.key) {
     </div>
   </div>
 )}
+
+
+
 
 {/* new complaints */}
 {isOpen && (
@@ -1033,125 +1059,6 @@ if (sortConfig.key) {
         </div>
 
       </form>
-    </div>
-  </div>
-)}
-
-{/* raise complaints popup quick links */}
-
-{modal?.module === "complaints" &&
- modal?.type === "raiseComplaint" && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-    <div className="bg-white w-[400px] p-6 rounded-xl">
-
-      <div className="flex justify-between mb-4">
-        <h2 className="text-lg font-semibold">Raise Complaint</h2>
-
-        <button onClick={closeModal}>
-          ✖
-        </button>
-      </div>
-
-      <input
-        placeholder="Title"
-        className="w-full border p-2 mb-3"
-      />
-
-      <input
-        placeholder="Raised By"
-        className="w-full border p-2 mb-3"
-      />
-
-      <select className="w-full border p-2 mb-3">
-        <option>Plumbing</option>
-        <option>Electricity</option>
-        <option>Water</option>
-      </select>
-
-      <button className="w-full bg-green-600 text-white py-2 rounded">
-        Save
-      </button>
-
-    </div>
-  </div>
-)}
-
-
-{/* my complaints */}
-
-
-{modal?.module === "complaints" &&
- modal?.type === "myComplaints" && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-    <div className="bg-white w-[600px] p-5 rounded-xl">
-
-      <div className="flex justify-between mb-4">
-        <h2 className="text-lg font-semibold">My Complaints</h2>
-
-        <button onClick={closeModal}>
-          ✖
-        </button>
-      </div>
-
-      {/* LIST */}
-      <div className="max-h-[300px] overflow-y-auto">
-        {complaints.map((c) => (
-          <div
-            key={c.id}
-            className="border-b py-2 text-sm flex justify-between"
-          >
-            <span>{c.title}</span>
-            <span className="text-gray-500">{c.status}</span>
-          </div>
-        ))}
-      </div>
-
-    </div>
-  </div>
-)}
-
-
-
-{/* Categorie All */}
-
-{modal?.module === "complaints" &&
- modal?.type === "categories" && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-    <div className="bg-white w-[450px] p-5 rounded-xl">
-
-      {/* HEADER */}
-      <div className="flex justify-between mb-4">
-        <h2 className="text-lg font-semibold">Complaint Categories</h2>
-
-        <button onClick={closeModal}>
-          ✖
-        </button>
-      </div>
-
-      {/* CATEGORY LIST */}
-      <div className="space-y-2">
-
-        {[
-          "Plumbing",
-          "Electricity",
-          "Water",
-          "Cleaning",
-          "Security",
-        ].map((cat, i) => (
-          <div
-            key={i}
-            className="flex justify-between items-center border p-2 rounded"
-          >
-            <span>{cat}</span>
-            <span className="text-xs text-gray-500">Active</span>
-          </div>
-        ))}
-
-      </div>
-
     </div>
   </div>
 )}
