@@ -401,22 +401,56 @@ const VisitorsTable = ({
               >
                 &lt;
               </button>
+              {(() => {
+                const pages = [];
 
-              {Array.from(
-                { length: endPage - startPage + 1 },
-                (_, i) => startPage + i
-              ).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-8 h-8 border rounded ${currentPage === page
-                      ? "bg-blue-600 text-white"
-                      : "hover:bg-gray-100"
-                    }`}
-                >
-                  {page}
-                </button>
-              ))}
+                if (totalPages <= 5) {
+                  for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                  }
+                } else {
+                  if (currentPage <= 2) {
+                    pages.push(1, 2, 3);
+                  } else if (currentPage >= totalPages - 1) {
+                    pages.push(totalPages - 2, totalPages - 1, totalPages);
+                  } else {
+                    pages.push(currentPage - 1, currentPage, currentPage + 1);
+                  }
+                }
+
+                return (
+                  <>
+                    {pages.map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`px-4 py-2 rounded ${currentPage === page
+                            ? "bg-blue-600 text-white"
+                            : "border"
+                          }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    {totalPages > 5 && pages[pages.length - 1] < totalPages - 1 && (
+                      <span className="px-2 py-2">...</span>
+                    )}
+
+                    {totalPages > 5 && pages[pages.length - 1] !== totalPages && (
+                      <button
+                        onClick={() => setCurrentPage(totalPages)}
+                        className={`px-4 py-2 rounded ${currentPage === totalPages
+                            ? "bg-blue-600 text-white"
+                            : "border"
+                          }`}
+                      >
+                        {totalPages}
+                      </button>
+                    )}
+                  </>
+                );
+              })()}
 
               <button
                 className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"

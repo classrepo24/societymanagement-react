@@ -13,6 +13,7 @@ import PassSuccess from "../pages/authentication/PassSuccess";
 
 import Registration from "../pages/authentication/Registration";
 import  Visitors  from "../pages/visitors/Visitors";
+import VisitorLog from "../pages/visitors/component/VisitorLog";
 
 const Allroutes = () => {
   return (
@@ -45,6 +46,8 @@ const Allroutes = () => {
 
       />          
       <Route path="/visitors" element={<Visitors />} />
+      <Route path="/visitors/visitorlog" element={<VisitorLog />} />
+
 
       </Routes>
 

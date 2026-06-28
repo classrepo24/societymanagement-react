@@ -10,18 +10,43 @@ const InsideVisitorsTable = ({
   setShowVisitorModal,
 }) => {
   const handleCheckout = (phone) => {
-    setVisitors(prev =>
-      prev.map(v =>
-        v.phone === phone
-          ? {
-            ...v,
-            status: "exited",
-            outTime: new Date().toLocaleTimeString(),
-          }
-          : v
-      )
-    );
-  };
+  const outTime = Date.now();
+
+  setVisitors(prev =>
+    prev.map(v => {
+      if (v.phone !== phone) return v;
+
+      // convert string OR fallback
+      let inTime = v.inTime;
+
+      // agar string hai to try convert
+      if (typeof inTime === "string") {
+        inTime = Date.parse(inTime); // ⚠️ may fail for "10:30 AM"
+      }
+
+      if (!inTime || isNaN(inTime)) {
+        return {
+          ...v,
+          status: "exited",
+          outTime: new Date(outTime).toLocaleTimeString(),
+          duration: "0h 0m",
+        };
+      }
+
+      const diffMs = outTime - inTime;
+
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      return {
+        ...v,
+        status: "exited",
+        outTime: new Date(outTime).toLocaleTimeString(),
+        duration: `${hours}h ${minutes}m`,
+      };
+    })
+  );
+};
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
 

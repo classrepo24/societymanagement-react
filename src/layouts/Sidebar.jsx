@@ -119,7 +119,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
           </>
         )}
         {/* Visitors */}
-        {location.pathname === "/visitors" && (
+        {(location.pathname.startsWith("/visitors") || location.pathname === "/visitorlog" )&& (
           <>
             {isSidebarOpen && (
               <p className="text-[10px] text-blue-300 px-2 mt-3">
@@ -128,7 +128,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
             )}
 
             <button
-              onClick={() => navigate("/visitors?modal=add")}
+              onClick={() => navigate("/visitors/?modal=add")}
               className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm"
             >
               <i className="bi bi-person-plus"></i>
@@ -136,7 +136,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
             </button>
 
             <button 
-            onClick={()=> navigate("/visitors?modal=log")}
+            onClick={()=> navigate("/visitors/visitorlog")}
             className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
               <i className="bi bi-journal-text"></i>
               {isSidebarOpen && "Visitor Log"}
