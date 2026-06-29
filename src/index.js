@@ -5,6 +5,8 @@ import App from './App';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from "./context/ModalContext";
+
+import { ComplaintProvider } from "./context/ComplaintContext";
 const root = ReactDOM.createRoot(
   document.getElementById('root')
 );
@@ -12,10 +14,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-   < ModalProvider>
+  <ComplaintProvider>
+    <ModalProvider>
       <App />
-
-      </ModalProvider>
+    </ModalProvider>
+  </ComplaintProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
+
+
+

@@ -20,11 +20,28 @@ const menuItems = [
     icon: "bi-microsoft",
     label: "Dashboard",
   },
+
   {
-    path: "/resident",
-    icon: "bi-people",
-    label: "Residents",
-  },
+  path: "/resident",
+  icon: "bi-people",
+  label: "Residents",
+  // children: [
+  //   {
+  //     path: "/resident/add",
+  //     label: "Add Resident",
+  //   },
+  //   {
+  //     path: "/resident/list",
+  //     label: "Resident List",
+  //   },
+  //   {
+  //     path: "/resident/owners",
+  //     label: "Owners",
+  //   },
+  // ],
+},
+
+
   {
     path: "/flats",
     icon: "bi-buildings",
@@ -35,28 +52,29 @@ const menuItems = [
     icon: "bi-tools",
     label: "Maintenance",
   },
+
+
   {
   path: "/complaints",
   icon: "bi-exclamation-circle",
   label: "Complaints",
   // children: [
   //   {
-  //     label: "My Complaints",
-  //      module: "complaints",
-  //    type: "myComplaints",
-  //   },
-  //   {
+  //     path: "/complaints/raise",
   //     label: "Raise Complaint",
-  //     module: "complaints",
-  //     type: "raiseComplaint",
   //   },
   //   {
+  //     path: "/complaints/my-complaints",
+  //     label: "My Complaints",
+  //   },
+  //   {
+  //     path: "/complaints/categories",
   //     label: "Complaint Categories",
-  //     module: "complaints",
-  //     type: "categories",
   //   },
   // ],
 },
+
+
   {
     path:"/visitors",
   icon: "bi-person-badge",
@@ -177,14 +195,23 @@ const menuItems = [
         )}
       </div>
 
-      {openMenus[item.label] && isSidebarOpen && (
+      {(openMenus[item.label] ||
+  item.children?.some((child) =>
+    location.pathname.startsWith(child.path)
+  )) &&
+  isSidebarOpen && (
         <div className="ml-8 mt-1 space-y-1">
           {item.children.map((child) =>
             child.path ? (
               <NavLink
                 key={child.label}
                 to={child.path}
-                className="block px-3 py-2 text-sm rounded-lg hover:bg-[#0b2f63]"
+                className={({ isActive }) =>
+                  `block px-3 py-2 text-sm rounded-lg ${isActive
+                    ? "bg-[#095de8]"
+                    : "hover:bg-[#0b2f63]"
+                  }`
+                }
               >
                 {child.label}
               </NavLink>
@@ -222,7 +249,7 @@ const menuItems = [
       <div className="px-2 py-2 space-y-1">
 
        {/* DASHBOARD */}
-{location.pathname === "/dashboard" && (
+{location.pathname.startsWith("/dashboard") && (
   <>
     {isSidebarOpen && (
       <p className="text-[10px] text-blue-300 px-2 mt-2">
@@ -261,7 +288,7 @@ const menuItems = [
 )}
 
         {/* COMPLAINTS */}
-        {location.pathname === "/complaints" && (
+   {location.pathname.startsWith("/complaints") && (
           <>
             {isSidebarOpen && (
               <p className="text-[10px] text-blue-300 px-2 mt-2">

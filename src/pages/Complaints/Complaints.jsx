@@ -3,8 +3,13 @@ import { CategoryChart } from "./CategoryChart";
 import { StatusChart } from "./StatusChart";
 import { RecentComplaints } from "./RecentComplaints";
 // import { Sidebar } from "../../layouts/Sidebar";
-import { useModal } from "../../context/ModalContext";
+// import { useModal } from "../../context/ModalContext";
 import { NavLink } from "react-router-dom";
+import { useComplaint } from "../../context/ComplaintContext";
+
+import { useNavigate } from "react-router-dom";
+
+
 
 const cards = [
   {
@@ -86,105 +91,9 @@ export const Complaints = () => {
 
 
 
-
+const { complaints, setComplaints } = useComplaint();
     
-const [complaints,setComplaints] = useState([
-  {
-    id: "CMP-2025-155",
-    category: "Plumbing",
-    title: "Water leakage in bathroom",
-    raisedBy: "Supriya Sonawale",
-    flatNo: "A-101",
-    priority: "High",
-    status: "Open",
-    raisedOn: "2026-06-21",
-  },
-  {
-    id: "CMP-2025-156",
-    category: "Electricity",
-    title: "Light not working",
-    raisedBy: "Rahul Patil",
-    flatNo: "B-203",
-    priority: "Medium",
-    status: "In Progress",
-    raisedOn: "2026-06-20",
-  },
-  {
-    id: "CMP-2025-157",
-    category: "Water",
-    title: "Low water pressure",
-    raisedBy: "Anita Desai",
-    flatNo: "C-12",
-    priority: "Low",
-    status: "Resolved",
-    raisedOn: "2026-06-19",
-  },
 
-
-  {
-    id: "CMP-2025-158",
-    category: "Cleaning",
-    title: "Garbage not colleted since 2 days",
-    raisedBy: "Sunita Sonawale",
-    flatNo: "C-13",
-    priority: "High",
-    status: "Overdue",
-    raisedOn: "2026-06-20",
-  },
-{
-  id: "CMP-2025-165",
-  category: "Plumbing",
-  title: "Kitchen sink blockage issue",
-  raisedBy: "Ramesh Jadhav",
-  flatNo: "A-201",
-  priority: "High",
-  status: "Open",
-  raisedOn: "2026-06-22",
-},
-{
-  id: "CMP-2025-166",
-  category: "Electricity",
-  title: "Main switch not working properly",
-  raisedBy: "Priya Desai",
-  flatNo: "B-102",
-  priority: "Medium",
-  status: "In Progress",
-  raisedOn: "2026-06-21",
-},
-
-{
-  id: "CMP-2025-159",
-  category: "Security",
-  title: "Main gate lock issue",
-  raisedBy: "Vikram Mehta",
-  flatNo: "D-104",
-  priority: "High",
-  status: "Open",
-  raisedOn: "2026-06-22",
-},
-{
-  id: "CMP-2025-160",
-  category: "Water",
-  title: "Tap leakage in kitchen",
-  raisedBy: "Neha Kulkarni",
-  flatNo: "A-303",
-  priority: "Low",
-  status: "Resolved",
-  raisedOn: "2026-06-19",
-},
-{
-  id: "CMP-2025-161",
-  category: "Cleaning",
-  title: "Lift area not cleaned properly",
-  raisedBy: "Amit Shah",
-  flatNo: "B-110",
-  priority: "Medium",
-  status: "In Progress",
-  raisedOn: "2026-06-21",
-},
-
-
-]);
 
 const generateId = () => {
   const year = new Date().getFullYear();
@@ -208,6 +117,7 @@ const [openMenu, setOpenMenu] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
 const [formData, setFormData] = useState({
   category: "",
@@ -250,6 +160,24 @@ const [sortConfig, setSortConfig] = useState({
   key: "",
   direction: "asc",
 });
+
+
+// pagination
+
+const itemsPerPage = 8;
+
+const indexOfLast = currentPage * itemsPerPage;
+const indexOfFirst = indexOfLast - itemsPerPage;
+
+const currentComplaints = filteredComplaints.slice(
+  indexOfFirst,
+  indexOfLast
+);
+
+const totalPages = Math.ceil(
+  filteredComplaints.length / itemsPerPage
+);
+
 
 const handleSort = (key) => {
   setSortConfig((prev) => ({
@@ -302,6 +230,7 @@ if (sortConfig.key) {
       bValue = priorityOrder[bValue] || 0;
     }
 
+
     // STATUS SORT 
     if (sortConfig.key === "status") {
       const statusOrder = {
@@ -334,6 +263,10 @@ if (sortConfig.key) {
   });
 }
 
+// pagination
+
+
+
 
 
 
@@ -355,12 +288,12 @@ const handleFileUpload = (e) => {
   setUploadedFiles((prev) => [...prev, ...formatted]);
 };
 
-const deleteFile = (id) => {
-  setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
-};
+// const deleteFile = (id) => {
+//   setUploadedFiles((prev) => prev.filter((file) => file.id !== id));
+// };
 
 
-
+const navigate = useNavigate();
 
   return (
     
@@ -388,10 +321,11 @@ const deleteFile = (id) => {
           </NavLink>
 
           <button
-  onClick={() => setIsOpen(true)}
+  onClick={() => navigate("/complaints/raise")}
   className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 text-sm"
 >
-  <i className="bi bi-plus-lg"></i> New Complaint
+  <i className="bi bi-plus-lg"></i>
+  New Complaint
 </button>
         </div>
       </div>
@@ -580,7 +514,8 @@ const deleteFile = (id) => {
                   </thead>
 
                 <tbody>
-  {filteredComplaints.map((item, index) => (
+
+  {currentComplaints.map((item, index) => (
     <tr key={index} className="border-b border-gray-200">
 
       {/* ID */}
@@ -807,12 +742,55 @@ const deleteFile = (id) => {
 </tbody>
 
               </table>
-              </div>
-            </div>
 
-          </div>
-        </div>
 
+<div className="flex items-center justify-between px-4 py-4 border-t">
+
+  <p className="text-sm text-gray-500">
+    Showing{" "}
+    <span className="font-medium">
+      {indexOfFirst + 1}
+    </span>
+    {" "}to{" "}
+    <span className="font-medium">
+      {Math.min(indexOfLast, filteredComplaints.length)}
+    </span>
+    {" "}of{" "}
+    <span className="font-medium">
+      {filteredComplaints.length}
+    </span>
+    {" "}complaints
+  </p>
+
+  <div className="flex items-center gap-2">
+
+    <button
+      disabled={currentPage === 1}
+      onClick={() => setCurrentPage(currentPage - 1)}
+      className="w-9 h-9 border rounded-lg flex items-center justify-center disabled:opacity-40 hover:bg-gray-50"
+    >
+      <i className="bi bi-chevron-left"></i>
+    </button>
+
+    <div className="min-w-[40px] h-9 px-3 bg-blue-600 text-white rounded-lg flex items-center justify-center font-medium">
+      {currentPage}
+    </div>
+
+    <button
+      disabled={currentPage === totalPages}
+      onClick={() => setCurrentPage(currentPage + 1)}
+      className="w-9 h-9 border rounded-lg flex items-center justify-center disabled:opacity-40 hover:bg-gray-50"
+    >
+      <i className="bi bi-chevron-right"></i>
+    </button>
+
+  </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 {/* RIGHT */}
