@@ -176,9 +176,9 @@ export const Sidebar = ({ isSidebarOpen,mobileSidebarOpen ,setMobileSidebarOpen}
      
 
   return (
+//Jab mobile sidebar open ho to background dark ho aur user bahar click karke sidebar close kar sake
 
 <>
-//Jab mobile sidebar open ho to background dark ho aur user bahar click karke sidebar close kar sake
     {mobileSidebarOpen && (
   <div
     className="fixed inset-0 bg-black/50 z-40 md:hidden"
