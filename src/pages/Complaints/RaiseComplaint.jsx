@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useComplaint } from "../../context/ComplaintContext";
 
 
 const RaiseComplaint = () => {
   const navigate = useNavigate();
+
+const { setComplaints, categories } = useComplaint();
+
 
   const [category, setCategory] = useState("");
 const [priority, setPriority] = useState("");
@@ -32,6 +35,8 @@ const handleFileChange = (e) => {
 const removeAttachment = (index) => {
   setAttachments((prev) => prev.filter((_, i) => i !== index));
 };
+
+
 const handleSubmit = () => {
   let newErrors = {};
 
@@ -45,19 +50,46 @@ const handleSubmit = () => {
   setErrors(newErrors);
 
   if (Object.keys(newErrors).length === 0) {
+    const selectedCategory = categories.find(
+      (item) => item.name === category
+    );
+
+    const newComplaint = {
+      id: `CMP-${Date.now()}`,
+      title,
+      description,
+      category,
+      categoryIcon: selectedCategory?.icon || "bi-three-dots",
+      categoryColor: selectedCategory?.color || "#64748b",
+      raisedBy: "Supriya Sonawale",
+      flatNo: flat,
+      priority,
+      status: "Open",
+      raisedOn: new Date().toLocaleDateString("en-GB"),
+      raisedTime: new Date().toLocaleTimeString(),
+      updatedOn: new Date().toLocaleDateString("en-GB"),
+      updatedTime: new Date().toLocaleTimeString(),
+    };
+
+    setComplaints((prev) => [newComplaint, ...prev]);
+
     setSuccess(true);
 
     setTimeout(() => {
       setSuccess(false);
-    }, 3000);
+     navigate("/complaints/my-complaints");
+    }, 1500);
   }
 };
+
+
+
   return (
-    <div className="min-h-screen bg-[#f7f9fd] p-6">
+  <div className="min-h-screen bg-[#f7f9fd] p-4 md:p-6">
     
 
       {/* Heading */}
-      <h1 className="text-[33px] font-bold text-[#0f172a]">
+      <h1 className="text-2xl md:text-[33px] font-bold text-[#0f172a]">
         Raise New Complaint
       </h1>
 
@@ -65,10 +97,12 @@ const handleSubmit = () => {
         Provide details about the issue you are facing.
       </p>
 
-      <div className="grid grid-cols-12 gap-6">
-        {/* LEFT */}
-        <div className="col-span-9">
-          <div className="bg-white rounded-2xl border border-[#e5e7eb] p-6">
+<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+  
+          {/* LEFT */}
+<div className="lg:col-span-9">
+  
+            <div className="bg-white rounded-2xl border border-[#e5e7eb] p-6">
             {/* SECTION 1 */}
             <div className="flex items-center gap-3 mb-5">
               <div className="w-7 h-7 rounded-full bg-[#1d4ed8] text-white text-sm flex items-center justify-center font-medium">
@@ -79,41 +113,40 @@ const handleSubmit = () => {
               </h3>
             </div>
 
-            <div className="grid grid-cols-3 gap-5">
-              <div>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div>
                 <label className="text-sm font-medium">
                   Complaint Category *
                 </label>
 
-               <select
+
+
+              <select
   value={category}
   onChange={(e) => setCategory(e.target.value)}
   className={`w-full mt-2 h-12 rounded-lg px-4 outline-none border ${
     errors.category ? "border-red-500" : "border-[#dbe2ef]"
   }`}
 >
-  {errors.category && (
+  <option value="">Select Category</option>
+
+  <option value="Plumbing">Plumbing</option>
+  <option value="Electrical">Electrical</option>
+  <option value="Lift Issue">Lift Issue</option>
+  <option value="Housekeeping">Housekeeping</option>
+  <option value="Parking">Parking</option>
+  <option value="Carpentry">Carpentry</option>
+  <option value="Security">Security</option>
+  <option value="Amenities">Amenities</option>
+  <option value="Pest Control">Pest Control</option>
+  <option value="Others">Others</option>
+</select>
+
+{errors.category && (
   <p className="text-red-500 text-xs mt-1">
     {errors.category}
   </p>
 )}
-  <option value="">Select Category</option>
-  <option value="plumbing">Plumbing</option>
-  <option value="electrical">Electrical</option>
-  <option value="water-leakage">Water Leakage</option>
-  <option value="cleaning">Cleaning & Housekeeping</option>
-  <option value="security">Security</option>
-  <option value="lift">Lift / Elevator</option>
-  <option value="parking">Parking</option>
-  <option value="gardening">Gardening</option>
-  <option value="common-area">Common Area Maintenance</option>
-  <option value="street-light">Street Light</option>
-  <option value="waste-management">Waste Management</option>
-  <option value="pest-control">Pest Control</option>
-  <option value="amenities">Amenities</option>
-  <option value="noise">Noise Complaint</option>
-  <option value="other">Other</option>
-</select>
 </div>
               <div>
                 <label className="text-sm font-medium">
@@ -245,8 +278,8 @@ const handleSubmit = () => {
               </h3>
             </div>
 
-            <div className="grid grid-cols-3 gap-5">
-              <div>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div>
   <label className="text-sm font-medium">
     Flat / Unit *
   </label>
@@ -335,7 +368,7 @@ const handleSubmit = () => {
 </div>
 
 {attachments.length > 0 && (
-  <div className="flex flex-wrap gap-4 mt-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
     {attachments.map((item, index) => (
       <div
         key={index}
@@ -386,8 +419,8 @@ const handleSubmit = () => {
               </h3>
             </div>
 
-            <div className="grid grid-cols-2 gap-5">
-              <div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-5">  
+                <div>
                 <label className="text-sm font-medium">
                   Preferred Date
                 </label>
@@ -411,8 +444,9 @@ const handleSubmit = () => {
             </div>
 
             {/* BUTTONS */}
-          <div className="flex justify-between mt-10 border-t pt-5">
-  <button
+<div className="flex flex-col sm:flex-row gap-3 sm:justify-between mt-10 border-t pt-5">
+  
+    <button
     onClick={() => navigate("/complaints")}
     className="px-6 h-11 border border-[#dbe2ef] rounded-lg font-medium"
   >
@@ -439,8 +473,9 @@ const handleSubmit = () => {
         
 
         {/* RIGHT */}
-        <div className="col-span-3 space-y-6">
-          <div className="bg-white border border-[#e5e7eb] rounded-2xl p-6">
+<div className="lg:col-span-3 space-y-6">
+  
+            <div className="bg-white border border-[#e5e7eb] rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-[#eef4ff] rounded-full flex items-center justify-center">
                 <i className="bi bi-lightbulb text-[#2563eb]"></i>

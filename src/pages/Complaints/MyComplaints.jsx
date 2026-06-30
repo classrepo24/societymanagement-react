@@ -201,14 +201,12 @@ const currentComplaints = filteredComplaints.slice(
   return (
     <div className="p-6 bg-[#F8FAFC] min-h-screen">
 
-      {/* Breadcrumb */}
-
-      <div className="flex items-center justify-between mb-6">
-
+      
+<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
 
-          <h1 className="text-[36px] font-bold text-[#0F172A] mt-3">
-            My Complaints
+<h1 className="text-2xl md:text-[36px] font-bold text-[#0F172A] mt-1">
+                My Complaints
           </h1>
 
           <p className="text-gray-500 mt-1">
@@ -217,9 +215,9 @@ const currentComplaints = filteredComplaints.slice(
 
         </div>
 
-        <button
+    <button
   onClick={() => navigate("/complaints/raise")}
-  className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 text-sm"
+  className="w-full sm:w-auto justify-center px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 text-sm"
 >
   <i className="bi bi-plus-lg"></i>
   New Complaint
@@ -715,12 +713,23 @@ const currentComplaints = filteredComplaints.slice(
   </td>
 
   {/* Category */}
-
-  <td className="px-6 py-5">
+{/* Category */}
+{/* Category */}
+<td className="px-6 py-5">
   <div className="flex items-center gap-3">
 
-    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-      <i className={`bi ${item.categoryIcon} text-blue-600`}></i>
+    <div
+      className="w-10 h-10 rounded-xl flex items-center justify-center"
+      style={{
+        backgroundColor: `${item.categoryColor}20`,
+      }}
+    >
+      <i
+        className={`bi ${item.categoryIcon}`}
+        style={{
+          color: item.categoryColor,
+        }}
+      ></i>
     </div>
 
     <span className="font-medium text-gray-700">
@@ -928,12 +937,7 @@ const currentComplaints = filteredComplaints.slice(
 
       {/* View */}
 
-      <button
-        onClick={() => handleView(item)}
-        className="w-10 h-10 rounded-xl border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition"
-      >
-        <i className="bi bi-eye text-gray-700"></i>
-      </button>
+      
 
       {/* Menu */}
 
@@ -1061,235 +1065,6 @@ const currentComplaints = filteredComplaints.slice(
         </div>
 
       </div>
-
-
-
-
-
-
-
-      {/* View Complaint Modal */}
-
-{selectedComplaint && (
-
-<div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-
-<div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden">
-
-<div className="flex justify-between items-center px-8 py-6 border-b">
-
-<div>
-
-<h2 className="text-2xl font-bold text-gray-800">
-
-Complaint Details
-
-</h2>
-
-<p className="text-gray-500 text-sm mt-1">
-
-View complaint information
-
-</p>
-
-</div>
-
-<button
-
-onClick={()=>setSelectedComplaint(null)}
-
-className="w-10 h-10 rounded-full hover:bg-gray-100"
-
->
-
-<i className="bi bi-x-lg text-xl"></i>
-
-</button>
-
-</div>
-
-<div className="p-8 grid grid-cols-2 gap-6">
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Complaint ID
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.id}
-
-</p>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Category
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.category}
-
-</p>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Title
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.title}
-
-</p>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Resident
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.raisedBy}
-
-</p>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Flat No
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.flatNo}
-
-</p>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Priority
-
-</p>
-
-<span className={`inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold
-
-${selectedComplaint.priority==="High"
-
-?"bg-red-100 text-red-600"
-
-:selectedComplaint.priority==="Medium"
-
-?"bg-yellow-100 text-yellow-700"
-
-:"bg-green-100 text-green-700"
-
-}`}>
-
-{selectedComplaint.priority}
-
-</span>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Status
-
-</p>
-
-<span className={`inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold
-
-${selectedComplaint.status==="Open"
-
-?"bg-red-100 text-red-600"
-
-:selectedComplaint.status==="In Progress"
-
-?"bg-yellow-100 text-yellow-700"
-
-:selectedComplaint.status==="Resolved"
-
-?"bg-green-100 text-green-700"
-
-:"bg-gray-100 text-gray-700"
-
-}`}>
-
-{selectedComplaint.status}
-
-</span>
-
-</div>
-
-<div>
-
-<p className="text-gray-400 text-sm">
-
-Raised On
-
-</p>
-
-<p className="font-semibold mt-1">
-
-{selectedComplaint.raisedOn}
-
-</p>
-
-</div>
-
-</div>
-
-<div className="px-8 py-5 border-t flex justify-end">
-
-<button
-
-onClick={()=>setSelectedComplaint(null)}
-
-className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl"
-
->
-
-Close
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-)}
-
 
 
 

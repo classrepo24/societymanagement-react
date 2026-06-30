@@ -1,7 +1,7 @@
 import React from "react";
 import profile from "../assets/profile.svg";
 
-export const Header = ({ setIsSidebarOpen }) => {
+export const Header = ({ setIsSidebarOpen,setMobileSidebarOpen }) => {
   return (
     <div className="h-16 bg-white flex items-center justify-between px-4 sm:px-6 border-b border-gray-200 shrink-0">
 
@@ -9,12 +9,25 @@ export const Header = ({ setIsSidebarOpen }) => {
       <div className="flex items-center gap-3 sm:gap-5 min-w-0">
 
         {/* MENU BUTTON */}
-        <button
-          onClick={() => setIsSidebarOpen((prev) => !prev)}
-          className="text-2xl text-gray-700 hover:bg-gray-100 w-10 h-10 flex items-center justify-center rounded-lg"
-        >
-          <i className="bi bi-list"></i>
-        </button>
+        <div className="flex items-center gap-2">
+  
+  {/* Mobile */}
+  <button
+    onClick={() => setMobileSidebarOpen(true)}
+    className="md:hidden text-2xl text-gray-700 hover:bg-gray-100 w-10 h-10 flex items-center justify-center rounded-lg"
+  >
+    <i className="bi bi-list"></i>
+  </button>
+
+  {/* Desktop */}
+  <button
+    onClick={() => setIsSidebarOpen((prev) => !prev)}
+    className="hidden md:flex text-2xl text-gray-700 hover:bg-gray-100 w-10 h-10 items-center justify-center rounded-lg"
+  >
+    <i className="bi bi-list"></i>
+  </button>
+
+</div>
 
         {/* SEARCH */}
         <div className="relative w-[180px] sm:w-[300px] md:w-[380px]">

@@ -154,32 +154,23 @@ const addCategory = () => {
 
 return (
 <div className="p-6 bg-[#f5f7fb] min-h-screen">
-   <div className="flex items-start justify-between mb-7">
-
+<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
   <div>
-    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-      <span>Dashboard</span>
-      <span>/</span>
-      <span>Complaints</span>
-      <span>/</span>
-      <span className="text-[#1e293b] font-medium">
-        Complaint Categories
-      </span>
-    </div>
+    
 
-    <h1 className="text-[38px] leading-none font-bold text-[#111827]">
-      Complaint Categories
+<h1 className="text-2xl md:text-[33px] leading-none font-bold text-[#111827]">
+    
+          Complaint Categories
     </h1>
 
-    <p className="text-gray-500 mt-2 text-[17px]">
+    <p className="text-gray-500 mt-2 text-[15px]">
       Manage and organize complaint categories.
     </p>
   </div>
 
   <button
     onClick={() => setShowModal(true)}
-    className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-3 rounded-xl text-sm font-medium"
-  >
+className="w-full sm:w-auto bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-3 rounded-xl text-sm font-medium"  >
     <i className="bi bi-plus-lg mr-2"></i>
     Add New Category
   </button>
@@ -436,9 +427,19 @@ return (
 
       <td className="p-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-            <i className={`bi ${item.icon}`}></i>
-          </div>
+          <div
+  className="w-10 h-10 rounded-lg flex items-center justify-center"
+  style={{
+    backgroundColor: `${item.color}20`,
+  }}
+>
+  <i
+    className={`bi ${item.icon}`}
+    style={{
+      color: item.color,
+    }}
+  ></i>
+</div>
 
           {editId === item.id ? (
             <input

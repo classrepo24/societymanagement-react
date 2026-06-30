@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import { CategoryChart } from "./CategoryChart";
 import { StatusChart } from "./StatusChart";
 import { RecentComplaints } from "./RecentComplaints";
-// import { Sidebar } from "../../layouts/Sidebar";
-// import { useModal } from "../../context/ModalContext";
 import { NavLink } from "react-router-dom";
 import { useComplaint } from "../../context/ComplaintContext";
 
 import { useNavigate } from "react-router-dom";
-
 
 
 const cards = [
@@ -52,8 +49,34 @@ const getCategoryStyle = (cat) => {
   switch (cat) {
     case "Plumbing":
       return "text-blue-600 bg-blue-50";
-    case "Electricity":
-      return "text-yellow-600 bg-yellow-50";
+
+    case "Electrical":
+      return "text-amber-600 bg-amber-50";
+
+    case "Lift Issue":
+      return "text-violet-600 bg-violet-50";
+
+    case "Housekeeping":
+      return "text-emerald-600 bg-emerald-50";
+
+    case "Parking":
+      return "text-red-600 bg-red-50";
+
+    case "Carpentry":
+      return "text-orange-700 bg-orange-50";
+
+    case "Security":
+      return "text-cyan-600 bg-cyan-50";
+
+    case "Amenities":
+      return "text-pink-600 bg-pink-50";
+
+    case "Pest Control":
+      return "text-lime-600 bg-lime-50";
+
+    case "Others":
+      return "text-slate-600 bg-slate-50";
+
     default:
       return "text-gray-600 bg-gray-50";
   }
@@ -92,6 +115,7 @@ export const Complaints = () => {
 
 
 const { complaints, setComplaints } = useComplaint();
+
     
 
 
