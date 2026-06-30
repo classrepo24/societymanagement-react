@@ -1,39 +1,33 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { useVisitors } from "../../context/VisitorContext";
-import InsideVisitorsTable from "./component/InsideVisitorsTable";
-import VisitorsTable from "./component/VisitorsTable";
-import VisitorCharts from "./component/VisitorCharts";
-import VisitorsHeaderSection from "./component/VisitorsHeaderSection";
-import AddVisitorModal from "./component/AddVisitorModal";
-import PreRegisterVisitorModal from "./component/PreRegisterVisitorModal";
-import ViewVisitorModal from "./component/ViewVisitorModal";
-import DeleteVisitorModal from "./component/DeleteVisitorModal";
-import VisitorLog from "./component/VisitorLog";
-import VisitorPurpose from "./component/VisitorPurpose";
+import InsideVisitorsTable from "./InsideVisitorsTable";
+import VisitorsTable from "./VisitorsTable";
+import VisitorCharts from "./VisitorCharts";
+import VisitorsHeaderSection from "./VisitorsHeaderSection";
+import ViewVisitorModal from "./ViewVisitorModal";
+import DeleteVisitorModal from "./DeleteVisitorModal";
 const Visitors = () => {
   const { visitors,
-     setVisitors,
+    setVisitors,
     itemsPerPage,
     getStatusStyle,
-     } = useVisitors();
+  } = useVisitors();
 
-  const location = useLocation();
-  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState("All Visitors");
-     const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [showAllVisitors, setShowAllVisitors] = useState(false);
-  
-  const [showAddVisitorModal, setShowAddVisitorModal] = useState(false);
-  const [showPreRegisterVisitorModal, setShowPreRegisterVisitorModal] = useState(false);
-  
-  const [showVisitorPurpose, setShowVisitorPurpose] = useState(false)
+
 
 
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [insideSortField, setInsideSortField] = useState(null);
+  const [insideSortOrder, setInsideSortOrder] = useState("asc");
+
+
   const [showSortIcons, setShowSortIcons] = useState({});
   const [selectedVisitor, setSelectedVisitor] = useState(null);
   const [showVisitorModal, setShowVisitorModal] = useState(false);
@@ -41,25 +35,10 @@ const Visitors = () => {
   const [visitorToDelete, setVisitorToDelete] = useState(null);
 
 
-  
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const modal = params.get("modal");
 
-    if (modal === "add") {
-      setShowAddVisitorModal(true);
-    }
 
-    if (modal === "preregister") {
-      setShowPreRegisterVisitorModal(true);
-    }
-
-    if (modal === "purpose") {
-      setShowVisitorPurpose(true);
-    }
-  }, [location]);
-     const filteredVisitors = visitors.filter((visitor) => {
+  const filteredVisitors = visitors.filter((visitor) => {
     if (activeTab === "All Visitors") return true;
     if (activeTab === "Inside Society") return visitor.status === "inside";
     if (activeTab === "Exited") return visitor.status === "exited";
@@ -140,127 +119,113 @@ const Visitors = () => {
     setShowDeleteModal(false);
     setVisitorToDelete(null);
   };
+
+  const location = useLocation();
+  const isDashboard =
+    location.pathname === "/visitors";
+
+  const isOverlayPage =
+    location.pathname === "/visitors/visitoradd" ||
+    location.pathname === "/visitors/visitor-preregister";
+
+  const isReplacePage =
+    location.pathname === "/visitors/visitorlog";
+
   return (
     <div className=" bg-gray-50 min-h-screen">
 
       {/* HEADER */}
+      {(isDashboard || isOverlayPage) && (
 
-      <VisitorsHeaderSection
-        visitorsToday={visitorsToday}
-        thisWeek={thisWeek}
-        thisMonth={thisMonth}
-        currentlyInside={currentlyInside}
-        todayGrowth={todayGrowth}
-        weekGrowth={weekGrowth}
-        monthGrowth={monthGrowth}
-        setShowAddVisitorModal={setShowAddVisitorModal}
-        setShowPreRegisterVisitorModal={setShowPreRegisterVisitorModal}
-      />
+        <>
 
+          <VisitorsHeaderSection
+            visitorsToday={visitorsToday}
+            thisWeek={thisWeek}
+            thisMonth={thisMonth}
+            currentlyInside={currentlyInside}
+            todayGrowth={todayGrowth}
+            weekGrowth={weekGrowth}
+            monthGrowth={monthGrowth}
 
-      {showAddVisitorModal && (
-        <AddVisitorModal
-          onClose={() => {
-            setShowAddVisitorModal(false);
-            navigate("/visitors");
-          }}
-        />
-      )}
+          />
 
-      {location.pathname === "/visitors/visitorlog" && (
- <VisitorLog
-  visitors={visitors}
-  
-  setSelectedVisitor={setSelectedVisitor}
-  setShowVisitorModal={setShowVisitorModal}
-   monthGrowth={monthGrowth}
+          {/* GRID: TABLE + CHART SPACE */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="col-span-1 lg:col-span-2">
 
-/>
-)}
+              <VisitorsTable
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                filteredVisitors={filteredVisitors}
+                paginatedVisitors={paginatedVisitors}
+                totalPages={totalPages}
+                startPage={startPage}
+                endPage={endPage}
+                itemsPerPage={itemsPerPage}
+                getStatusStyle={getStatusStyle}
+                sortField={sortField}
+                sortOrder={sortOrder}
+                setSortField={setSortField}
+                setSortOrder={setSortOrder}
+                sortedVisitors={sortedVisitors}
+                showSortIcons={showSortIcons}
+                setShowSortIcons={setShowSortIcons}
+                setSelectedVisitor={setSelectedVisitor}
+                setShowVisitorModal={setShowVisitorModal}
+                setShowDeleteModal={setShowDeleteModal}
+                setVisitorToDelete={setVisitorToDelete}
+              />
+            </div>
+            {showVisitorModal && (
+              <ViewVisitorModal
+                visitor={selectedVisitor}
+                onClose={() => {
+                  setShowVisitorModal(false);
+                  setSelectedVisitor(null);
+                }}
+              />
+            )}
 
-      {showPreRegisterVisitorModal && (
-        <PreRegisterVisitorModal
-          onClose={() => {
-            setShowPreRegisterVisitorModal(false);
-            navigate("/visitors");
-          }}
-        />
-      )}
+            <DeleteVisitorModal
+              show={showDeleteModal}
+              visitor={visitorToDelete}
+              onClose={() => {
+                setShowDeleteModal(false);
+                setVisitorToDelete(null);
+              }}
+              onDelete={handleDeleteVisitor}
+            />
+            <VisitorCharts
+              totalVisitors={totalVisitors}
+              visitors={visitors}
+            />
 
-      {showVisitorPurpose && (
-        <VisitorPurpose
-          onClose={() => {
-            setShowVisitorPurpose(false);
-            navigate("/visitors");
-          }}
-        />
-      )}
+            {/* CURRENTLY INSIDE VISITORS */}
 
-      {/* GRID: TABLE + CHART SPACE */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="col-span-1 lg:col-span-2">
+          </div>
+          <InsideVisitorsTable
+            showAllVisitors={showAllVisitors}
+            setShowAllVisitors={setShowAllVisitors}
+            insideVisitors={visitors.filter(v => v.status === "inside")}
 
-          <VisitorsTable
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            filteredVisitors={filteredVisitors}
-            paginatedVisitors={paginatedVisitors}
-            totalPages={totalPages}
-            startPage={startPage}
-            endPage={endPage}
-            itemsPerPage={itemsPerPage}
-            getStatusStyle={getStatusStyle}
-            sortField={sortField}
-            sortOrder={sortOrder}
-            setSortField={setSortField}
-            setSortOrder={setSortOrder}
-            sortedVisitors={sortedVisitors}
-            showSortIcons={showSortIcons}
-            setShowSortIcons={setShowSortIcons}
+            setVisitors={setVisitors}
             setSelectedVisitor={setSelectedVisitor}
             setShowVisitorModal={setShowVisitorModal}
-            setShowDeleteModal={setShowDeleteModal}
-            setVisitorToDelete={setVisitorToDelete}
+
+            sortField={insideSortField}
+            sortOrder={insideSortOrder}
+            setSortField={setInsideSortField}
+            setSortOrder={setInsideSortOrder}
           />
-        </div>
-        {showVisitorModal && (
-          <ViewVisitorModal
-            visitor={selectedVisitor}
-            onClose={() => {
-              setShowVisitorModal(false);
-              setSelectedVisitor(null);
-            }}
-          />
-        )}
+        </>
+      )}
+      {isReplacePage && <Outlet />}
+      {isOverlayPage && <Outlet />}
 
-        <DeleteVisitorModal
-          show={showDeleteModal}
-          visitor={visitorToDelete}
-          onClose={() => {
-            setShowDeleteModal(false);
-            setVisitorToDelete(null);
-          }}
-          onDelete={handleDeleteVisitor}
-        />
-        <VisitorCharts
-          totalVisitors={totalVisitors}
-          visitors={visitors}
-        />
 
-        {/* CURRENTLY INSIDE VISITORS */}
-
-      </div>
-      <InsideVisitorsTable
-        showAllVisitors={showAllVisitors}
-        setShowAllVisitors={setShowAllVisitors}
-        insideVisitors={visitors.filter(v => v.status === "inside")}
-
-        setVisitors={setVisitors}
-        setSelectedVisitor={setSelectedVisitor}
-        setShowVisitorModal={setShowVisitorModal}
-      />
     </div>
   );
 };

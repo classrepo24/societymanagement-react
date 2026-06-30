@@ -13,7 +13,9 @@ import PassSuccess from "../pages/authentication/PassSuccess";
 
 import Registration from "../pages/authentication/Registration";
 import  Visitors  from "../pages/visitors/Visitors";
-import VisitorLog from "../pages/visitors/component/VisitorLog";
+import VisitorLog from "../pages/visitors/VisitorLog";
+import AddVisitorModal from "../pages/visitors/AddVisitorModal";
+import PreRegisterVisitorModal from "../pages/visitors/PreRegisterVisitorModal";
 
 const Allroutes = () => {
   return (
@@ -45,9 +47,11 @@ const Allroutes = () => {
         element={<PassSuccess />}
 
       />          
-      <Route path="/visitors" element={<Visitors />} />
-      <Route path="/visitors/visitorlog" element={<VisitorLog />} />
-
+     <Route path="/visitors" element={<Visitors />}>
+    <Route path="visitoradd" element={<AddVisitorModal />} />
+    <Route path="visitorlog" element={<VisitorLog />} />
+    <Route path="visitor-preregister"element={<PreRegisterVisitorModal />}/>
+    </Route>
 
       </Routes>
 

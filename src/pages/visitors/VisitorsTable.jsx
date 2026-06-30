@@ -78,11 +78,6 @@ const VisitorsTable = ({
             {/* RIGHT: FILTER + DATE */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
 
-              {/* Filter Button */}
-              <button className="flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white w-full sm:w-auto">
-                <span><i className="bi bi-funnel"></i></span>
-                Filters
-              </button>
 
               <div className="flex items-center justify-center gap-2 px-3 py-2 border rounded-lg text-sm bg-white w-full sm:w-auto">
                 <span>
@@ -371,8 +366,7 @@ const VisitorsTable = ({
             </table>
           </div>
           {/* TABLE FOOTER */}
-          {/* TABLE FOOTER */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3  pt-2">
 
             {/* Left */}
             <p className="text-sm text-gray-500 text-center sm:text-left">

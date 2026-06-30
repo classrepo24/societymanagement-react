@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useEffect } from "react";
 const InsideVisitorsTable = ({
   showAllVisitors,
   setShowAllVisitors,
@@ -8,7 +8,18 @@ const InsideVisitorsTable = ({
   setVisitors,
   setSelectedVisitor,
   setShowVisitorModal,
+  sortField,
+  sortOrder,
+  setSortField,
+  setSortOrder,
+  
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+  setCurrentPage(1);
+}, [sortField, sortOrder]);
+
   const handleCheckout = (phone) => {
   const outTime = Date.now();
 
@@ -21,7 +32,7 @@ const InsideVisitorsTable = ({
 
       // agar string hai to try convert
       if (typeof inTime === "string") {
-        inTime = Date.parse(inTime); // ⚠️ may fail for "10:30 AM"
+        inTime = Date.parse(inTime); 
       }
 
       if (!inTime || isNaN(inTime)) {
@@ -47,14 +58,23 @@ const InsideVisitorsTable = ({
     })
   );
 };
+const sortedVisitors = [...insideVisitors].sort((a, b) => {
+  if (!sortField) return 0;
+
+  const aVal = a[sortField] ?? "";
+  const bVal = b[sortField] ?? "";
+
+  return sortOrder === "asc"
+    ? aVal.toString().localeCompare(bVal.toString())
+    : bVal.toString().localeCompare(aVal.toString());
+});
   //pagination
-  const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 7;
 
   const totalPages = Math.ceil(insideVisitors.length / itemsPerPage);
 
-  const paginatedVisitors = insideVisitors.slice(
+  const paginatedVisitors = sortedVisitors.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -65,6 +85,10 @@ const InsideVisitorsTable = ({
     currentPage * itemsPerPage,
     insideVisitors.length
   );
+  
+  const finalVisitors = showAllVisitors
+  ? paginatedVisitors
+  : sortedVisitors.slice(0, 1);
   return (
     <>
       <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
@@ -76,30 +100,168 @@ const InsideVisitorsTable = ({
           <table className="w-full min-w-[900px] text-sm">
             <thead className="bg-green-50 border-b text-grey-500 text-md">
               <tr>
-                <th className="text-left pl-8 p-2 whitespace-nowrap">
-                  Visitor Details
-                </th>
-                <th className="text-left whitespace-nowrap">
-                  Whom to Visit
-                </th>
-                <th className="text-left whitespace-nowrap">
-                  Flat / Wing
-                </th>
-                <th className="text-left whitespace-nowrap">
-                  Purpose
-                </th>
-                <th className="text-left whitespace-nowrap">
-                  In Time
-                </th>
-                <th className="text-left whitespace-nowrap">
-                  Out Time
-                </th>
+                <th
+  onClick={() => {
+    if (sortField === "name") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("name");
+      setSortOrder("asc");
+    }
+  }}
+  className="text-left pl-8 p-2 whitespace-nowrap cursor-pointer"
+>
+  <div className="flex items-center">
+    Visitor Details
+
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span
+        className={
+          sortField === "name" && sortOrder === "asc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▲
+      </span>
+
+      <span
+        className={
+          sortField === "name" && sortOrder === "desc"
+            ? "text-blue-600 font-bold"
+            : "text-gray-400"
+        }
+      >
+        ▼
+      </span>
+    </span>
+  </div>
+</th>
+                
+                <th
+  onClick={() => {
+    if (sortField === "whom") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("whom");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Whom to Visit
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "whom" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "whom" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
+                
+                <th
+  onClick={() => {
+    if (sortField === "flat") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("flat");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Flat/Wing
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "flat" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "flat" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
+
+                
+                <th
+  onClick={() => {
+    if (sortField === "purpose") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("purpose");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Purpose
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "purpose" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "purpose" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
+                
+                <th
+  onClick={() => {
+    if (sortField === "inTime") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("inTime");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    In Time
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "inTime" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "inTime" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
+                
+                <th
+  onClick={() => {
+    if (sortField === "outTime") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("outTime");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Out Time
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "outTime" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "outTime" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
+
                 <th className="text-left whitespace-nowrap">
                   Contact
                 </th>
-                <th className="text-left whitespace-nowrap">
-                  Status
-                </th>
+                
+                <th
+  onClick={() => {
+    if (sortField === "status") {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField("status");
+      setSortOrder("asc");
+    }
+  }}
+  className="cursor-pointer"
+>
+  <div className="flex items-center">
+    Status
+    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
+      <span className={sortField === "status" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
+      <span className={sortField === "status" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
+    </span>
+  </div>
+</th>
                 <th className="text-left whitespace-nowrap">
                   Actions
                 </th>
@@ -107,10 +269,7 @@ const InsideVisitorsTable = ({
             </thead>
 
             <tbody>
-              {(showAllVisitors
-                ? paginatedVisitors
-                : paginatedVisitors.slice(0, 1)
-              ).map((v) => (
+              {finalVisitors.map((v) => (
                 <tr
                   key={v.phone}
                   className="border-b hover:bg-gray-50"
@@ -164,7 +323,6 @@ const InsideVisitorsTable = ({
                     {v.phone}
                   </td>
                   <td className="whitespace-nowrap">
-                    <td className="whitespace-nowrap">
                       <span
                         className={`px-3 py-1 rounded-md text-xs font-medium  ${v.status === "inside"
                           ? "bg-green-100 text-green-700 "
@@ -174,7 +332,6 @@ const InsideVisitorsTable = ({
                         {v.status === "inside" ? "inside" : "Exited"}
                       </span>
                     </td>
-                  </td>
 
                   <td className="whitespace-nowrap">
                     <div className="flex gap-2">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-const AddVisitorModal = ({ onClose }) => {
+import { useNavigate } from "react-router-dom";
+const PreRegisterVisitorModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -18,6 +18,12 @@ const AddVisitorModal = ({ onClose }) => {
     outTime: "",
     remarks: "",
   });
+
+  const navigate = useNavigate();
+
+const handleClose = () => {
+  navigate("/visitors");
+};
 
   const [errors, setErrors] = useState({});
 
@@ -93,11 +99,11 @@ const AddVisitorModal = ({ onClose }) => {
         {/* Header */}
         <div className="flex justify-between items-center pb-3 border-b">
           <h2 className="text-xl font-semibold text-gray-800">
-            Add New Visitor
+            Pre-Register Visitor
           </h2>
 
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="text-gray-500 hover:text-black text-2xl"
           >
             ×
@@ -312,6 +318,11 @@ const AddVisitorModal = ({ onClose }) => {
                       }`}
                   >
                     <option value="">Select Resident</option>
+                    <option value="a">a</option>
+                    <option value="b">b</option>
+                    <option value="c">c</option>
+                    <option value="d">d</option>
+
                   </select>
 
                   {errors.whomToVisit && (
@@ -333,6 +344,9 @@ const AddVisitorModal = ({ onClose }) => {
                       }`}
                   >
                     <option value="">Select Flat</option>
+                    <option value="a">a-1</option>
+                    <option value="b">b-1</option>
+                    <option value="c">c-1</option>
                   </select>
 
                   {errors.flatNo && (
@@ -391,7 +405,7 @@ const AddVisitorModal = ({ onClose }) => {
 
                 <div>
                   <label className="block text-sm mb-1">
-                   In Time  <span className="text-red-500">*</span>
+                    Expected In Time  <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="time"
@@ -411,7 +425,7 @@ const AddVisitorModal = ({ onClose }) => {
 
                 <div>
                   <label className="block text-sm mb-1">
-                     Out Time(Expected)
+                    Expected Out Time(Optional)
                   </label>
                   <input
                     type="time"
@@ -445,16 +459,16 @@ const AddVisitorModal = ({ onClose }) => {
             {/* ================= SECTION 3 ================= */}
             <div className="border-t pt-3">
               <h3 className="text-blue-600 font-semibold mb-3">
-                3. Additional Information
+                3. Notifications & Approval
               </h3>
 
-              <div className="grid grid-cols-2 pt-4 gap-4">
+              <div className="grid grid-cols-2 gap-4">
 
                 {/* Notify Resident */}
-                <div className=" rounded-lg px-1 ">
+                <div className=" rounded-lg px-1">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-800">
-                      Pre-Registered
+                      Notify Resident
                     </span>
 
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -464,12 +478,12 @@ const AddVisitorModal = ({ onClose }) => {
                   </div>
 
                   <p className="text-xs text-gray-500 mt-2">
-                    Save visitor for faster check-in next time
+                    Send notification to the resident
                   </p>
                 </div>
 
                 {/* Notify Security */}
-                <div className=" rounded-lg p-1">
+                <div className=" rounded-lg ">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-800">
                       Notify Security
@@ -486,19 +500,51 @@ const AddVisitorModal = ({ onClose }) => {
                   </div>
 
                   <p className="text-xs text-gray-500 mt-2">
-                    Send notification to the resident
+                    Send notification to security
                   </p>
                 </div>
 
+                {/* Auto Approve */}
+                <div className="rounded-lg p-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-800">
+                      Auto Approve
+                    </span>
 
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all peer-checked:after:translate-x-5"></div>
+                    </label>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-2">
+                    Visitor will be auto approved by security at gate
+                  </p>
+                </div>
+
+                {/* Validity */}
+                <div className=" rounded-lg  ">
+                  <label className="block text-sm font-medium text-gray-800 mb-2">
+                    Validity
+                  </label>
+
+                  <select className="w-full border rounded-lg px-3 py-2 text-sm">
+                    <option>Selected Date & Time</option>
+                    <option>1 Day</option>
+                    <option>3 Days</option>
+                    <option>1 Week</option>
+                  </select>
+
+
+                </div>
 
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-2 pt-3 border-t">
+            <div className="flex justify-end gap-3 mt-2 pt-2 border-t">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="px-6 py-2 border border-blue-600 text-blue-600 rounded-lg"
               >
                 Cancel
@@ -508,7 +554,7 @@ const AddVisitorModal = ({ onClose }) => {
                 type="submit"
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg"
               >
-                Save Visitor
+                Pre-Register Visitor
               </button>
             </div>
           </div>
@@ -519,4 +565,4 @@ const AddVisitorModal = ({ onClose }) => {
   );
 };
 
-export default AddVisitorModal;
+export default PreRegisterVisitorModal;

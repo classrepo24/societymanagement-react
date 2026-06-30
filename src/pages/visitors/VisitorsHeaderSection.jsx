@@ -1,5 +1,5 @@
 import React from "react";
-
+ import { useNavigate } from "react-router-dom";
 const VisitorsHeaderSection = ({
   visitorsToday,
   thisWeek,
@@ -8,9 +8,9 @@ const VisitorsHeaderSection = ({
   todayGrowth,
   weekGrowth,
   monthGrowth,
-  setShowAddVisitorModal,
-  setShowPreRegisterVisitorModal
 }) => {
+
+    const navigate = useNavigate();
   const cards = [
     {
       title: "Visitors Today",
@@ -65,15 +65,21 @@ const VisitorsHeaderSection = ({
         </div>
 
             <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-          <button onClick={() => setShowPreRegisterVisitorModal(true)} className="px-4 py-2 border rounded-lg text-sm">
-           <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
-          </button>
-
           <button
-            onClick={() => setShowAddVisitorModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-            <i className="bi bi-plus"></i> Add New Visitor
-          </button>
+  onClick={() => navigate("/visitors/visitor-preregister")}
+  className="px-4 py-2 border rounded-lg text-sm"
+>
+  <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
+</button>
+
+<button
+  onClick={() => navigate("/visitors/visitoradd")}
+  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+>
+  <i className="bi bi-plus"></i> Add New Visitor
+</button>
+
+          
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useLocation,useNavigate } from "react-router-dom";
+import { Outlet, useLocation,} from "react-router-dom";
 
 const Registration = () => {
   const location = useLocation();
