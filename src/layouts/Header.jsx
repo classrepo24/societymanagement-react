@@ -8,6 +8,8 @@ export const Header = ({ setIsSidebarOpen,setMobileSidebarOpen }) => {
       {/* LEFT SECTION */}
       <div className="flex items-center gap-3 sm:gap-5 min-w-0">
 
+
+
         {/* MENU BUTTON */}
         <div className="flex items-center gap-2">
   
@@ -28,6 +30,9 @@ export const Header = ({ setIsSidebarOpen,setMobileSidebarOpen }) => {
   </button>
 
 </div>
+
+
+
 
         {/* SEARCH */}
         <div className="relative w-[180px] sm:w-[300px] md:w-[380px]">

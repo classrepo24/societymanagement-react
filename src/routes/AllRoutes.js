@@ -8,12 +8,16 @@ import RaiseComplaint from "../pages/Complaints/RaiseComplaint";
 
 import { MyComplaints } from "../pages/Complaints/MyComplaints";
 import { ComplaintCategories } from "../pages/Complaints/ComplaintCategories";
+import { Messages } from "../pages/dashboard/Messages";
+import { HelpAndSupport } from "../pages/dashboard/HelpAndSupport";
 
 const AllRoutes = () => {
   return (
    <Routes>
   <Route path="/" element={<Navigate to="/dashboard" />} />
   <Route path="/dashboard" element={<Dashboard />} />
+  <Route path = "/dashboard/messages" element={<Messages />} />
+  <Route path="/dashboard/help-support" element={<HelpAndSupport />} />
 
   {/* Complaints modeule */}
   <Route path="/complaints" element={<Complaints />} />

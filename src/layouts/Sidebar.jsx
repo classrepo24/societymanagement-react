@@ -1,15 +1,14 @@
 // IMPORTS
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useModal } from "../context/ModalContext";
 import { useState } from "react";
 
-export const Sidebar = ({ isSidebarOpen,mobileSidebarOpen ,setMobileSidebarOpen}) => {
+export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen }) => {
 
- // Sidebar submenu open/close state
+  // Sidebar submenu open/close state
   const [openMenus, setOpenMenus] = useState({});
 
-    // Current route information
+  // Current route information
   const location = useLocation();
 
 
@@ -35,7 +34,7 @@ export const Sidebar = ({ isSidebarOpen,mobileSidebarOpen ,setMobileSidebarOpen}
       path: "/resident",
       icon: "bi-people",
       label: "Residents",
-      
+
     },
 
 
@@ -113,19 +112,16 @@ export const Sidebar = ({ isSidebarOpen,mobileSidebarOpen ,setMobileSidebarOpen}
 
   // Module-specific quick links// only add like these in future
   const quickLinks = {
-
     dashboard: [
       {
+        path: "/dashboard/messages",
         icon: "bi-chat-dots",
         label: "Messages",
-        module: "dashboard",
-        type: "messages",
       },
       {
+        path: "/dashboard/help-support",
         icon: "bi-question-circle",
         label: "Help & Support",
-        module: "dashboard",
-        type: "helpSupport",
       },
     ],
 
@@ -157,43 +153,41 @@ export const Sidebar = ({ isSidebarOpen,mobileSidebarOpen ,setMobileSidebarOpen}
   );
 
 
-  // Modal actions
-  const { openModal } = useModal();
-  console.log("Sidebar loaded");
 
 
 
 
-
-// Common styling for sidebar links
+  // Common styling for sidebar links
   const linkClass = ({ isActive }) =>
     `flex items-center rounded-lg transition-all duration-200
      ${isSidebarOpen ? "gap-3 px-3 py-2 text-sm" : "justify-center py-2"}
      ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"}`;
 
 
-
-     
-
+console.log({
+  width: window.innerWidth,
+  mobileSidebarOpen,
+  isSidebarOpen,
+});
   return (
-//Jab mobile sidebar open ho to background dark ho aur user bahar click karke sidebar close kar sake
+    //Jab mobile sidebar open ho to background dark ho aur user bahar click karke sidebar close kar sake
 
-<>
-    {mobileSidebarOpen && (
-  <div
-    className="fixed inset-0 bg-black/50 z-40 md:hidden"
-    onClick={() => setMobileSidebarOpen(false)}
-  />
-)}
-{/* Mobile → sidebar page ke upar slide hokar aaye.
+    <>
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+      {/* Mobile → sidebar page ke upar slide hokar aaye.
 Desktop → normal layout me rahe.
 Mobile pe sidebar smoothly left se open/close ho.
 Mobile open → full sidebar show ho.
 Desktop expanded → full width.
 Desktop collapsed → icon only
 */}
-   <aside
-  className={`
+      <aside
+        className={`
     bg-[#01214a] text-white flex flex-col
     overflow-y-auto transition-all duration-300
       
@@ -203,186 +197,165 @@ Desktop collapsed → icon only
     ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
     md:translate-x-0
 
-   ${
-  mobileSidebarOpen
-    ? "w-[260px]"
-    : isSidebarOpen
-    ? "w-[260px]"
-    : "w-[80px]"
-}
+   ${mobileSidebarOpen
+            ? "w-[260px]"
+            : isSidebarOpen
+              ? "w-[260px]"
+              : "w-[80px]"
+          }
 
   `}
->
+      >
 
-      {/* LOGO */}
-      <div className="h-14 flex items-center px-3 border-b border-blue-900 flex-shrink-0">
-        <NavLink
-          to="/dashboard"
-          className={`flex items-center w-full ${isSidebarOpen ? "gap-2" : "justify-center"
-            }`}
-        >
-          <i className="bi bi-buildings text-2xl"></i>
+        {/* LOGO */}
+        <div className="h-14 flex items-center px-3 border-b border-blue-900 flex-shrink-0">
+          <NavLink
+            to="/dashboard"
+            onClick={() => setMobileSidebarOpen(false)}
+            className={`flex items-center w-full ${isSidebarOpen ? "gap-2" : "justify-center"
+              }`}
+          >
+            <i className="bi bi-buildings text-2xl"></i>
 
+            {(isSidebarOpen || mobileSidebarOpen) && (
+              <div className="leading-tight">
+                <h2 className="text-base font-bold">SOCIETY</h2>
+                <p className="text-[10px] text-blue-200"> MANAGEMENT SYSTEM</p>
+              </div>
+            )}
+          </NavLink>
+        </div>
+
+
+
+
+        {/* MAIN MENU HEADING */}
         {(isSidebarOpen || mobileSidebarOpen) && (
-            <div className="leading-tight">
-              <h2 className="text-base font-bold">SOCIETY</h2>
-              <p className="text-[10px] text-blue-200"> MANAGEMENT SYSTEM</p>
-            </div>
-          )}
-        </NavLink>
-      </div>
+          <p className="text-[10px] text-blue-300 px-2 mt-2 mb-1">
+            MAIN MENU
+          </p>
+        )}
 
-{/*  MAIN NAVIGATION MENU */}
-      {menuItems.map((item) =>
-        item.children ? (
-          <div key={item.label}>
-            <div className="flex items-center">
-              {/* Main Menu Link */}
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex-1 flex items-center rounded-lg transition-all duration-200
+        
+        {/* MAIN NAVIGATION MENU */}
+        {menuItems.map((item) =>
+          item.children ? (
+            <div key={item.label}>
+              <div className="flex items-center">
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex-1 flex items-center rounded-lg transition-all duration-200
             ${isSidebarOpen
-                    ? "gap-3 px-3 py-2 text-sm"
-                    : "justify-center py-2"
+                      ? "gap-3 px-3 py-2 text-sm"
+                      : "justify-center py-2"
+                    }
+            ${isActive
+                      ? "bg-[#095de8]"
+                      : "hover:bg-[#0b2f63]"
+                    }`
                   }
-            ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"}`
-                }
-              >
-                <i className={`${item.icon} text-lg`}></i>
-                {(isSidebarOpen || mobileSidebarOpen) && ( <span>{item.label}</span>)}
-              </NavLink>
-
-              {/* Arrow */} {/* Submenu Toggle Button */}
-              {isSidebarOpen && (
-                <button
-                  onClick={() => toggleMenu(item.label)}
-                  className="px-3 py-2 hover:bg-[#0b2f63] rounded-lg"
                 >
-                  <i
-                    className={`bi ${openMenus[item.label]
-                        ? "bi-chevron-down"
-                        : "bi-chevron-right"
-                      }`}
-                  />
-                </button>
-              )}
-            </div>
-
-
-{/* Child Navigation Links */}
-            {(openMenus[item.label] ||
-              item.children?.some((child) =>
-                location.pathname.startsWith(child.path)
-              )) &&
-              isSidebarOpen && (
-                <div className="ml-8 mt-1 space-y-1">
-                  {item.children.map((child) =>
-                    child.path ? (
-                      <NavLink
-                        key={child.label}
-                        to={child.path}
-                        className={({ isActive }) =>
-                          `block px-3 py-2 text-sm rounded-lg ${isActive
-                            ? "bg-[#095de8]"
-                            : "hover:bg-[#0b2f63]"
-                          }`
-                        }
-                      >
-                        {/* Single Navigation Item */}
-                        {child.label}
-                      </NavLink>
-
-                      
-                    ) : (
-                      <button
-                        key={child.label}
-                        onClick={() =>
-                          openModal({
-                            module: child.module,
-                            type: child.type,
-                          })
-                        }
-                        className="block w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-[#0b2f63]"
-                      >
-                        {child.label}
-                      </button>
-                    )
+                  <i className={`${item.icon} text-lg`}></i>
+                  {(isSidebarOpen || mobileSidebarOpen) && (
+                    <span>{item.label}</span>
                   )}
+                </NavLink>
+
+
+                {(isSidebarOpen || mobileSidebarOpen) && (
+                  <button
+                    onClick={() => toggleMenu(item.label)}
+                    className="px-3 py-2"
+                  >
+                    <i
+                      className={`bi ${openMenus[item.label]
+                          ? "bi-chevron-down"
+                          : "bi-chevron-right"
+                        }`}
+                    />
+                  </button>
+                )}
+              </div>
+
+              {openMenus[item.label] && (
+                <div className="ml-8 mt-1 space-y-1">
+                  {item.children.map((child) => (
+                    <NavLink
+                      key={child.path}
+                      to={child.path}
+                      onClick={() => setMobileSidebarOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-3 py-2 text-sm rounded-lg ${isActive
+                          ? "bg-[#095de8]"
+                          : "hover:bg-[#0b2f63]"
+                        }`
+                      }
+                    >
+                      {child.label}
+                    </NavLink>
+                  ))}
                 </div>
               )}
-          </div>
-        ) : (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={linkClass}
-          >
-            <i className={`${item.icon} text-lg`}></i>
-            {isSidebarOpen && <span>{item.label}</span>}
-          </NavLink>
-        )
-      )}
+            </div>
+          ) : (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={linkClass}
+              onClick={() => setMobileSidebarOpen(false)}
+            >
+              <i className={`${item.icon} text-lg`}></i>
+              {(isSidebarOpen || mobileSidebarOpen) && (
+                <span>{item.label}</span>
+              )}
+            </NavLink>
+          )
+        )}
 
-      {/* QUICK LINKS (BOTTOM BUT NOT FIXED) */}
-      {currentModule && (
-        <>
-        {(isSidebarOpen || mobileSidebarOpen) && (
-            <p className="text-[10px] text-blue-300 px-2 mt-2">
-              QUICK LINKS
-            </p>
-          )}
-{/* Route Based Quick Link */}
-          {quickLinks[currentModule].map((item) =>
-            item.path ? (
+
+
+        {/* QUICK LINKS (BOTTOM BUT NOT FIXED) */}
+        {currentModule && (
+          <>
+            {(isSidebarOpen || mobileSidebarOpen) && (
+              <p className="text-[10px] text-blue-300 px-2 mt-2">
+                QUICK LINKS
+              </p>
+            )}
+            {/* Route Based Quick Link */}
+            {quickLinks[currentModule].map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
+                onClick={() => setMobileSidebarOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center rounded-lg transition-all duration-200
-   ${isSidebarOpen
+      ${isSidebarOpen
                     ? "gap-2 px-3 py-2 text-sm"
                     : "justify-center py-2"
                   }
-   ${isActive
+      ${isActive
                     ? "bg-[#095de8]"
                     : "hover:bg-[#0b2f63]"
                   }`
                 }
               >
                 <i className={`bi ${item.icon}`}></i>
-                {(isSidebarOpen || mobileSidebarOpen) && item.label}
+                {(isSidebarOpen || mobileSidebarOpen) && (
+                  <span>{item.label}</span>
+                )}
               </NavLink>
-              
-            ) : (
-              <button
-                key={item.label}
-                onClick={() =>
-                  openModal({
-                    module: item.module,
-                    type: item.type,
-                  })
-                }
-                className={`flex items-center rounded-lg transition-all duration-200
-  ${isSidebarOpen
-                    ? "gap-2 px-3 py-2 text-sm"
-                    : "justify-center py-2"
-                  }
-  hover:bg-[#0b2f63]`}        >
-                <i className={`bi ${item.icon}`}></i>
-                {isSidebarOpen && item.label}
-              </button>
-            )
-          )}
-        </>
-      )}
+            ))}
+          </>
+        )}
 
-      {/* FOOTER */}
-      <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">
-        {isSidebarOpen ? "© 2025 Society System" : "©"}
-      </div>
+        {/* FOOTER */}
+        <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">
+          {isSidebarOpen ? "© 2025 Society System" : "©"}
+        </div>
 
-    </aside>
+      </aside>
     </>
   );
 };

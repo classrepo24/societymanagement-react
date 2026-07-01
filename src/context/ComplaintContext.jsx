@@ -172,7 +172,7 @@ categoryIcon: "bi-brush-fill",
 ]);
 
 
-// Complaint category list state
+// Complaint category
 const [categories, setCategories] = useState([
   {
     id: 1,
