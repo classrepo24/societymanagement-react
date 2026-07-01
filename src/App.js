@@ -5,7 +5,7 @@ import AllRoutes from "./routes/Allroutes";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
 
@@ -13,13 +13,18 @@ function App() {
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        mobileSidebarOpen={mobileSidebarOpen}
+        setMobileSidebarOpen={setMobileSidebarOpen}
       />
 
       {/* MAIN AREA */}
       <div className="flex flex-col flex-1 min-w-0">
 
         {/* HEADER */}
-        <Header setIsSidebarOpen={setIsSidebarOpen} />
+        <Header
+  setIsSidebarOpen={setIsSidebarOpen}
+  setMobileSidebarOpen={setMobileSidebarOpen}
+/>
 
         {/* CONTENT */}
         <main className="flex-1 overflow-auto min-w-0 p-4">

@@ -19,7 +19,6 @@ export const VisitorProvider = ({ children }) => {
       return "bg-gray-100 text-gray-700";
   }
 };
-const itemsPerPage = 5;
 
 
   
@@ -29,12 +28,7 @@ const itemsPerPage = 5;
         visitors,
      setVisitors,
      getStatusStyle,
-     itemsPerPage,
-     
-      
-
-         
-         }}>
+       }}>
       {children}
     </VisitorContext.Provider>
   );

@@ -1,213 +1,4 @@
-// import React,{useEffect,useRef} from "react";
-// import { NavLink, useLocation } from "react-router-dom";
 
-// export const Sidebar = ({ isSidebarOpen,setIsSidebarOpen}) => {
-//   const location = useLocation();
-//     const sidebarRef = useRef(null);
-
-//     useEffect(() => {
-//     const handleClickOutside = (event) => {
-//       if (
-//         window.innerWidth < 1024 &&
-//         sidebarRef.current &&
-//         !sidebarRef.current.contains(event.target)
-//       ) {
-//         setIsSidebarOpen(false);
-//       }
-//     };
-
-//     document.addEventListener("mousedown", handleClickOutside);
-
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, [setIsSidebarOpen]);
-
-//   const linkClass = ({ isActive }) =>
-//     `flex items-center rounded-lg transition-all duration-200
-//      ${isSidebarOpen ? "gap-3 px-3 py-2 text-sm" : "justify-center py-2"}
-//      ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"}`;
-
-//   return (
-//     <aside
-//   ref={sidebarRef}
-//   className={`
-//     bg-[#01214a] text-white flex flex-col
-//     transition-all duration-300 overflow-y-auto
-//     fixed lg:relative
-//     top-0 left-0 z-50 h-screen
-//     ${isSidebarOpen
-//       ? "translate-x-0 w-[260px]"
-//       : "-translate-x-full lg:translate-x-0 lg:w-[80px]"
-//     }
-//   `}
-// >
-//       {/* LOGO */}
-//       <div className="h-14 flex items-center px-3 border-b border-blue-900 flex-shrink-0">
-//         <NavLink
-//           to="/dashboard"
-//           className={`flex items-center w-full ${isSidebarOpen ? "gap-2" : "justify-center"
-//             }`}
-//         >
-//           <i className="bi bi-buildings text-2xl"></i>
-
-//           {isSidebarOpen && (
-//             <div className="leading-tight">
-//               <h2 className="text-base font-bold">SOCIETY</h2>
-//               <p className="text-[10px] text-blue-200"> MANAGEMENT SYSTEM</p>
-//             </div>
-//           )}
-//         </NavLink>
-//       </div>
-
-//       {/* MAIN MENU */}
-//       <div className="px-2 py-2 space-y-1">
-//         {isSidebarOpen && (
-//           <p className="text-[10px] text-blue-300 px-2 mt-2 mb-1">
-//             MAIN MENU
-//           </p>
-//         )}
-
-//         {[
-//           ["dashboard", "bi-microsoft", "Dashboard"],
-//           ["resident", "bi-people", "Residents"],
-//           ["flats", "bi-buildings", "Flats"],
-//           ["maintenance", "bi-tools", "Maintenance"],
-//           ["complaints", "bi-exclamation-circle", "Complaints"],
-//           ["visitors", "bi-person-badge", "Visitors"],
-//           ["staff", "bi-person-workspace", "Staff"],
-//           ["notices", "bi-megaphone", "Notices"],
-//           ["amenities", "bi-building-check", "Amenities"],
-//           ["reports", "bi-bar-chart", "Reports"],
-//           ["finance", "bi-cash-stack", "Finance"],
-//           ["settings", "bi-gear", "Settings"],
-//         ].map(([path, icon, label,closeOnClick]) => (
-
-//           <NavLink key={path} to={`/${path}`} className={linkClass}
-//           onClick={() => {
-//       if (window.innerWidth < 1024 && closeOnClick !== false) {
-//         setIsSidebarOpen(false);
-//       }
-//     }}>
-//             <i className={`${icon} text-lg `}></i>
-//             {isSidebarOpen && <span>{label}</span>}
-//           </NavLink>
-//         ))}
-//       </div>
-
-//       {/* QUICK LINKS (BOTTOM BUT NOT FIXED) */}
-//       <div className="px-2 py-2 space-y-1">
-
-//         {/* DASHBOARD */}
-//         {location.pathname === "/dashboard" && (
-//           <>
-//             {isSidebarOpen && (
-//               <p className="text-[10px] text-blue-300 px-2 mt-2">
-//                 OTHER
-//               </p>
-//             )}
-
-//             <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
-//               <i className="bi bi-chat-dots"></i>
-//               {isSidebarOpen && "Messages"}
-//             </button>
-
-//             <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
-//               <i className="bi bi-question-circle"></i>
-//               {isSidebarOpen && "Help & Support"}
-//             </button>
-//           </>
-//         )}
-
-//         {/* COMPLAINTS */}
-//         {location.pathname === "/complaints" && (
-//           <>
-//             {isSidebarOpen && (
-//               <p className="text-[10px] text-blue-300 px-2 mt-2">
-//                 QUICK LINKS
-//               </p>
-//             )}
-
-//             <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
-//               <i className="bi bi-plus-circle"></i>
-//               {isSidebarOpen && "Raise Complaint"}
-//             </button>
-
-//             <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
-//               <i className="bi bi-journal-check"></i>
-//               {isSidebarOpen && "My Complaints"}
-//             </button>
-
-//             <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#0b2f63] w-full text-sm">
-//               <i className="bi bi-folder2-open"></i>
-//               {isSidebarOpen && "Categories"}
-//             </button>
-//           </>
-//         )}
-//         {/* Visitors */}
-//         {location.pathname.startsWith("/visitors") && (
-//           <>
-//             {isSidebarOpen && (
-//               <p className="text-[10px] text-blue-300 px-2 mt-3">
-//                 QUICK LINKS
-//               </p>
-//             )}
-
-//             <NavLink
-//               to="/visitors/visitoradd"
-//               className={linkClass}
-//               onClick={() => {
-//     if (window.innerWidth < 1024) {
-//       setIsSidebarOpen(false);
-//     }
-//   }}
-//             >
-//               <i className="bi bi-person-plus text-lg"></i>
-//               {isSidebarOpen && <span>Add New Visitor</span>}
-//             </NavLink>
-
-//             <NavLink
-//               to="/visitors/visitorlog"
-//               className={linkClass}
-//               onClick={() => {
-//     if (window.innerWidth < 1024) {
-//       setIsSidebarOpen(false);
-//     }
-//   }}>
-//               <i className="bi bi-journal-text text-lg"></i>
-//               {isSidebarOpen && <span>Visitor Log</span>}
-//             </NavLink>
-
-//             <NavLink
-//               to="/visitors/visitor-preregister"
-//               className={linkClass}
-//               onClick={() => {
-//     if (window.innerWidth < 1024) {
-//       setIsSidebarOpen(false);
-//     }
-//   }}
-//             >
-//               <i className="bi bi-person-check text-lg"></i>
-//               {isSidebarOpen && <span>Pre-Registered Visitors</span>}
-//             </NavLink>
-
-
-//           </>
-//         )}
-//       </div>
-
-
-//       {/* FOOTER (ALWAYS VISIBLE) */}
-//       <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">
-//         {isSidebarOpen ? "©️ 2025 Society System" : "©️"}
-//       </div>
-
-//     </aside>
-//   );
-// };
-
-
-// IMPORTS
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -334,14 +125,6 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
     location.pathname.startsWith(`/${key}`)
   );
 
-
-  // Modal actions
-  console.log("Sidebar loaded");
-
-
-
-
-
   // Common styling for sidebar links
   const linkClass = ({ isActive }) =>
     `flex items-center rounded-lg transition-all duration-200
@@ -394,7 +177,7 @@ Desktop collapsed → icon only
         <div className="h-14 flex items-center px-3 border-b border-blue-900 flex-shrink-0">
           <NavLink
             to="/dashboard"
-            className={`flex items-center w-full ${isSidebarOpen ? "gap-2" : "justify-center"
+            className={`flex items-center w-full ${isSidebarOpen  ? "gap-2" : "justify-center"
               }`}
           >
             <i className="bi bi-buildings text-2xl"></i>
@@ -408,9 +191,13 @@ Desktop collapsed → icon only
           </NavLink>
         </div>
 
-        {/*  MAIN NAVIGATION MENU */}
-        <div className="flex flex-col gap-2 px-2 py-3">
-
+{/* MAIN MENU HEADING */}
+<div className="flex flex-col gap-2 px-2 py-3">
+{(isSidebarOpen || mobileSidebarOpen) && (
+  <p className="text-[10px] text-blue-300 px-2 mt-2 mb-1">
+    MAIN MENU
+  </p>
+)}
         {menuItems.map((item) =>
           item.children ? (
             <div key={item.label}>
@@ -432,7 +219,7 @@ Desktop collapsed → icon only
                 </NavLink>
 
                 {/* Arrow /} {/ Submenu Toggle Button */}
-                {isSidebarOpen && (
+                {(isSidebarOpen || mobileSidebarOpen) && (
                   <button
                     onClick={() => toggleMenu(item.label)}
                     className="px-3 py-2 hover:bg-[#0b2f63] rounded-lg"
@@ -462,6 +249,7 @@ Desktop collapsed → icon only
                       <NavLink
                         key={child.label}
                         to={child.path}
+                        onClick={() => setMobileSidebarOpen(false)}
                         className={({ isActive }) =>
                           `block px-3 py-2 text-sm rounded-lg ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"
                           }`
@@ -478,13 +266,14 @@ Desktop collapsed → icon only
               key={item.path}
               to={item.path}
               className={linkClass}
+                                      onClick={() => setMobileSidebarOpen(false)}
+
             >
               <i className={`${item.icon} text-lg`}></i>
-              {isSidebarOpen && <span>{item.label}</span>}
+              {(isSidebarOpen || mobileSidebarOpen) && <span>{item.label}</span>}
             </NavLink>
           )
         )}
-        </div>
 
         {/* QUICK LINKS */}
         {currentModule && (
@@ -499,9 +288,11 @@ Desktop collapsed → icon only
               <NavLink
                 key={item.path}
                 to={item.path}
+                                        onClick={() => setMobileSidebarOpen(false)}
+
                 className={({ isActive }) =>
                   `flex items-center rounded-lg transition-all duration-200
-                ${isSidebarOpen
+                ${isSidebarOpen 
                     ? "gap-2 px-3 py-2 text-sm"
                     : "justify-center py-2"
                   }
@@ -517,8 +308,10 @@ Desktop collapsed → icon only
                 )}
               </NavLink>
             ))}
+          
           </>
         )}
+        </div>
 
         {/* FOOTER */}
         <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">

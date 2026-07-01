@@ -1,17 +1,13 @@
-import React from "react";
+import useTable from "../../hooks/useTable";
 import * as XLSX from "xlsx";
 import { useVisitors } from "../../context/VisitorContext";
 import { useState } from "react";
 const VisitorLog = () => {
   const { visitors,
     getStatusStyle,
-    itemsPerPage,
     monthGrowth,
-
-
   } = useVisitors();
 
-  const [currentPage, setCurrentPage] = useState(1);
   //filter
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -21,10 +17,6 @@ const VisitorLog = () => {
   const [purposeFilter, setPurposeFilter] = useState("All");
   const [appliedStatus, setAppliedStatus] = useState("All");
   const [appliedPurpose, setAppliedPurpose] = useState("All");
-
-  //sorting
-  const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc");
 
   // cards total calculation
   const checkedInCount = visitors.filter(v => v.status === "inside").length;
@@ -51,70 +43,19 @@ const VisitorLog = () => {
 
     return statusMatch && purposeMatch && startMatch && endMatch;
   });
+const itemsPerPage = 5;
+  const {
+  currentPage,
+  setCurrentPage,
+  sortField,
+  sortOrder,
+  sortedData: sortedVisitors,
+  paginatedData: paginatedVisitors,
+  totalPages,
+  handleSort,
+} = useTable(filteredVisitors,itemsPerPage);
 
-
-  const getSortValue = (field, value) => {
-    if (!value) return "";
-
-    // ID → number
-    if (field === "id") return Number(value);
-
-    // Date → timestamp
-    if (field === "date") return new Date(value).getTime();
-
-    // Time fields → convert to minutes
-    if (field === "inTime" || field === "outTime") {
-      const [time, modifier] = value.split(" ");
-      let [hours, minutes] = time.split(":").map(Number);
-
-      if (modifier === "PM" && hours !== 12) hours += 12;
-      if (modifier === "AM" && hours === 12) hours = 0;
-
-      return hours * 60 + minutes;
-    }
-
-    // default string
-    return value.toString().toLowerCase();
-  };
-
-  //sorting
-  const sortedVisitors = [...filteredVisitors].sort((a, b) => {
-    if (!sortField) return 0;
-
-    const aVal = getSortValue(sortField, a[sortField]);
-    const bVal = getSortValue(sortField, b[sortField]);
-
-    if (aVal === bVal) return 0;
-
-    return sortOrder === "asc"
-      ? aVal > bVal ? 1 : -1
-      : aVal < bVal ? 1 : -1;
-  });
-
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-
-    setCurrentPage(1);
-  };
-
-
-
-  //pagination
-  const totalPages = Math.ceil(filteredVisitors.length / itemsPerPage);
-
-  const paginatedVisitors = sortedVisitors.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-
-  // export function
-
+//export excel file
   const exportToExcel = () => {
   const data = sortedVisitors.map((visitor) => ({
     ID: visitor.id,
@@ -344,7 +285,7 @@ const VisitorLog = () => {
 
       {/* Table */}
       <div className="bg-white rounded-xl shadow overflow-x-auto">
-        <div className="w-max md:min-w-full">
+        <div className="w-max md:min-w-full border">
           <table className="w-max min-w-full text-xs md:text-sm whitespace-nowrap">
             <thead className="bg-gray-100 text-xs md:text-sm">
               <tr className="text-left">
@@ -633,7 +574,7 @@ const VisitorLog = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 p-5">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 p-2">
           <p className="text-gray-500 text-sm whitespace-nowwrap">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
             {Math.min(currentPage * itemsPerPage, visitors.length)} of{" "}

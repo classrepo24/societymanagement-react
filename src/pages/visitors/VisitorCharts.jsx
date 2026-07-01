@@ -18,7 +18,7 @@ const COLORS = ["#2563eb", "#22c55e", "#f59e0b", "#8b5cf6", "#64748b"];
 
 const VisitorCharts = ({ totalVisitors, visitors }) => {
 
-  // ✅ DONUT DATA (REAL)
+  //  DONUT DATA (REAL)
   const purposeData = [
     {
       name: "Personal",
@@ -44,7 +44,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
     }
   ];
 
-  // ✅ LINE CHART DATA (REAL)
+  // LINE CHART DATA (REAL)
   const timeData = Array.from({ length: 24 }, (_, i) => ({
     time: `${i}:00`,
     visitors: visitors.filter(v =>

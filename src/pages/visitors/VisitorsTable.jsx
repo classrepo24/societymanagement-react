@@ -1,42 +1,43 @@
 import React, { useState } from 'react'
 
+import useTable from "../../hooks/useTable";
+import { useVisitors } from "../../context/VisitorContext";
+
+
 const VisitorsTable = ({
   activeTab,
   setActiveTab,
-  currentPage,
-  setCurrentPage,
-  filteredVisitors,
-  paginatedVisitors,
-  totalPages,
-  startPage,
-  endPage,
-  itemsPerPage,
-  getStatusStyle,
-  sortField,
-  sortOrder,
-  setSortField,
-  setSortOrder,
-  showSortIcons,
-  setShowSortIcons,
   setSelectedVisitor,
   setShowVisitorModal,
   setShowDeleteModal,
   setVisitorToDelete,
-
 }) => {
-  const handleSort = (field) => {
-    setShowSortIcons((prev) => ({
-      ...prev,
-      [field]: true,
-    }));
 
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
+  const { visitors, getStatusStyle } = useVisitors();
+  
+
+  const filteredVisitors = visitors.filter((visitor) => {
+    if (activeTab === "All Visitors") return true;
+    if (activeTab === "Inside Society") return visitor.status === "inside";
+    if (activeTab === "Exited") return visitor.status === "exited";
+    if (activeTab === "Pre Registered") return visitor.status === "preRegistered"; // future use
+    return true;
+  });
+
+      const itemsPerPage=5;
+
+
+  const {
+    currentPage,
+    setCurrentPage,
+    sortField,
+    sortOrder,
+    paginatedData: paginatedVisitors,
+    totalPages,
+    handleSort,
+  } = useTable(filteredVisitors,itemsPerPage);
+
+
 
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -338,7 +339,7 @@ const VisitorsTable = ({
                       </span>
                     </td>
 
-                    {/* ✅ IMPORTANT: Actions column added */}
+                     {/* Actions column added */} 
                     <td className="pl-4">
                       <button
                         className="w-8 h-8 border rounded-md text-blue-600 mr-2 hover:bg-blue-50"

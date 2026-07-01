@@ -1,5 +1,5 @@
 import React from "react";
- import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const VisitorsHeaderSection = ({
   visitorsToday,
   thisWeek,
@@ -10,7 +10,7 @@ const VisitorsHeaderSection = ({
   monthGrowth,
 }) => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const cards = [
     {
       title: "Visitors Today",
@@ -32,7 +32,7 @@ const VisitorsHeaderSection = ({
       title: "This Month",
       value: thisMonth,
       growth: monthGrowth,
-      icon:"bi bi-bar-chart-fill",
+      icon: "bi bi-bar-chart-fill",
       bg: "bg-purple-100",
       color: "text-purple-600",
     },
@@ -64,22 +64,22 @@ const VisitorsHeaderSection = ({
           </p>
         </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           <button
-  onClick={() => navigate("/visitors/visitor-preregister")}
-  className="px-4 py-2 border rounded-lg text-sm"
->
-  <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
-</button>
+            onClick={() => navigate("/visitors/visitor-preregister")}
+            className="px-4 py-2 border rounded-lg text-sm"
+          >
+            <i className="bi bi-person-fill-gear"></i> Pre-Register Visitor
+          </button>
 
-<button
-  onClick={() => navigate("/visitors/visitoradd")}
-  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
->
-  <i className="bi bi-plus"></i> Add New Visitor
-</button>
+          <button
+            onClick={() => navigate("/visitors/visitoradd")}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+          >
+            <i className="bi bi-plus"></i> Add New Visitor
+          </button>
 
-          
+
         </div>
       </div>
 
@@ -88,19 +88,19 @@ const VisitorsHeaderSection = ({
         {cards.map((card, index) => (
           <div
             key={index}
-className="bg-white p-4 rounded-xl shadow flex items-start gap-4 min-h-[120px]">
+            className="bg-white p-4 rounded-xl shadow flex items-start gap-4 min-h-[120px]">
             <div
               className={`w-16 h-16 ${card.bg} ${card.color} rounded-full flex items-center justify-center text-xl`}
             >
-                  <i className={card.icon}></i>
+              <i className={card.icon}></i>
             </div>
 
             <div>
               <p className="text-gray-500 text-sm">{card.title}</p>
 
-             <h2 className="text-xl sm:text-2xl font-bold">{card.value ?? 0}</h2>
+              <h2 className="text-xl sm:text-2xl font-bold">{card.value ?? 0}</h2>
 
-              {/* 🔥 GROWTH ADDED HERE */}
+              {/* GROWTH ADDED HERE */}
 
               {typeof card.growth === "number" && (
                 <p className="text-xs mt-1">
@@ -123,15 +123,15 @@ className="bg-white p-4 rounded-xl shadow flex items-start gap-4 min-h-[120px]">
                         ? "from last week"
                         : index === 2
                           ? "from last month"
-                         : ""}
+                          : ""}
                   </span>
                 </p>
               )}
               {card.subtitle && (
-             <p className="text-xs text-black-500 mt-1">
-            {card.subtitle}
-            </p>
-            )}
+                <p className="text-xs text-black-500 mt-1">
+                  {card.subtitle}
+                </p>
+              )}
             </div>
           </div>
         ))}

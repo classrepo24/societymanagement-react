@@ -1,25 +1,27 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import useTable from "../../hooks/useTable";
 const InsideVisitorsTable = ({
   showAllVisitors,
   setShowAllVisitors,
   insideVisitors,
-  setInsideVisitors,
   setVisitors,
   setSelectedVisitor,
-  setShowVisitorModal,
+  setShowVisitorModal,  
+}) => {
+
+
+  const itemsPerPage = 7;
+
+const {
+  currentPage,
+  setCurrentPage,
   sortField,
   sortOrder,
-  setSortField,
-  setSortOrder,
+  paginatedData: paginatedVisitors,
+  sortedData: sortedVisitors,
+  totalPages,
+  handleSort,
+} = useTable(insideVisitors, itemsPerPage);
   
-}) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-  setCurrentPage(1);
-}, [sortField, sortOrder]);
-
   const handleCheckout = (phone) => {
   const outTime = Date.now();
 
@@ -58,37 +60,22 @@ const InsideVisitorsTable = ({
     })
   );
 };
-const sortedVisitors = [...insideVisitors].sort((a, b) => {
-  if (!sortField) return 0;
 
-  const aVal = a[sortField] ?? "";
-  const bVal = b[sortField] ?? "";
-
-  return sortOrder === "asc"
-    ? aVal.toString().localeCompare(bVal.toString())
-    : bVal.toString().localeCompare(aVal.toString());
-});
   //pagination
 
-  const itemsPerPage = 7;
-
-  const totalPages = Math.ceil(insideVisitors.length / itemsPerPage);
-
-  const paginatedVisitors = sortedVisitors.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const startEntry = (currentPage - 1) * itemsPerPage + 1;
-
-  const endEntry = Math.min(
-    currentPage * itemsPerPage,
-    insideVisitors.length
-  );
-  
   const finalVisitors = showAllVisitors
   ? paginatedVisitors
   : sortedVisitors.slice(0, 1);
+//entries
+  const startEntry =
+  insideVisitors.length === 0
+    ? 0
+    : (currentPage - 1) * itemsPerPage + 1;
+
+const endEntry = Math.min(
+  currentPage * itemsPerPage,
+  insideVisitors.length
+);
   return (
     <>
       <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
@@ -101,14 +88,7 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
             <thead className="bg-green-50 border-b text-grey-500 text-md">
               <tr>
                 <th
-  onClick={() => {
-    if (sortField === "name") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("name");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("name")}
   className="text-left pl-8 p-2 whitespace-nowrap cursor-pointer"
 >
   <div className="flex items-center">
@@ -139,14 +119,8 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
 </th>
                 
                 <th
-  onClick={() => {
-    if (sortField === "whom") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("whom");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("whom")}
+
   className="cursor-pointer"
 >
   <div className="flex items-center">
@@ -159,14 +133,8 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
 </th>
                 
                 <th
-  onClick={() => {
-    if (sortField === "flat") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("flat");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("flat")}
+
   className="cursor-pointer"
 >
   <div className="flex items-center">
@@ -180,14 +148,8 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
 
                 
                 <th
-  onClick={() => {
-    if (sortField === "purpose") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("purpose");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("purpose")}
+
   className="cursor-pointer"
 >
   <div className="flex items-center">
@@ -200,14 +162,8 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
 </th>
                 
                 <th
-  onClick={() => {
-    if (sortField === "inTime") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("inTime");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("inTime")}
+
   className="cursor-pointer"
 >
   <div className="flex items-center">
@@ -220,14 +176,8 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
 </th>
                 
                 <th
-  onClick={() => {
-    if (sortField === "outTime") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("outTime");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("outTime")}
+
   className="cursor-pointer"
 >
   <div className="flex items-center">
@@ -244,14 +194,7 @@ const sortedVisitors = [...insideVisitors].sort((a, b) => {
                 </th>
                 
                 <th
-  onClick={() => {
-    if (sortField === "status") {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField("status");
-      setSortOrder("asc");
-    }
-  }}
+  onClick={() => handleSort("status")}
   className="cursor-pointer"
 >
   <div className="flex items-center">
