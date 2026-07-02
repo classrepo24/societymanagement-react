@@ -1,7 +1,22 @@
-import React from 'react'
+import { createContext, useContext, useState } from "react";
 
-export const ModalContext = () => {
+const ModalContext = createContext();
+
+export const ModalProvider = ({ children }) => {
+  const [modal, setModal] = useState(null);
+
+  const openModal = (payload) => {
+    console.log("OPEN MODAL:", payload); 
+    setModal(payload);
+  };
+
+  const closeModal = () => setModal(null);
+
   return (
-    <div>ModalContext</div>
-  )
-}
+    <ModalContext.Provider value={{ modal, openModal, closeModal }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
+export const useModal = () => useContext(ModalContext);

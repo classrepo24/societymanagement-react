@@ -4,15 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { store } from "../src/pages/resident/store/store";
+import { store } from "./store/residentStore/store";
 import { BrowserRouter } from "react-router-dom";
+import { ModalProvider } from "./context/ModalContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,
