@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { addNotes } from '../store/notesSlice';
+import { addNotes } from '../../../store/residentStore/notesSlice';
 
 export const NotesForm = ({
   residentData,

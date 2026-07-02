@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { addVehicles } from '../store/vehiclesSllice';
+import { addVehicles } from '../../../store/residentStore/vehiclesSllice';
 
 
 export const VehiclesForm = ({

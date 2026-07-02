@@ -4,7 +4,7 @@ import { FamilyForm } from './FamilyForm'
 import { VehiclesForm } from './VehiclesForm'
 import { NotesForm } from './NotesForm'
 import { useDispatch } from 'react-redux'
-import { addResident } from '../store/residentSlice'
+import { addResident } from '../../../store/residentStore/residentSlice'
 
 export const ResidentProfileForm = () => {
     const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { addResident } from '../store/residentSlice';
+import { addResident } from '../../../store/residentStore/residentSlice';
 
 export const ProfilyForm = ({
     residentData,

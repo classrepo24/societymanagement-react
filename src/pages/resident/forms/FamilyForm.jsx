@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { addFamily } from '../store/familySlice';
+import { addFamily } from '../../../store/residentStore/familySlice';
 
 
 export const FamilyForm = ({
