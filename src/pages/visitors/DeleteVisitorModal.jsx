@@ -4,7 +4,6 @@ const DeleteVisitorModal = ({
   show,
   onClose,
   onDelete,
-  visitor,
 }) => {
   if (!show) return null;
 

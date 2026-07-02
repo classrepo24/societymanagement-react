@@ -1,4 +1,4 @@
-import { Routes,Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Login from "../pages/authentication/Login";
 import Personalinfo from "../pages/authentication/Personalinfo";
@@ -12,10 +12,11 @@ import ResetPassword from "../pages/authentication/ResetPassword";
 import PassSuccess from "../pages/authentication/PassSuccess";
 
 import Registration from "../pages/authentication/Registration";
-import  Visitors  from "../pages/visitors/Visitors";
+import Visitors from "../pages/visitors/Visitors";
 import VisitorLog from "../pages/visitors/VisitorLog";
 import AddVisitorModal from "../pages/visitors/AddVisitorModal";
 import PreRegisterVisitorModal from "../pages/visitors/PreRegisterVisitorModal";
+import Staff from "../pages/staff/Staff";
 
 const Allroutes = () => {
   return (
@@ -36,7 +37,7 @@ const Allroutes = () => {
       <Route path="/forgot" element={<Forgot />} />
       <Route
         path="/forgotcodeverification"
-        element={<ForgotCodeVerification />}                
+        element={<ForgotCodeVerification />}
       />
       <Route
         path="/resetpassword"
@@ -45,15 +46,18 @@ const Allroutes = () => {
       <Route
         path="/passsuccess"
         element={<PassSuccess />}
+      />
 
-      />          
-     <Route path="/visitors" element={<Visitors />}>
-    <Route path="visitoradd" element={<AddVisitorModal />} />
-    <Route path="visitorlog" element={<VisitorLog />} />
-    <Route path="visitor-preregister"element={<PreRegisterVisitorModal />}/>
-    </Route>
+      <Route path="/visitors" element={<Visitors />}>
+        <Route path="visitoradd" element={<AddVisitorModal />} />
+        <Route path="visitorlog" element={<VisitorLog />} />
+        <Route path="visitor-preregister" element={<PreRegisterVisitorModal />} />
+      </Route>
 
-      </Routes>
+        <Route path="staff" element={<Staff/>} />
+
+          
+    </Routes>
 
   );
 };

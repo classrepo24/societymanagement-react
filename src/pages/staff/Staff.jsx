@@ -1,18 +1,15 @@
+import React, { useState } from "react";
 import useTable from "../../hooks/useTable";
 import * as XLSX from "xlsx";
 import { useVisitors } from "../../context/VisitorContext";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
-import {useNavigate } from "react-router-dom";
 
-import { useState } from "react";
-const VisitorLog = () => {
+const Staff = () => {
   const { visitors,
     getStatusStyle,
     monthGrowth,
   } = useVisitors();
-
-  const navigate = useNavigate();
 
   //filter
   const [startDate, setStartDate] = useState("");
@@ -87,34 +84,42 @@ const VisitorLog = () => {
   };
   const cards = [
     {
-      title: "Total Visitors",
+      title: "Total Staff",
       value: visitors.length,
+            subtitle:"All Staf Members",
+
       growth: monthGrowth ? `${monthGrowth}%` : "+0%",
       icon: "bi bi-people-fill",
       bg: "bg-blue-100",
       color: "text-blue-600",
     },
     {
-      title: "Checked In",
+      title: "Active Staff",
       value: checkedInCount,
+            subtitle:"Currently Working",
+
       growth: "+10%",
-      icon: "bi bi-box-arrow-in-right",
+      icon: "bi bi-person-fill-gear",
       bg: "bg-green-100",
       color: "text-green-600",
     },
     {
-      title: "Checked Out",
+      title: "Departments",
       value: checkedOutCount,
+      subtitle:"Different departments",
+
       growth: "+8%",
       icon: "bi bi-box-arrow-right",
       bg: "bg-orange-100",
       color: "text-orange-600",
     },
     {
-      title: "Avg Visit Duration",
+      title: "On Leave",
       value: avgVisitorsPerDay,
+            subtitle:"Currently on Leave",
+
       growth: "+5%",
-      icon: "bi bi-clock-history",
+      icon: "bi bi-person-check",
       bg: "bg-purple-100",
       color: "text-purple-600",
     },
@@ -126,64 +131,52 @@ const VisitorLog = () => {
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
         <div>
           <p className="text-sm text-gray-500">
-           <button onClick={()=>navigate("/dashboard")}>Dashboard</button> / 
-            <button onClick={()=>navigate("/visitors")}>Visitors </button>/
-            <span className="font-semibold text-black"> Visitor Log</span>
+            Dashboard / 
+            <span className="font-semibold text-black"> Staff</span>
           </p>
 
-          <h1 className="text-3xl font-bold mt-2">Visitor Log</h1>
+          <h1 className="text-3xl font-bold mt-2">Staff Management</h1>
 
           <p className="text-gray-500 mt-1">
-            View and manage all visitor history and visit details.
+            View and manage all society staff members.
           </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className=" flex  w-[150px]">
           <button
-            onClick={exportToExcel}
-            className="border rounded-lg px-4 py-2"
-          >
-            <i className="bi bi-download me-2"></i>
-            Export
-          </button>
+              onClick={() => {
+                setAppliedStatus(statusFilter);
+                setAppliedPurpose(purposeFilter);
+
+                setAppliedStartDate(startDate);
+                setAppliedEndDate(endDate);
+
+                setCurrentPage(1);
+              }}
+              className="bg-blue-600 text-white rounded-lg  h-10 px-4 flex-1 whitespace-nowrap text-sm"
+            >
+             <i className="bi bi-plus-lg"></i> Add New Staff
+            </button>
         </div>
       </div>
+
+      {/* Cards */}
+      <StatsCards cards={cards} />
 
       {/* Filter */}
       <div className="bg-white rounded-xl shadow p-5 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
           <div>
-            <label className="text-sm font-medium">Date Range</label>
 
-            <div className="flex flex-col sm:flex-row gap-2 border rounded-lg p-2 mt-2 bg-white">
+            <div className="flex flex-col sm:flex-row gap-2 border rounded-lg p-1.5 mt-8 bg-white">
               {/* Start Date */}
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="outline-none bg-transparent text-sm w-full min-w-0"
-              />
-
-
-              {/* End Date */}
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="outline-none bg-transparent text-sm w-full min-w-0"
-              />
-
+              <input type="text"
+              placeholder="Search staff by name,role,department..."/>
             </div>
           </div>
           <div>
             <label className="text-sm font-medium">Purpose</label>
-
+   
             <select
               className="border rounded-lg p-2 w-full mt-2"
               value={purposeFilter}
@@ -246,26 +239,21 @@ const VisitorLog = () => {
               Reset
             </button>
 
-            <button
-              onClick={() => {
-                setAppliedStatus(statusFilter);
-                setAppliedPurpose(purposeFilter);
-
-                setAppliedStartDate(startDate);
-                setAppliedEndDate(endDate);
-
-                setCurrentPage(1);
-              }}
-              className="bg-blue-600 text-white rounded-lg  h-10 px-4 flex-1 whitespace-nowrap text-sm"
-            >
-              Apply Filters
-            </button>
-          </div>
+            <div className="flex gap-3">
+          <button
+            onClick={exportToExcel}
+            className="border rounded-lg px-4 py-2"
+          >
+            <i className="bi bi-download me-2"></i>
+            Export
+          </button>
         </div>
       </div>
 
-      {/* Cards */}
-      <StatsCards cards={cards} />
+            
+          </div>
+        </div>
+    
 
       {/* Table */}
       <div className="bg-white rounded-xl shadow overflow-x-auto">
@@ -517,5 +505,5 @@ const VisitorLog = () => {
   );
 };
 
-export default VisitorLog;
+export default Staff;
 

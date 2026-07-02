@@ -1,81 +1,81 @@
 import useTable from "../../hooks/useTable";
+import SortableHeader from "../../component/SortableHeader";
+
 const InsideVisitorsTable = ({
   showAllVisitors,
   setShowAllVisitors,
   insideVisitors,
   setVisitors,
-  setSelectedVisitor,
-  setShowVisitorModal,  
 }) => {
 
 
   const itemsPerPage = 7;
 
-const {
-  currentPage,
-  setCurrentPage,
-  sortField,
-  sortOrder,
-  paginatedData: paginatedVisitors,
-  sortedData: sortedVisitors,
-  totalPages,
-  handleSort,
-} = useTable(insideVisitors, itemsPerPage);
-  
+  const {
+    currentPage,
+    setCurrentPage,
+    sortField,
+    sortOrder,
+    paginatedData: paginatedVisitors,
+    sortedData: sortedVisitors,
+    totalPages,
+    handleSort,
+  } = useTable(insideVisitors, itemsPerPage);
+
   const handleCheckout = (phone) => {
-  const outTime = Date.now();
+    const outTime = Date.now();
 
-  setVisitors(prev =>
-    prev.map(v => {
-      if (v.phone !== phone) return v;
+    setVisitors(prev =>
+      prev.map(v => {
+        if (v.phone !== phone) return v;
 
-      // convert string OR fallback
-      let inTime = v.inTime;
+        // convert string OR fallback
+        let inTime = v.inTime;
 
-      // agar string hai to try convert
-      if (typeof inTime === "string") {
-        inTime = Date.parse(inTime); 
-      }
+        // agar string hai to try convert
+        if (typeof inTime === "string") {
+          inTime = Date.parse(inTime);
+        }
 
-      if (!inTime || isNaN(inTime)) {
+        if (!inTime || isNaN(inTime)) {
+          return {
+            ...v,
+            status: "exited",
+            outTime: new Date(outTime).toLocaleTimeString(),
+            duration: "0h 0m",
+          };
+        }
+
+        const diffMs = outTime - inTime;
+
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
         return {
           ...v,
           status: "exited",
           outTime: new Date(outTime).toLocaleTimeString(),
-          duration: "0h 0m",
+          duration: `${hours}h ${minutes}m`,
         };
-      }
-
-      const diffMs = outTime - inTime;
-
-      const hours = Math.floor(diffMs / (1000 * 60 * 60));
-      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-      return {
-        ...v,
-        status: "exited",
-        outTime: new Date(outTime).toLocaleTimeString(),
-        duration: `${hours}h ${minutes}m`,
-      };
-    })
-  );
-};
+      })
+    );
+  };
 
   //pagination
 
   const finalVisitors = showAllVisitors
-  ? paginatedVisitors
-  : sortedVisitors.slice(0, 1);
-//entries
+    ? paginatedVisitors
+    : sortedVisitors.slice(0, 1);
+  //entries
   const startEntry =
-  insideVisitors.length === 0
-    ? 0
-    : (currentPage - 1) * itemsPerPage + 1;
+    insideVisitors.length === 0
+      ? 0
+      : (currentPage - 1) * itemsPerPage + 1;
 
-const endEntry = Math.min(
-  currentPage * itemsPerPage,
-  insideVisitors.length
-);
+  const endEntry = Math.min(
+    currentPage * itemsPerPage,
+    insideVisitors.length
+  );
   return (
     <>
       <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
@@ -85,132 +85,75 @@ const endEntry = Math.min(
 
         <div className="overflow-x-auto w-full">
           <table className="w-full min-w-[900px] text-sm">
-            <thead className="bg-green-50 border-b text-grey-500 text-md">
+
+            <thead className="bg-green-50 border-b text-gray-900 text-md">
               <tr>
-                <th
-  onClick={() => handleSort("name")}
-  className="text-left pl-8 p-2 whitespace-nowrap cursor-pointer"
->
-  <div className="flex items-center">
-    Visitor Details
+                <SortableHeader
+                  label="Visitor Details"
+                  field="name"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                  className="text-left pl-2 py-2 whitespace-nowrap"
+                />
 
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span
-        className={
-          sortField === "name" && sortOrder === "asc"
-            ? "text-blue-600 font-bold"
-            : "text-gray-400"
-        }
-      >
-        ▲
-      </span>
+                <SortableHeader
+                  label="Whom to Visit"
+                  field="whom"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
 
-      <span
-        className={
-          sortField === "name" && sortOrder === "desc"
-            ? "text-blue-600 font-bold"
-            : "text-gray-400"
-        }
-      >
-        ▼
-      </span>
-    </span>
-  </div>
-</th>
-                
-                <th
-  onClick={() => handleSort("whom")}
+                <SortableHeader
+                  label="Flat/Wing"
+                  field="flat"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
 
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    Whom to Visit
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "whom" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "whom" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
-                
-                <th
-  onClick={() => handleSort("flat")}
+                <SortableHeader
+                  label="Purpose"
+                  field="purpose"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
 
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    Flat/Wing
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "flat" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "flat" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
+                <SortableHeader
+                  label="In Time"
+                  field="inTime"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
 
-                
-                <th
-  onClick={() => handleSort("purpose")}
-
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    Purpose
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "purpose" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "purpose" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
-                
-                <th
-  onClick={() => handleSort("inTime")}
-
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    In Time
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "inTime" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "inTime" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
-                
-                <th
-  onClick={() => handleSort("outTime")}
-
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    Out Time
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "outTime" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "outTime" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
+                <SortableHeader
+                  label="Out Time"
+                  field="outTime"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
 
                 <th className="text-left whitespace-nowrap">
                   Contact
                 </th>
-                
-                <th
-  onClick={() => handleSort("status")}
-  className="cursor-pointer"
->
-  <div className="flex items-center">
-    Status
-    <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-      <span className={sortField === "status" && sortOrder === "asc" ? "text-blue-600 font-bold" : "text-gray-400"}>▲</span>
-      <span className={sortField === "status" && sortOrder === "desc" ? "text-blue-600 font-bold" : "text-gray-400"}>▼</span>
-    </span>
-  </div>
-</th>
-                <th className="text-left whitespace-nowrap">
+
+                <SortableHeader
+                  label="Status"
+                  field="status"
+                  sortField={sortField}
+                  sortOrder={sortOrder}
+                  handleSort={handleSort}
+                />
+
+                <th className="text-l  whitespace-nowrap">
                   Actions
                 </th>
               </tr>
             </thead>
-
             <tbody>
               {finalVisitors.map((v) => (
                 <tr
@@ -266,28 +209,19 @@ const endEntry = Math.min(
                     {v.phone}
                   </td>
                   <td className="whitespace-nowrap">
-                      <span
-                        className={`px-3 py-1 rounded-md text-xs font-medium  ${v.status === "inside"
-                          ? "bg-green-100 text-green-700 "
-                          : "bg-gray-100 text-gray-700 border-gray-300"
-                          }`}
-                      >
-                        {v.status === "inside" ? "inside" : "Exited"}
-                      </span>
-                    </td>
+                    <span
+                      className={`px-3 py-1 rounded-md text-xs font-medium  ${v.status === "inside"
+                        ? "bg-green-100 text-green-700 "
+                        : "bg-gray-100 text-gray-700 border-gray-300"
+                        }`}
+                    >
+                      {v.status === "inside" ? "inside" : "Exited"}
+                    </span>
+                  </td>
 
-                  <td className="whitespace-nowrap">
-                    <div className="flex gap-2">
-                      <button
-                        className="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center"
-                        onClick={() => {
-                          setSelectedVisitor(v);
-                          setShowVisitorModal(true);
-                        }}
-                      >
-                        <i className="bi bi-eye"></i>
-                      </button>
-
+                  <td className="whitespace-nowrap ">
+                    <div className="flex justify-center">
+                      
                       <button
                         onClick={() => handleCheckout(v.phone)}
                         disabled={v.status === "exited"}
@@ -341,8 +275,8 @@ const endEntry = Math.min(
                     key={page}
                     onClick={() => setCurrentPage(page)}
                     className={`w-8 h-8 rounded border flex items-center justify-center ${currentPage === page
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white text-gray-700 border-gray-300"
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
                     {page}

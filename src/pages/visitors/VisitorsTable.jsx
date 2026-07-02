@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 
 import useTable from "../../hooks/useTable";
 import { useVisitors } from "../../context/VisitorContext";
+import SortableHeader from "../../component/SortableHeader";
 
 
 const VisitorsTable = ({
   activeTab,
   setActiveTab,
-  setSelectedVisitor,
-  setShowVisitorModal,
   setShowDeleteModal,
   setVisitorToDelete,
 }) => {
@@ -98,216 +97,68 @@ const VisitorsTable = ({
           {/* TABLE */}
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1000px] text-sm border-collapse">
-              <thead className=" border-b bg-gray-100">
-                <tr>
-                  <th
-                    onClick={() => handleSort("name")}
-                    className="text-left p-4 cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Visitor Details
+              <thead className="border-b bg-gray-100">
+  <tr>
+    <SortableHeader
+      label="Visitor Details"
+      field="name"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+      className="text-left p-4 pl-2"
+    />
 
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "name" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
+    <SortableHeader
+      label="Whom to Visit"
+      field="whom"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                        <span
-                          className={
-                            sortField === "name" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("whom")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Whom to Visit
+    <SortableHeader
+      label="Flat/Wing"
+      field="flat"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "whom" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "whom" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("flat")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Flat/Wing
+    <SortableHeader
+      label="Purpose"
+      field="purpose"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "flat" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "flat" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("purpose")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Purpose
+    <SortableHeader
+      label="In Time"
+      field="inTime"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "purpose" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "purpose" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("inTime")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      In Time
+    <SortableHeader
+      label="Out Time"
+      field="outTime"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "inTime" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "inTime" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
+    <SortableHeader
+      label="Status"
+      field="status"
+      sortField={sortField}
+      sortOrder={sortOrder}
+      handleSort={handleSort}
+    />
 
-                  <th
-                    onClick={() => handleSort("outTime")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Out Time
-
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "outTime" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "outTime" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("status")}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      Status
-
-                      <span className="ml-2 inline-flex flex-col text-[10px] leading-none">
-                        <span
-                          className={
-                            sortField === "status" && sortOrder === "asc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▲
-                        </span>
-                        <span
-                          className={
-                            sortField === "status" && sortOrder === "desc"
-                              ? "text-blue-600 font-bold"
-                              : "text-gray-400"
-                          }
-                        >
-                          ▼
-                        </span>
-                      </span>
-                    </div>
-                  </th>
-                  <th className="pr-2">Actions</th>
-                </tr>
-              </thead>
+    <th className="pr-2">Actions</th>
+  </tr>
+</thead>
 
               <tbody>
                 {paginatedVisitors.map((v, i) => (
@@ -341,16 +192,7 @@ const VisitorsTable = ({
 
                      {/* Actions column added */} 
                     <td className="pl-4">
-                      <button
-                        className="w-8 h-8 border rounded-md text-blue-600 mr-2 hover:bg-blue-50"
-                        onClick={() => {
-                          setSelectedVisitor(v);
-                          setShowVisitorModal(true);
-                        }}
-                      >
-                        <i className="bi bi-eye"></i>
-                      </button>
-
+                      
                       <button
                         className="w-8 h-8 border rounded-md text-red-600 bg-red-50 hover:bg-red-100"
                         onClick={() => {

@@ -5,7 +5,6 @@ import InsideVisitorsTable from "./InsideVisitorsTable";
 import VisitorsTable from "./VisitorsTable";
 import VisitorCharts from "./VisitorCharts";
 import VisitorsHeaderSection from "./VisitorsHeaderSection";
-import ViewVisitorModal from "./ViewVisitorModal";
 import DeleteVisitorModal from "./DeleteVisitorModal";
 const Visitors = () => {
   const { visitors,
@@ -19,8 +18,6 @@ const Visitors = () => {
   const [insideSortField, setInsideSortField] = useState(null);
   const [insideSortOrder, setInsideSortOrder] = useState("asc");
 
-  const [selectedVisitor, setSelectedVisitor] = useState(null);
-  const [showVisitorModal, setShowVisitorModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [visitorToDelete, setVisitorToDelete] = useState(null);
 
@@ -112,23 +109,13 @@ const Visitors = () => {
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 getStatusStyle={getStatusStyle}
-                setSelectedVisitor={setSelectedVisitor}
-                setShowVisitorModal={setShowVisitorModal}
                 setShowDeleteModal={setShowDeleteModal}
                 setVisitorToDelete={setVisitorToDelete}
               />
 
             </div>
 
-            {showVisitorModal && (
-              <ViewVisitorModal
-                visitor={selectedVisitor}
-                onClose={() => {
-                  setShowVisitorModal(false);
-                  setSelectedVisitor(null);
-                }}
-              />
-            )}
+            
 
             <DeleteVisitorModal
               show={showDeleteModal}
@@ -154,9 +141,6 @@ const Visitors = () => {
             insideVisitors={visitors.filter(v => v.status === "inside")}
 
             setVisitors={setVisitors}
-            setSelectedVisitor={setSelectedVisitor}
-            setShowVisitorModal={setShowVisitorModal}
-
             sortField={insideSortField}
             sortOrder={insideSortOrder}
             setSortField={setInsideSortField}
