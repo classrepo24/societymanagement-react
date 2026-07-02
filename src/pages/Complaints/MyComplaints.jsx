@@ -7,6 +7,9 @@ import DeletePopup from "../../components/DeletePopup";
 import Pagination from "../../components/Pagination";
 import { useSorting } from "../../hooks/useSorting";
 import StatsCard from "../../components/StatsCard";
+
+import Breadcrumbs from "../../components/Breadcrumbs";
+
 export const MyComplaints = () => {
   const { complaints, setComplaints } = useComplaint();
 
@@ -159,7 +162,18 @@ export const MyComplaints = () => {
 
   return (
     <div className="p-6 bg-[#F8FAFC] min-h-screen">
+       <Breadcrumbs
+  items={[
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Complaints", path: "/complaints" },
+    { label: "My Complaints", path: "/complaints/my-complaints" },
+  ]}
+/>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+         
+
+      {/* Page Content */}
+    
         <div>
           <h1 className="text-2xl md:text-[36px] font-bold text-[#0F172A] mt-1">
             My Complaints

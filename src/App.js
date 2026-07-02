@@ -11,10 +11,6 @@ const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-console.log("App State", {
-  mobileSidebarOpen,
-  isSidebarOpen
-});
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">

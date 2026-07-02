@@ -10,6 +10,7 @@ import { MyComplaints } from "../pages/Complaints/MyComplaints";
 import { ComplaintCategories } from "../pages/Complaints/ComplaintCategories";
 import { Messages } from "../pages/dashboard/Messages";
 import { HelpAndSupport } from "../pages/dashboard/HelpAndSupport";
+import { Amenity } from "../pages/Amenity/Amenity";
 
 const AllRoutes = () => {
   return (
@@ -26,6 +27,9 @@ const AllRoutes = () => {
   <Route path="/complaints/raise" element={<RaiseComplaint />}/>
 <Route path="/complaints/my-complaints" element={<MyComplaints />} />
 <Route path="/complaints/categories" element={<ComplaintCategories />} />
+
+{/* Amenity */}
+<Route path="/amenities" element={<Amenity/>} />
 
 
 

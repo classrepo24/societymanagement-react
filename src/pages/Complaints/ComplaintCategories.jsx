@@ -4,6 +4,7 @@ import DeletePopup from "../../components/DeletePopup";
 import Pagination from "../../components/Pagination";
 import { useSorting } from "../../hooks/useSorting";
 import StatsCard from "../../components/StatsCard";
+import Breadcrumbs from "../../components/Breadcrumbs";
 export function ComplaintCategories() {
   const [statusFilter, setStatusFilter] = useState("All");
 
@@ -63,18 +64,7 @@ const cards = [
 
   const [selectedId, setSelectedId] = useState(null);
 
-  const totalCategories = categories.length;
-
-  const activeCategories = categories.filter(
-    (c) => c.status === "Active",
-  ).length;
-
-  const inactiveCategories = categories.filter(
-    (c) => c.status === "Inactive",
-  ).length;
-
-  const totalComplaints = complaints.length;
-
+  
   // Search
   let filteredCategories = categories.filter(
     (item) =>
@@ -147,6 +137,13 @@ const cards = [
 
   return (
     <div className="p-6 bg-[#f5f7fb] min-h-screen">
+      <Breadcrumbs
+  items={[
+    { label: "Dashboard", path: "/dashboard" },
+     { label: "Complaints", path: "/complaints" },
+    { label: "Add Category", path: "/categories/add-category" },
+  ]}
+/>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
         <div>
           <h1 className="text-2xl md:text-[33px] leading-none font-bold text-[#111827]">
