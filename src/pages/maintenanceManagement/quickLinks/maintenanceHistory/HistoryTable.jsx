@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useTableSort } from "../../../../hook/useTableSort";
+import { useTableSort } from "../../../../hooks/useTableSort";
 import { DeletePopup } from "../../../../components/DeletePopup";
 const priorityStyle = {
   High: "bg-red-100 text-red-600",

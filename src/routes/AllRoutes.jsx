@@ -9,10 +9,16 @@ import { GeneralSetting } from "../pages/maintenanceManagement/maintenancesettin
 import { Navigate } from "react-router-dom";
 // import { Components } from "../pages/maintenanceManagement";
 import { RaiseMaintenanceRequest } from "../pages/maintenanceManagement/quickLinks/raiseMaintenance/RaiseMaintenanceRequest";
-import {MyRequest} from "../pages/maintenanceManagement/quickLinks/myRequest/MyRequest";
+import { MyRequest } from "../pages/maintenanceManagement/quickLinks/myRequest/MyRequest";
 import { MaintenanceHistory } from "../pages/maintenanceManagement/quickLinks/maintenanceHistory/MaintenanceHistory";
 import { HelpAndSupport } from "../pages/maintenanceManagement/quickLinks/helpAndSupports/HelpAndSupport";
-
+import { FinanceOverview } from "../pages/finance/FinanceOverview";
+import { AddIncomeExpense } from "../pages/finance/AddIncomeExpense";
+import { GenerateInvoice } from "../pages/finance/GenerateInvoice";
+import { TopPayersViewAll } from "../pages/finance/financeComponents/topPayers/TopPayersViewAll";
+import { PaymentReminder } from "../pages/finance/PaymentReminder";
+import { OutstandingAmount } from "../pages/finance/OutstandingAmounts";
+import { OutstandingDetails } from "../pages/finance/OutstandingDetails";
 
 const AllRoutes = () => {
   return (
@@ -38,8 +44,8 @@ const AllRoutes = () => {
         element={<MaintenanceManagement />}
       />
       <Route
-      path="/mainteance-general-settings"
-      element={<GeneralSetting />} />
+        path="/mainteance-general-settings"
+        element={<GeneralSetting />} />
 
       <Route
         path="/maintenance-management/maintenance-settings"
@@ -59,8 +65,36 @@ const AllRoutes = () => {
         element={<MaintenanceHistory />}
       />
       <Route path="/maintenance-management/help&support"
-      element={<HelpAndSupport />}/>
-      
+        element={<HelpAndSupport />}
+      />
+      <Route
+        path="/finance"
+        element={<FinanceOverview />}
+      />
+      <Route
+        path="/finance/add-income&expense"
+        element={<AddIncomeExpense />}
+      />
+      <Route
+        path="/finance/generate-invoice"
+        element={<GenerateInvoice />}
+      />
+      <Route
+        path="/finance/top_payers/view_all"
+        element={<TopPayersViewAll />}
+      />
+      <Route path="/finance/payment_reminder"
+        element={<PaymentReminder />}
+      />
+      <Route
+        path="/finance/outstanding_amount/view_all"
+        element={<OutstandingAmount />}
+      />
+      <Route
+        path="/finance/outstanding_details/:invoice"
+        element={<OutstandingDetails />}
+      />
+
     </Routes>
 
   );

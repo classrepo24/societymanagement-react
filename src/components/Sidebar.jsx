@@ -648,6 +648,23 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
                 label: "Complaint Categories",
             },
         ],
+        finance: [
+            {
+                path: "/finance/add-income&expense",
+                icon: "bi-plus-circle",
+                label: "Add Income / Expenses",
+            },
+            {
+                path: "/finance/generate-invoice",
+                icon: "bi-file-earmark-plus",
+                label: "Generate Invoice",
+            },
+            {
+                path: "/finance/payment_reminder",
+                icon: "bi-file-earmark-plus",
+                label: "Payment Reminder",
+            },
+        ]
 
 
     };
