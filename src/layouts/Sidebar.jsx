@@ -59,7 +59,7 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
     {
       path: "/visitors",
       icon: "bi-person-badge",
-      label: "Visitors",
+      label: "visitors",
     },
     {
       path: "/staff",
@@ -113,9 +113,42 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
       {
         path: "/visitors/visitor-preregister",
         icon: "bi-person-check",
-        label: "Pre-Registered Visitors",
+        label: "Pre-Registered visitors",
       },
     ],
+    staff: [
+      {
+        path: "/staff/profile/add-staf",
+        icon: "bi bi-plus-circle",
+        label: "Add staff",
+      },
+      {
+        path: "/staff/profile/departments",
+        icon: "bi-journal-text",
+        label: "Departments",
+      },
+      {
+        path: "/staff/profile/attendance",
+        icon: "bi bi-calendar2-check",
+        label: "Attendance",
+      },
+      {
+        path: "/staff/profile/leave-request",
+        icon: "bi-person-check",
+        label: "Leave Requests",
+      },
+      {
+        path: "/staff/profile/salary-payroll",
+        icon: "bi-credit-card",
+        label: "Payroll",
+      },
+      {
+        path: "/staff/profile/view-payslip",
+        icon:"bi bi-journals",
+        label: "View Payslip",
+      },
+    ],
+
 
   };
 
@@ -177,7 +210,8 @@ Desktop collapsed → icon only
         <div className="h-14 flex items-center px-3 border-b border-blue-900 flex-shrink-0">
           <NavLink
             to="/dashboard"
-            className={`flex items-center w-full ${isSidebarOpen  ? "gap-2" : "justify-center"
+            onClick={() => setMobileSidebarOpen(false)}
+            className={`flex items-center w-full ${isSidebarOpen ? "gap-2" : "justify-center"
               }`}
           >
             <i className="bi bi-buildings text-2xl"></i>
@@ -191,18 +225,22 @@ Desktop collapsed → icon only
           </NavLink>
         </div>
 
-{/* MAIN MENU HEADING */}
-<div className="flex flex-col gap-2 px-2 py-3">
-{(isSidebarOpen || mobileSidebarOpen) && (
-  <p className="text-[10px] text-blue-300 px-2 mt-2 mb-1">
-    MAIN MENU
-  </p>
-)}
+
+
+
+        {/* MAIN MENU HEADING */}
+        {(isSidebarOpen || mobileSidebarOpen) && (
+          <p className="text-[10px] text-blue-300 px-2 mt-2 mb-1">
+            MAIN MENU
+          </p>
+        )}
+
+
+        {/* MAIN NAVIGATION MENU */}
         {menuItems.map((item) =>
           item.children ? (
             <div key={item.label}>
               <div className="flex items-center">
-                {/* Main Menu Link */}
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
@@ -211,18 +249,23 @@ Desktop collapsed → icon only
                       ? "gap-3 px-3 py-2 text-sm"
                       : "justify-center py-2"
                     }
-            ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"}`
+            ${isActive
+                      ? "bg-[#095de8]"
+                      : "hover:bg-[#0b2f63]"
+                    }`
                   }
                 >
-                  <i className={`${item.icon} text-lg`}></i>
-                  {(isSidebarOpen || mobileSidebarOpen) && (<span>{item.label}</span>)}
+
+                  {(isSidebarOpen || mobileSidebarOpen) && (
+                    <span>{item.label}</span>
+                  )}
                 </NavLink>
 
-                {/* Arrow /} {/ Submenu Toggle Button */}
+                <i className={`${item.icon} text-lg`}></i>
                 {(isSidebarOpen || mobileSidebarOpen) && (
                   <button
                     onClick={() => toggleMenu(item.label)}
-                    className="px-3 py-2 hover:bg-[#0b2f63] rounded-lg"
+                    className="px-3 py-2"
                   >
                     <i
                       className={`bi ${openMenus[item.label]
@@ -234,48 +277,44 @@ Desktop collapsed → icon only
                 )}
               </div>
 
-
-              {/* Child Navigation Links */}
-              {(openMenus[item.label] ||
-                item.children?.some((child) =>
-                  location.pathname.startsWith(child.path)
-                )) &&
-                isSidebarOpen && (
-                  <div className="ml-8 mt-1 space-y-1">
-
-
-
-                    {item.children.map((child) => (
-                      <NavLink
-                        key={child.label}
-                        to={child.path}
-                        onClick={() => setMobileSidebarOpen(false)}
-                        className={({ isActive }) =>
-                          `block px-3 py-2 text-sm rounded-lg ${isActive ? "bg-[#095de8]" : "hover:bg-[#0b2f63]"
-                          }`
-                        }
-                      >
-                        {child.label}
-                      </NavLink>
-                    ))}
-                  </div>
-                )}
+              {openMenus[item.label] && (
+                <div className="ml-8 mt-1 space-y-1">
+                  {item.children.map((child) => (
+                    <NavLink
+                      key={child.path}
+                      to={child.path}
+                      onClick={() => setMobileSidebarOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-3 py-2 text-sm rounded-lg ${isActive
+                          ? "bg-[#095de8]"
+                          : "hover:bg-[#0b2f63]"
+                        }`
+                      }
+                    >
+                      {child.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <NavLink
               key={item.path}
               to={item.path}
               className={linkClass}
-                                      onClick={() => setMobileSidebarOpen(false)}
-
+              onClick={() => setMobileSidebarOpen(false)}
             >
               <i className={`${item.icon} text-lg`}></i>
-              {(isSidebarOpen || mobileSidebarOpen) && <span>{item.label}</span>}
+              {(isSidebarOpen || mobileSidebarOpen) && (
+                <span>{item.label}</span>
+              )}
             </NavLink>
           )
         )}
 
-        {/* QUICK LINKS */}
+
+
+        {/* QUICK LINKS (BOTTOM BUT NOT FIXED) */}
         {currentModule && (
           <>
             {(isSidebarOpen || mobileSidebarOpen) && (
@@ -283,35 +322,32 @@ Desktop collapsed → icon only
                 QUICK LINKS
               </p>
             )}
-
+            {/* Route Based Quick Link */}
             {quickLinks[currentModule].map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
-                                        onClick={() => setMobileSidebarOpen(false)}
-
+                onClick={() => setMobileSidebarOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center rounded-lg transition-all duration-200
-                ${isSidebarOpen 
+      ${isSidebarOpen
                     ? "gap-2 px-3 py-2 text-sm"
                     : "justify-center py-2"
                   }
-                ${isActive
+      ${isActive
                     ? "bg-[#095de8]"
                     : "hover:bg-[#0b2f63]"
                   }`
                 }
               >
-                <i className={`bi ${item.icon} text-lg`}></i>
+                <i className={`${item.icon} text-lg`}></i>
                 {(isSidebarOpen || mobileSidebarOpen) && (
                   <span>{item.label}</span>
                 )}
               </NavLink>
             ))}
-          
           </>
         )}
-        </div>
 
         {/* FOOTER */}
         <div className="mt-auto border-t border-blue-900 px-2 py-3 text-center text-[10px] text-blue-300">

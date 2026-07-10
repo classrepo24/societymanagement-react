@@ -14,42 +14,42 @@ const VisitorsHeaderSection = ({
 
   const navigate = useNavigate();
   const cards = [
-  {
-    title: "Visitors Today",
-    value: visitorsToday,
-    growth: todayGrowth,
-    growthText: "from yesterday",
-    icon: "bi bi-people-fill",
-    bg: "bg-blue-100",
-    color: "text-blue-600",
-  },
-  {
-    title: "This Week",
-    value: thisWeek,
-    growth: weekGrowth,
-    growthText: "from last week",
-    icon: "bi bi-calendar-week",
-    bg: "bg-green-100",
-    color: "text-green-600",
-  },
-  {
-    title: "This Month",
-    value: thisMonth,
-    growth: monthGrowth,
-    growthText: "from last month",
-    icon: "bi bi-bar-chart-fill",
-    bg: "bg-purple-100",
-    color: "text-purple-600",
-  },
-  {
-    title: "Currently Inside",
-    value: currentlyInside,
-    subtitle: "As of Now",
-    icon: "bi bi-clock-history",
-    bg: "bg-orange-100",
-    color: "text-orange-600",
-  },
-];
+    {
+      title: "Visitors Today",
+      value: visitorsToday,
+      growth: `${todayGrowth > 0 ? "+" : ""}${todayGrowth}%`,
+      subtitle: "from yesterday",
+      icon: "bi bi-people-fill",
+      bg: "bg-blue-100",
+      color: "text-blue-600",
+    },
+    {
+      title: "This Week",
+      value: thisWeek,
+      growth: `${weekGrowth > 0 ? "+" : ""}${weekGrowth}%`,
+      subtitle: "from last week",
+      icon: "bi bi-calendar-week",
+      bg: "bg-green-100",
+      color: "text-green-600",
+    },
+    {
+      title: "This Month",
+      value: thisMonth,
+      growth: `${monthGrowth > 0 ? "+" : ""}${monthGrowth}%`,
+      subtitle: "from last month",
+      icon: "bi bi-bar-chart-fill",
+      bg: "bg-purple-100",
+      color: "text-purple-600",
+    },
+    {
+      title: "Currently Inside",
+      value: currentlyInside,
+      subtitle: "As of Now",
+      icon: "bi bi-clock-history",
+      bg: "bg-orange-100",
+      color: "text-orange-600",
+    },
+  ];
 
   return (
     <>
@@ -57,7 +57,7 @@ const VisitorsHeaderSection = ({
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
         <div>
           <p className="text-sm">
-           <button onClick={()=>navigate("/dashboard")}>Dashboard</button>  / <span className="font-bold">Visitors</span>
+            <button onClick={() => navigate("/dashboard")}>Dashboard</button>  / <span className="font-bold">visitors</span>
           </p>
 
           <h1 className="text-2xl font-semibold mt-2">

@@ -1,11 +1,11 @@
 import useTable from "../../hooks/useTable";
 import SortableHeader from "../../component/SortableHeader";
-
-const InsideVisitorsTable = ({
-  showAllVisitors,
-  setShowAllVisitors,
-  insideVisitors,
-  setVisitors,
+import Pagination from "../../component/Pagination";
+const InsidevisitorsTable = ({
+  showAllvisitors,
+  setShowAllvisitors,
+  insidevisitors,
+  setvisitors,
 }) => {
 
 
@@ -16,16 +16,16 @@ const InsideVisitorsTable = ({
     setCurrentPage,
     sortField,
     sortOrder,
-    paginatedData: paginatedVisitors,
-    sortedData: sortedVisitors,
+    paginatedData: paginatedvisitors,
+    sortedData: sortedvisitors,
     totalPages,
     handleSort,
-  } = useTable(insideVisitors, itemsPerPage);
+  } = useTable(insidevisitors, itemsPerPage);
 
   const handleCheckout = (phone) => {
     const outTime = Date.now();
 
-    setVisitors(prev =>
+    setvisitors(prev =>
       prev.map(v => {
         if (v.phone !== phone) return v;
 
@@ -63,24 +63,15 @@ const InsideVisitorsTable = ({
 
   //pagination
 
-  const finalVisitors = showAllVisitors
-    ? paginatedVisitors
-    : sortedVisitors.slice(0, 1);
-  //entries
-  const startEntry =
-    insideVisitors.length === 0
-      ? 0
-      : (currentPage - 1) * itemsPerPage + 1;
-
-  const endEntry = Math.min(
-    currentPage * itemsPerPage,
-    insideVisitors.length
-  );
+  const finalvisitors = showAllvisitors
+    ? paginatedvisitors
+    : sortedvisitors.slice(0, 1);
+  
   return (
     <>
       <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
         <h2 className="text-md font-semibold pl-4 mb-1">
-          Currently Inside Visitors ({insideVisitors.length})
+          Currently Inside visitors ({insidevisitors.length})
         </h2>
 
         <div className="overflow-x-auto w-full">
@@ -155,7 +146,7 @@ const InsideVisitorsTable = ({
               </tr>
             </thead>
             <tbody>
-              {finalVisitors.map((v) => (
+              {finalvisitors.map((v) => (
                 <tr
                   key={v.phone}
                   className="border-b hover:bg-gray-50"
@@ -242,63 +233,30 @@ const InsideVisitorsTable = ({
         </div>
 
         {/* Footer Button */}
-        <div className="border rounded-lg p-1 text-center">
+        <div className="border rounded-lg p-1 mt-4 text-center">
           <button
-            onClick={() => setShowAllVisitors(!showAllVisitors)}
+            onClick={() => setShowAllvisitors(!showAllvisitors)}
             className="text-blue-600 font-medium hover:text-blue-700"
           >
-            {showAllVisitors
+            {showAllvisitors
               ? "Show Less ↑"
-              : "View All Inside Visitors →"}
+              : "View All Inside visitors →"}
           </button>
         </div>
 
-        {showAllVisitors && (
-          <div className="flex justify-between items-center mt-3 px-2">
-            <div className="text-sm text-gray-500">
-              Showing {startEntry} to {endEntry} of {insideVisitors.length} entries
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                disabled={currentPage === 1}
-                className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
-              >
-                &lt;
-              </button>
-
-              {[...Array(totalPages)].map((_, index) => {
-                const page = index + 1;
-                return (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-8 h-8 rounded border flex items-center justify-center ${currentPage === page
-                      ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-white text-gray-700 border-gray-300"
-                      }`}
-                  >
-                    {page}
-                  </button>
-                );
-              })}
-
-              <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(p + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
-              >
-                &gt;
-              </button>
-            </div>
-          </div>
-        )}
+        
+         {showAllvisitors && (
+  <Pagination
+  currentPage={currentPage}
+  setCurrentPage={setCurrentPage}
+  totalPages={totalPages}
+  totalItems={insidevisitors.length}
+  itemsPerPage={itemsPerPage}
+/>
+)}
       </div>
     </>
   );
 };
 
-export default InsideVisitorsTable;
+export default InsidevisitorsTable;

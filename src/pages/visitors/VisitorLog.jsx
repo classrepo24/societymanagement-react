@@ -1,16 +1,16 @@
 import useTable from "../../hooks/useTable";
 import * as XLSX from "xlsx";
-import { useVisitors } from "../../context/VisitorContext";
+import { useApp } from "../../context/AppContext";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
-import {useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import Pagination from "../../component/Pagination";
 import { useState } from "react";
 const VisitorLog = () => {
   const { visitors,
     getStatusStyle,
     monthGrowth,
-  } = useVisitors();
+  } = useApp();
 
   const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ const VisitorLog = () => {
   const checkedOutCount = visitors.filter(v => v.status === "exited").length;
 
   const uniqueDays = new Set(visitors.map(v => v.date)).size || 1;
-  const avgVisitorsPerDay = (visitors.length / uniqueDays).toFixed(1);
+  const avgvisitorsPerDay = (visitors.length / uniqueDays).toFixed(1);
 
   //  filter
-  const filteredVisitors = visitors.filter((v) => {
+  const filteredvisitors = visitors.filter((v) => {
     const statusMatch =
       appliedStatus === "All" || v.status === appliedStatus;
 
@@ -55,15 +55,15 @@ const VisitorLog = () => {
     setCurrentPage,
     sortField,
     sortOrder,
-    sortedData: sortedVisitors,
-    paginatedData: paginatedVisitors,
+    sortedData: sortedvisitors,
+    paginatedData: paginatedvisitors,
     totalPages,
     handleSort,
-  } = useTable(filteredVisitors, itemsPerPage);
+  } = useTable(filteredvisitors, itemsPerPage);
 
   //export excel file
   const exportToExcel = () => {
-    const data = sortedVisitors.map((visitor) => ({
+    const data = sortedvisitors.map((visitor) => ({
       ID: visitor.id,
       Name: visitor.name,
       Phone: visitor.phone,
@@ -87,7 +87,7 @@ const VisitorLog = () => {
   };
   const cards = [
     {
-      title: "Total Visitors",
+      title: "Total visitors",
       value: visitors.length,
       growth: monthGrowth ? `${monthGrowth}%` : "+0%",
       icon: "bi bi-people-fill",
@@ -112,7 +112,7 @@ const VisitorLog = () => {
     },
     {
       title: "Avg Visit Duration",
-      value: avgVisitorsPerDay,
+      value: avgvisitorsPerDay,
       growth: "+5%",
       icon: "bi bi-clock-history",
       bg: "bg-purple-100",
@@ -126,8 +126,8 @@ const VisitorLog = () => {
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
         <div>
           <p className="text-sm text-gray-500">
-           <button onClick={()=>navigate("/dashboard")}>Dashboard</button> / 
-            <button onClick={()=>navigate("/visitors")}>Visitors </button>/
+            <button onClick={() => navigate("/dashboard")}>Dashboard</button> /
+            <button onClick={() => navigate("/visitors")}>visitors </button>/
             <span className="font-semibold text-black"> Visitor Log</span>
           </p>
 
@@ -366,7 +366,7 @@ const VisitorLog = () => {
             </thead>
 
             <tbody className="text-xs md:text-sm">
-              {paginatedVisitors.map((visitor, index) => (
+              {paginatedvisitors.map((visitor, index) => (
                 <tr key={index} className="border-t hover:bg-gray-50">
 
                   {/* # */}
@@ -438,80 +438,13 @@ const VisitorLog = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 p-2">
-          <p className="text-gray-500 text-sm whitespace-nowwrap">
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, visitors.length)} of{" "}
-            {visitors.length} entries
-          </p>
-
-          <div className="flex items-center gap-2 flex-nowrap">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-              className="border rounded px-4 py-2 disabled:opacity-50"
-            >&lt;
-            </button>
-            {(() => {
-              const pages = [];
-
-              if (totalPages <= 5) {
-                for (let i = 1; i <= totalPages; i++) {
-                  pages.push(i);
-                }
-              } else {
-                if (currentPage <= 2) {
-                  pages.push(1, 2, 3);
-                } else if (currentPage >= totalPages - 1) {
-                  pages.push(totalPages - 2, totalPages - 1, totalPages);
-                } else {
-                  pages.push(currentPage - 1, currentPage, currentPage + 1);
-                }
-              }
-
-              return (
-                <>
-                  {pages.map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`px-4 py-2 rounded ${currentPage === page
-                        ? "bg-blue-600 text-white"
-                        : "border"
-                        }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-
-                  {totalPages > 5 && pages[pages.length - 1] < totalPages - 1 && (
-                    <span className="px-2 py-2">...</span>
-                  )}
-
-                  {totalPages > 5 && pages[pages.length - 1] !== totalPages && (
-                    <button
-                      onClick={() => setCurrentPage(totalPages)}
-                      className={`px-4 py-2 rounded ${currentPage === totalPages
-                        ? "bg-blue-600 text-white"
-                        : "border"
-                        }`}
-                    >
-                      {totalPages}
-                    </button>
-                  )}
-                </>
-              );
-            })()}
-
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-              className="border rounded px-4 py-2 disabled:opacity-50"
-            >&gt;
-            </button>
-
-          </div>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          totalItems={filteredvisitors.length}
+          itemsPerPage={itemsPerPage}
+        />
       </div>
     </div>
   );

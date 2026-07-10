@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "documentName": "Aadhar Card",
+    "category": "Identity Proof",
+    "status": "Pending",
+    "uploadDate": "12 Jun 2025",
+    "expiryDate": "--"
+  },
+  {
+    "id": 2,
+    "documentName": "PAN Card",
+    "category": "Identity Proof",
+    "status": "Pending",
+    "uploadDate": "25 May 2025",
+    "expiryDate": "--"
+  },
+  {
+    "id": 3,
+    "documentName": "Police Verification",
+    "category": "Verification",
+    "status": "Expired",
+    "uploadDate": "10 Jan 2024",
+    "expiryDate": "10 Jan 2026"
+  },
+  {
+    "id": 4,
+    "documentName": "Driving License",
+    "category": "License",
+    "status": "Pending",
+    "uploadDate": "18 Feb 2025",
+    "expiryDate": "18 Feb 2035"
+  },
+  {
+    "id": 5,
+    "documentName": "Passport",
+    "category": "Identity Proof",
+    "status": "Verified",
+    "uploadDate": "05 Mar 2025",
+    "expiryDate": "05 Mar 2035"
+  },
+  {
+    "id": 6,
+    "documentName": "Medical Certificate",
+    "category": "Certificate",
+    "status": "Verified",
+    "uploadDate": "20 Jun 2025",
+    "expiryDate": "--"
+  },
+  {
+    "id": 7,
+    "documentName": "Address Proof",
+    "category": "Address Proof",
+    "status": "Verified",
+    "uploadDate": "11 Apr 2025",
+    "expiryDate": "--"
+  },
+  {
+    "id": 8,
+    "documentName": "Employment Contract",
+    "category": "Contract",
+    "status": "Verified",
+    "uploadDate": "01 Jan 2024",
+    "expiryDate": "--"
+  }
+]

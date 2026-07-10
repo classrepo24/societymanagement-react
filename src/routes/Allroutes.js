@@ -16,7 +16,18 @@ import Visitors from "../pages/visitors/Visitors";
 import VisitorLog from "../pages/visitors/VisitorLog";
 import AddVisitorModal from "../pages/visitors/AddVisitorModal";
 import PreRegisterVisitorModal from "../pages/visitors/PreRegisterVisitorModal";
+
 import Staff from "../pages/staff/Staff";
+import StaffProfile from "../pages/staff/profile/StaffProfile";
+import Documents from "../pages/staff/profile/Documents";
+import Attendance from "../pages/staff/profile/Attendance";
+import LeaveHistory from "../pages/staff/profile/LeaveHistory";
+import SalaryPayroll from "../pages/staff/profile/SalaryPayroll";
+import ActivityLog from "../pages/staff/profile/ActivityLog";
+import AddStaf from "../pages/staff/AddStaf";
+import LeaveRequest from "../pages/staff/LeaveRequest";
+import PayrollSettings from "../pages/staff/PayrollSettings";
+import ViewPayslip from "../pages/staff/ViewPayslip";
 
 const Allroutes = () => {
   return (
@@ -48,15 +59,28 @@ const Allroutes = () => {
         element={<PassSuccess />}
       />
 
+      {/* visitors */}
       <Route path="/visitors" element={<Visitors />}>
         <Route path="visitoradd" element={<AddVisitorModal />} />
         <Route path="visitorlog" element={<VisitorLog />} />
         <Route path="visitor-preregister" element={<PreRegisterVisitorModal />} />
       </Route>
 
-        <Route path="staff" element={<Staff/>} />
+      {/* staff */}
 
-          
+      <Route path="staff" element={<Staff />} />
+      <Route path="/staff/profile/:id" element={<StaffProfile />} />
+      <Route path="/staff/profile/:id/documents" element={<Documents />} />
+      <Route path="/staff/profile/attendance" element={<Attendance />} />
+      <Route path="/staff/profile/leave-history" element={<LeaveHistory />} />
+      <Route path="/staff/profile/salary-payroll" element={<SalaryPayroll />} />
+      <Route path="/staff/profile/salary-payroll/view-payslip/:id" element={<ViewPayslip />} />
+      <Route path="/staff/profile/salary-payroll/payroll-settings" element={<PayrollSettings />} />
+      <Route path="/staff/profile/activity-log" element={<ActivityLog />} />
+      <Route path="/staff/profile/add-staf" element={<AddStaf />} />
+      <Route path="/staff/profile/leave-request" element={<LeaveRequest />} />
+
+
     </Routes>
 
   );

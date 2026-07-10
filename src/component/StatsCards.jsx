@@ -1,52 +1,63 @@
 import React from "react";
 
-const StatsCards = ({ cards }) => {
+const StatsCards = ({ cards, compact = false }) => {
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    <div
+      className={`grid gap-4 mb-6 ${cards.length === 5
+        ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+        : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+        }`}
+    >
       {cards.map((card, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl shadow p-4 flex items-start gap-4 min-h-[120px]"
+          className={`bg-white rounded-xl shadow ${compact
+            ? "p-5 flex items-center gap-4 h-28"
+            : "p-4 flex items-start gap-4 min-h-[120px]"
+            }`}
         >
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${card.bg} ${card.color}`}
+            className={`${compact ? "w-10 h-10 text-2xl" : "w-16 h-16 text-2xl"
+              } shrink-0 rounded-full flex items-center justify-center ${card.bg} ${card.color}`}
           >
             <i className={card.icon}></i>
           </div>
 
-          <div>
-            <p className="text-gray-900 text-sm ">{card.title}</p>
+          <div className="flex-1">
+            <p
+              className={`${compact
+                ? "text-xs text-gray-500 font-medium"
+                : "text-sm text-gray-900"
+                }`}
+            >
+              {card.title}
+            </p>
 
-            <h2 className="text-xl sm:text-2xl font-bold">
+            <h2
+              className={`${compact
+                ? "text-1.5xl font-bold text-gray-900 mt-1"
+                : "text-xl sm:text-2xl font-bold"
+                }`}
+            >
               {card.value ?? 0}
             </h2>
 
-            {typeof card.growth === "number" && (
-              <p className="text-xs mt-1">
-                <span
-                  className={
-                    card.growth >= 0
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  {card.growth >= 0
-                    ? `+${card.growth}%`
-                    : `${card.growth}%`}
-                </span>
-
-                {card.growthText && (
+            {card.growth ? (
+              <p className="text-xs font-medium mt-1 text-green-600">
+                {card.growth}
+                {card.subtitle && (
                   <span className="text-gray-500 ml-1">
-                    {card.growthText}
+                    {card.subtitle}
                   </span>
                 )}
               </p>
-            )}
-
-            {card.subtitle && (
-              <p className="text-sm text-gray-500 mt-1">
-                {card.subtitle}
-              </p>
+            ) : (
+              card.subtitle && (
+                <p className="text-sm text-gray-500 mt-1">
+                  {card.subtitle}
+                </p>
+              )
             )}
           </div>
         </div>

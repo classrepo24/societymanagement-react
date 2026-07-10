@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import useTable from "../../hooks/useTable";
-import { useVisitors } from "../../context/VisitorContext";
+import { useApp } from "../../context/AppContext";
 import SortableHeader from "../../component/SortableHeader";
-
+import Pagination from "../../component/Pagination";
 
 const VisitorsTable = ({
   activeTab,
@@ -12,18 +12,18 @@ const VisitorsTable = ({
   setVisitorToDelete,
 }) => {
 
-  const { visitors, getStatusStyle } = useVisitors();
-  
+  const { visitors, getStatusStyle } = useApp();
 
-  const filteredVisitors = visitors.filter((visitor) => {
-    if (activeTab === "All Visitors") return true;
+
+  const filteredvisitors = visitors.filter((visitor) => {
+    if (activeTab === "All visitors") return true;
     if (activeTab === "Inside Society") return visitor.status === "inside";
     if (activeTab === "Exited") return visitor.status === "exited";
     if (activeTab === "Pre Registered") return visitor.status === "preRegistered"; // future use
     return true;
   });
 
-      const itemsPerPage=5;
+  const itemsPerPage = 5;
 
 
   const {
@@ -31,16 +31,17 @@ const VisitorsTable = ({
     setCurrentPage,
     sortField,
     sortOrder,
-    paginatedData: paginatedVisitors,
+    paginatedData: paginatedvisitors,
     totalPages,
     handleSort,
-  } = useTable(filteredVisitors,itemsPerPage);
+  } = useTable(filteredvisitors, itemsPerPage);
 
 
 
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+
   return (
     <>
 
@@ -51,7 +52,7 @@ const VisitorsTable = ({
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
             {/* LEFT: TABS */}
             <div className="flex gap-4 lg:gap-6 text-sm font-bold items-end overflow-x-auto  pb-2 scrollbar-hide">
-              {["All Visitors", "Inside Society", "Exited", "Pre Registered"].map((tab) => (
+              {["All visitors", "Inside Society", "Exited", "Pre Registered"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -98,70 +99,70 @@ const VisitorsTable = ({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1000px] text-sm border-collapse">
               <thead className="border-b bg-gray-100">
-  <tr>
-    <SortableHeader
-      label="Visitor Details"
-      field="name"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-      className="text-left p-4 pl-2"
-    />
+                <tr>
+                  <SortableHeader
+                    label="Visitor Details"
+                    field="name"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                    className="text-left p-4 pl-2"
+                  />
 
-    <SortableHeader
-      label="Whom to Visit"
-      field="whom"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="Whom to Visit"
+                    field="whom"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <SortableHeader
-      label="Flat/Wing"
-      field="flat"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="Flat/Wing"
+                    field="flat"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <SortableHeader
-      label="Purpose"
-      field="purpose"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="Purpose"
+                    field="purpose"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <SortableHeader
-      label="In Time"
-      field="inTime"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="In Time"
+                    field="inTime"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <SortableHeader
-      label="Out Time"
-      field="outTime"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="Out Time"
+                    field="outTime"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <SortableHeader
-      label="Status"
-      field="status"
-      sortField={sortField}
-      sortOrder={sortOrder}
-      handleSort={handleSort}
-    />
+                  <SortableHeader
+                    label="Status"
+                    field="status"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    handleSort={handleSort}
+                  />
 
-    <th className="pr-2">Actions</th>
-  </tr>
-</thead>
+                  <th className="pr-2">Actions</th>
+                </tr>
+              </thead>
 
               <tbody>
-                {paginatedVisitors.map((v, i) => (
+                {paginatedvisitors.map((v, i) => (
                   <tr key={i} className="border-b  hover:bg-gray-50">
 
                     <td className="p-2">
@@ -190,9 +191,9 @@ const VisitorsTable = ({
                       </span>
                     </td>
 
-                     {/* Actions column added */} 
+                    {/* Actions column added */}
                     <td className="pl-4">
-                      
+
                       <button
                         className="w-8 h-8 border rounded-md text-red-600 bg-red-50 hover:bg-red-100"
                         onClick={() => {
@@ -209,100 +210,13 @@ const VisitorsTable = ({
             </table>
           </div>
           {/* TABLE FOOTER */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3  pt-2">
-
-            {/* Left */}
-            <p className="text-sm text-gray-500 text-center sm:text-left">
-              Showing{" "}
-              {filteredVisitors.length === 0
-                ? 0
-                : (currentPage - 1) * itemsPerPage + 1}{" "}
-              to{" "}
-              {Math.min(
-                currentPage * itemsPerPage,
-                filteredVisitors.length
-              )}{" "}
-              of {filteredVisitors.length} entries
-            </p>
-
-            {/* Right */}
-            <div className="flex justify-center sm:justify-end items-center gap-1 sm:gap-2 flex-nowrap overflow-x-auto scrollbar-hide">
-              <button
-                className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                onClick={() => {
-                  if (currentPage > 1) {
-                    setCurrentPage(currentPage - 1);
-                  }
-                }}
-                disabled={currentPage === 1}
-              >
-                &lt;
-              </button>
-              {(() => {
-                const pages = [];
-
-                if (totalPages <= 5) {
-                  for (let i = 1; i <= totalPages; i++) {
-                    pages.push(i);
-                  }
-                } else {
-                  if (currentPage <= 2) {
-                    pages.push(1, 2, 3);
-                  } else if (currentPage >= totalPages - 1) {
-                    pages.push(totalPages - 2, totalPages - 1, totalPages);
-                  } else {
-                    pages.push(currentPage - 1, currentPage, currentPage + 1);
-                  }
-                }
-
-                return (
-                  <>
-                    {pages.map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`px-4 py-2 rounded ${currentPage === page
-                            ? "bg-blue-600 text-white"
-                            : "border"
-                          }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
-
-                    {totalPages > 5 && pages[pages.length - 1] < totalPages - 1 && (
-                      <span className="px-2 py-2">...</span>
-                    )}
-
-                    {totalPages > 5 && pages[pages.length - 1] !== totalPages && (
-                      <button
-                        onClick={() => setCurrentPage(totalPages)}
-                        className={`px-4 py-2 rounded ${currentPage === totalPages
-                            ? "bg-blue-600 text-white"
-                            : "border"
-                          }`}
-                      >
-                        {totalPages}
-                      </button>
-                    )}
-                  </>
-                );
-              })()}
-
-              <button
-                className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                onClick={() => {
-                  if (currentPage < totalPages) {
-                    setCurrentPage(currentPage + 1);
-                  }
-                }}
-                disabled={currentPage === totalPages}
-              >
-                &gt;
-              </button>
-            </div>
-          </div>
-
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            totalItems={filteredvisitors.length}
+            itemsPerPage={itemsPerPage}
+          />
         </div>
       </div>
     </>

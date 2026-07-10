@@ -4,17 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
-import { VisitorProvider } from './context/VisitorContext';
+import { AppProvider } from './context/AppContext';
 import "bootstrap-icons/font/bootstrap-icons.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <VisitorProvider>
+    <AppProvider>
 
     <Router>
     <App />
     </Router>
-    </VisitorProvider>
+    </AppProvider>
   </React.StrictMode>
 );
 

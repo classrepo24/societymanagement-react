@@ -16,7 +16,7 @@ import {
 
 const COLORS = ["#2563eb", "#22c55e", "#f59e0b", "#8b5cf6", "#64748b"];
 
-const VisitorCharts = ({ totalVisitors, visitors }) => {
+const VisitorCharts = ({ totalvisitors, visitors }) => {
 
   //  DONUT DATA (REAL)
   const purposeData = [
@@ -63,7 +63,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
       {/* DONUT CHART */}
       <div className="bg-white rounded-xl shadow p-4">
         <h2 className="text-lg font-semibold mb-3">
-          Visitors by Purpose
+          visitors by Purpose
         </h2>
 
         <div className="flex flex-col md:flex-col lg:flex-row items-center lg:items-start">
@@ -96,7 +96,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
               <p className="text-xs text-gray-500">Total</p>
               <p className="text-lg font-bold text-gray-800">
-                {totalVisitors ??
+                {totalvisitors ??
                   purposeData.reduce((a, b) => a + b.value, 0)}
               </p>
             </div>
@@ -141,7 +141,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
       {/* LINE CHART */}
       <div className="bg-white rounded-xl shadow p-4">
         <h2 className="text-lg font-semibold mb-3">
-          Visitors by Time
+          visitors by Time
         </h2>
 
         <div className="h-[220px] sm:h-[160px]">
@@ -184,7 +184,7 @@ const VisitorCharts = ({ totalVisitors, visitors }) => {
                 dataKey="visitors"
                 stroke="#0a47cc"
                 strokeWidth={2}
-                name="Number Of Visitors"
+                name="Number Of visitors"
               />
 
               <Legend

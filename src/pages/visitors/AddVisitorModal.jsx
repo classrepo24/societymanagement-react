@@ -59,7 +59,7 @@ const handleClose = () => {
       newErrors.idProofNumber = "ID Proof Number is required";
 
     if (!formData.visitorsCount)
-      newErrors.visitorsCount = "Number of Visitors is required";
+      newErrors.visitorsCount = "Number of visitors is required";
 
     // Visit Details
     if (!formData.whomToVisit)
@@ -259,7 +259,7 @@ const handleClose = () => {
 
                 <div>
                   <label className="block text-sm mb-1">
-                    Number of Visitors <span className="text-red-500">*</span>
+                    Number of visitors <span className="text-red-500">*</span>
                   </label>
 
                   <select
