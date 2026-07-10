@@ -45,7 +45,7 @@ const cards = [
   },
 ];
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); // search filter
   const [currentPage, setCurrentPage] = useState(1);
 
   const [editId, setEditId] = useState(null);

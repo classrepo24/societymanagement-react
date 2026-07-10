@@ -144,6 +144,28 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
     ],
 
 
+amenities: [
+  {
+    path: "/amenities/add",
+    icon: "bi-plus-circle",
+    label: "Add Amenity",
+  },
+  {
+    path: "/amenities/booking",
+    icon: "bi-plus-circle",
+    label: " Amenity Booking Details",
+  },
+  {
+
+     path:"/amenities/AmenitySchedule/schedule",
+    icon: "bi-plus-circle",
+    label: " Amenity Schedule",
+  },
+
+  
+],
+
+
   };
 
 

@@ -606,6 +606,7 @@ export const Complaints = () => {
                                     }}
                                     className="w-full text-left px-4 py-2 hover:bg-gray-100"
                                   >
+                                      <i className="bi bi-pencil-square"></i>
                                     Edit
                                   </button>
 
@@ -617,6 +618,7 @@ export const Complaints = () => {
                                     }}
                                     className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
                                   >
+                                    <i className="bi bi-trash"></i>  
                                     Delete
                                   </button>
                                 </div>

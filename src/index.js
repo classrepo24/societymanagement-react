@@ -5,6 +5,7 @@ import App from './App';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from "./context/ModalContext";
+import { AmenityProvider } from "./context/AmenityContext";
 
 import { ComplaintProvider } from "./context/ComplaintContext";
 const root = ReactDOM.createRoot(
@@ -16,7 +17,9 @@ root.render(
     <BrowserRouter>
   <ComplaintProvider>
     <ModalProvider>
+      <AmenityProvider>
       <App />
+      </AmenityProvider>
     </ModalProvider>
   </ComplaintProvider>
     </BrowserRouter>

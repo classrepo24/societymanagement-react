@@ -36,17 +36,19 @@ export const useSorting = (data) => {
 
     // Status
     if (sortConfig.key === "status") {
-      const order = {
-        Open: 1,
-        "In Progress": 2,
-        Resolved: 3,
-        Overdue: 4,
-      };
+  const order = {
+    Open: 1,
+    "In Progress": 2,
+    Resolved: 3,
+    Overdue: 4,
+    Active: 5,
+    Maintenance: 6,
+    Inactive: 7,
+  };
 
-      aValue = order[aValue] || 0;
-      bValue = order[bValue] || 0;
-    }
-
+  aValue = order[aValue] || 0;
+  bValue = order[bValue] || 0;
+}
     // Date
     if (
       sortConfig.key === "raisedOn" ||
