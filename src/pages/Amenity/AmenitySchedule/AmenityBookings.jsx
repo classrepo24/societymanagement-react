@@ -18,8 +18,7 @@ const amenity = amenities.find(
 console.log("Booking :", booking);
 console.log("Amenities :", amenities);
 console.log("Amenity :", amenity);
-
-
+const [cancelErrorMessage, setCancelErrorMessage] = useState("");
 const navigate = useNavigate();
 
   const handlePrint = () => {
@@ -224,12 +223,58 @@ if (!booking) {
             <h3 className="text-lg font-semibold mb-5">Actions</h3>
 
             <div className="flex gap-4">
-              <button
-  onClick={() =>
+
+<button
+  onClick={() => {
+
+    const currentAmenity = amenities.find(
+      (item) => Number(item.id) === Number(booking.amenityId)
+    );
+
+    // Reschedule disabled
+    if (!currentAmenity?.cancellationPolicy?.allowCancellation) {
+      setCancelErrorMessage(
+        "Rescheduling is not allowed for this amenity."
+      );
+      return;
+    }
+
+    const rescheduleBeforeHours =
+      currentAmenity.cancellationPolicy?.cancelBeforeHours || 0;
+
+    const bookingStartTime = new Date(
+      `${booking.bookingFor} ${
+        booking.timeSlot.split(" - ")[0]
+      }`
+    );
+
+    const currentTime = new Date();
+
+    const diffHours =
+      (bookingStartTime - currentTime) /
+      (1000 * 60 * 60);
+
+    // Booking already started
+    if (diffHours <= 0) {
+      setCancelErrorMessage(
+        "This booking cannot be rescheduled because the booking has already started."
+      );
+      return;
+    }
+
+    // Less than allowed hours remain
+    if (diffHours < rescheduleBeforeHours) {
+      setCancelErrorMessage(
+        `This booking cannot be rescheduled because less than ${rescheduleBeforeHours} hours remain before the booking starts.`
+      );
+      return;
+    }
+
     navigate("/amenities/booking/reschedule", {
       state: { booking },
-    })
-  }
+    });
+
+  }}
   className="border px-5 py-3 rounded-lg flex items-center gap-2"
 >
   <i className="bi bi-calendar-event"></i>
@@ -237,18 +282,66 @@ if (!booking) {
 </button>
 
 <button
-  onClick={() =>
-    navigate("/amenities/booking/cancel", {
-      state: { booking },
-    })
+onClick={() => {
+
+  const currentAmenity = amenities.find(
+    (item) => Number(item.id) === Number(booking.amenityId)
+  );
+
+  // Cancellation disabled
+  if (!currentAmenity?.cancellationPolicy?.allowCancellation) {
+    setCancelErrorMessage(
+      "Cancellation is not allowed for this amenity."
+    );
+    return;
   }
-  className="border px-5 py-3 rounded-lg flex items-center gap-2 text-red-600"
+
+
+  // Check cancellation time
+  const cancelBeforeHours =
+    currentAmenity.cancellationPolicy.cancelBeforeHours || 0;
+
+
+  const bookingStartTime = new Date(
+    `${booking.bookingFor} ${
+      booking.timeSlot.split(" - ")[0]
+    }`
+  );
+
+
+  const currentTime = new Date();
+
+
+  const diffHours =
+    (bookingStartTime - currentTime) /
+    (1000 * 60 * 60);
+
+
+  if(diffHours < cancelBeforeHours){
+
+    setCancelErrorMessage(
+      `Cancellation is allowed only ${cancelBeforeHours} hours before booking time.`
+    );
+
+    return;
+  }
+
+
+  navigate("/amenities/booking/cancel", {
+    state:{ booking }
+  });
+
+}}
+className="border px-5 py-3 rounded-lg flex items-center gap-2 text-red-600"
 >
-  <i className="bi bi-x-circle"></i>
-  Cancel Booking
+<i className="bi bi-x-circle"></i>
+Cancel Booking
 </button>
 
-              <button
+
+
+{booking.paymentStatus === "Pending" && (
+  <button
   onClick={() =>
     navigate("/amenities/booking/contact", {
       state: { booking },
@@ -259,6 +352,7 @@ if (!booking) {
   <i className="bi bi-telephone"></i>
   Contact Resident
 </button>
+)}
             </div>
           </div>
         </div>
@@ -429,6 +523,40 @@ if (!booking) {
     </div>
   </div>
 )}
+
+
+{cancelErrorMessage && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+    <div className="bg-white rounded-xl p-6 w-[400px] shadow-lg">
+
+      <div className="flex items-center gap-3">
+        <i className="bi bi-exclamation-triangle-fill text-yellow-500 text-3xl"></i>
+
+        <h2 className="text-lg font-bold text-[#16216C]">
+  Action Not Allowed
+</h2>
+      </div>
+
+
+      <p className="mt-4 text-gray-600">
+        {cancelErrorMessage}
+      </p>
+
+
+      <button
+        onClick={() => setCancelErrorMessage("")}
+        className="mt-6 bg-[#2140FF] text-white px-6 py-2 rounded-lg"
+      >
+        OK
+      </button>
+
+    </div>
+
+  </div>
+)}
+
+
     </div>
   );
 };

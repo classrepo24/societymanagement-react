@@ -23,6 +23,8 @@ import CancelBooking from "../pages/Amenity/AmenitySchedule/CancelBooking";
 
 import { ContactResident } from "../pages/Amenity/AmenitySchedule/ContactResident";
 import { BookingSettings } from "../pages/Amenity/BookingSettings";
+import { MaintenanceHistory } from "../pages/Amenity/MaintenanceHistory";
+import { BookingHistory } from "../pages/Amenity/BookingHistory";
 
 const AllRoutes = () => {
   return (
@@ -79,6 +81,15 @@ const AllRoutes = () => {
   path="/amenities/edit/:id/booking-settings"
   element={<BookingSettings />}
 />
+
+
+<Route
+  path="/amenities/edit/:id/maintenance-history"
+  element={<MaintenanceHistory />}
+/>
+
+
+<Route path="/amenities/booking-history" element={<BookingHistory/>}/>
 </Routes>
 
 

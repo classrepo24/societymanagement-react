@@ -4,6 +4,7 @@ const BookingDetailsForm = ({
   formData,
   setFormData,
   errors,
+  amenity,
 }) => {
 
 
@@ -59,7 +60,12 @@ const handleChange = (e) => {
     ? formData.notes.trim().split(/\s+/).filter(Boolean).length
     : 0;
 
-
+const showPurposeField = [
+  "Club House",
+  "Community Hall",
+  "Banquet Hall",
+  "Party Lawn",
+].includes(amenity?.name);
 
   return (
 
@@ -95,60 +101,43 @@ const handleChange = (e) => {
 
         {/* Purpose Dropdown */}
 
-        <div>
+        {showPurposeField && (
+  <div>
+    <label className="text-sm font-medium text-[#334155] block mb-2">
+      Purpose / Event
+      <span className="text-red-500 ml-1">*</span>
+    </label>
 
-          <label className="text-sm font-medium text-[#334155] block mb-2">
-            Purpose / Event
-            <span className="text-red-500 ml-1">*</span>
-          </label>
+    <select
+      name="purpose"
+      value={formData.purpose}
+      onChange={handleChange}
+      className="
+        w-full
+        h-11
+        px-4
+        rounded-xl
+        border border-[#E2E8F0]
+        bg-white
+        text-sm
+        outline-none
+        focus:border-[#2563EB]
+      "
+    >
+      <option value="">Select event</option>
+      <option value="Birthday Party">Birthday Party</option>
+      <option value="Wedding Function">Wedding Function</option>
+      <option value="Meeting">Meeting</option>
+      <option value="Other">Other</option>
+    </select>
 
-
-          <select
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            className="
-              w-full
-              h-11
-              px-4
-              rounded-xl
-              border border-[#E2E8F0]
-              bg-white
-              text-sm
-              outline-none
-              focus:border-[#2563EB]
-            "
-          >
-
-            <option value="">
-              Select event
-            </option>
-
-            <option value="Birthday Party">
-              Birthday Party
-            </option>
-
-            <option value="Wedding Function">
-              Wedding Function
-            </option>
-
-            <option value="Meeting">
-              Meeting
-            </option>
-
-            <option value="Other">
-              Other
-            </option>
-
-          </select>
-          {errors?.purpose && (
-  <p className="text-xs text-red-500 mt-1">
-    {errors.purpose}
-  </p>
+    {errors?.purpose && (
+      <p className="text-xs text-red-500 mt-1">
+        {errors.purpose}
+      </p>
+    )}
+  </div>
 )}
-
-
-        </div>
 
 
 

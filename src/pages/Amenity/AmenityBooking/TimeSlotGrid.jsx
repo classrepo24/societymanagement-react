@@ -102,19 +102,38 @@ console.log(
 
         <div className="grid grid-cols-2 gap-4">
             
+{(timeSlots || []).map((slot) => {
 
-         {(timeSlots || []).map((slot) => {
-            const style = getStatusColor(slot.status);
+  const now = new Date();
 
-            const isSelected =
-              selectedSlot?.id === slot.id;
+  const isToday =
+    selectedDate &&
+    new Date(selectedDate).toDateString() === now.toDateString();
 
-            return (
+  const slotStartTime = slot.time.split(" - ")[0];
+
+  const slotDateTime = new Date(
+    `${selectedDate.toDateString()} ${slotStartTime}`
+  );
+
+  const isPastSlot = isToday && slotDateTime <= now;
+
+  const displayStatus =
+    isPastSlot ? "booked" : slot.status;
+
+  const style =
+    getStatusColor(displayStatus);
+
+  const isSelected =
+    selectedSlot?.id === slot.id;
+
+  return (
 
               <button
                 key={slot.id}
-                disabled={slot.status !== "available"}
-                onClick={() => setSelectedSlot(slot)}
+disabled={
+  slot.status !== "available" || isPastSlot
+}                onClick={() => setSelectedSlot(slot)}
                 className={`
                   rounded-2xl
                   border
@@ -164,7 +183,7 @@ console.log(
                       ${style.badge}
                     `}
                   >
-                    {slot.status}
+                   {isPastSlot ? "Expired" : slot.status}
                   </span>
 
                 </div>

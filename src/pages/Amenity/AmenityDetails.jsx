@@ -213,11 +213,15 @@ const AmenityDetails = () => {
               <p className="font-medium">{amenity.repeatedBooking}</p>
             </div>
 
-            <div>
-              <p className="text-gray-500 mb-2">Cancellation Policy</p>
+           <div>
+  <p className="text-gray-500 mb-2">Cancellation Policy</p>
 
-              <p className="font-medium">{amenity.cancellationPolicy}</p>
-            </div>
+  <p className="font-medium">
+    {amenity.cancellationPolicy?.allowCancellation
+      ? `Allowed before ${amenity.cancellationPolicy.cancelBeforeHours} hours`
+      : "Cancellation not allowed"}
+  </p>
+</div>
           </div>
         </div>
       </div>

@@ -164,11 +164,54 @@ const monthNames = [
   const availability = amenity?.weeklyAvailability?.find(
     (item) => item.day === day
   );
+  
 
 
   return availability?.status !== "Open";
 
 };
+
+const isBlockedDate = (date) => {
+
+  if(!date) return false;
+
+  const dateString =
+    `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+
+
+  return amenity?.availabilitySettings?.blockedDates?.some(
+    (item)=> item.date === dateString
+  );
+
+};
+
+
+
+const isSpecialDate = (date)=>{
+
+if(!date) return false;
+
+const dateString =
+`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+
+
+return amenity?.availabilitySettings?.specialTimings?.some(
+(item)=>{
+
+if(item.dateType==="Single Date"){
+return item.fromDate === dateString;
+}
+
+return (
+dateString >= item.fromDate &&
+dateString <= item.toDate
+);
+
+}
+);
+
+};
+
 
   const isBeyondAdvanceLimit = (date) => {
     
@@ -263,7 +306,8 @@ const monthNames = [
   !item.current ||
   isPast(item.fullDate) ||
   isBeyondAdvanceLimit(item.fullDate) ||
-  isDayUnavailable(item.fullDate);
+  isDayUnavailable(item.fullDate) ||
+  isBlockedDate(item.fullDate);
 
             const selected = isSameDate(
               selectedDate,
@@ -308,6 +352,13 @@ const monthNames = [
                       : "border border-transparent"
                   }
 
+${
+  isSpecialDate(item.fullDate)
+    ? "border border-orange-400"
+    : ""
+}
+
+
                   ${
                     selected
                       ? "bg-[#2563EB] text-white shadow-md"
@@ -321,23 +372,7 @@ const monthNames = [
           })}
         </div>
 
-        {/* Selected Date */}
-        {/* {selectedDate && (
-          <div className="mt-6 rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-4">
-            <p className="text-[13px] font-medium text-[#2563EB]">
-              Selected Date
-            </p>
-
-            <p className="mt-1 text-[16px] font-bold text-[#0F172A]">
-              {selectedDate.toLocaleDateString("en-IN", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </p>
-          </div>
-        )} */}
+   
       </div>
     </div>
   );

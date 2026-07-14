@@ -2,8 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const AmenityContext = createContext();
 
 export const AmenityProvider = ({ children }) => {
-
-  const [amenities, setAmenities] = useState([
+const defaultAmenities = [
 
   
   {
@@ -34,8 +33,10 @@ export const AmenityProvider = ({ children }) => {
   bookingDuration: "4 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 2 hours before the scheduled time.",
+ cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "06:00 AM - 10:00 PM",
   weeklyOff: "None",
@@ -47,6 +48,52 @@ export const AmenityProvider = ({ children }) => {
   maintenanceNotes:
     "Regular equipment checkup and sanitization.",
 
+
+
+
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0001",
+    type: "Routine Inspection",
+    description: "General inspection of clubhouse facilities.",
+    performedOn: "18 Jun 2025",
+    nextDue: "18 Jul 2025",
+    cost: 2500,
+    performedBy: "Facility Management Team",
+    status: "Completed",
+    notes: "Routine inspection completed successfully."
+  },{
+  id: 2,
+  maintenanceId: "MH-CH-002",
+  type: "Electrical Inspection",
+  description:
+    "Inspection of lighting, power outlets, ceiling fans, and electrical panels. Minor wiring issue rectified.",
+  performedOn: "18 Jul 2026",
+  nextDue: "18 Oct 2026",
+  cost: 3200,
+  performedBy: "Bright Electrical Services",
+  status: "Completed",
+  notes:
+    "All electrical systems tested successfully. Emergency lights replaced."
+},
+
+{
+  id: 3,
+  maintenanceId: "MH-CH-003",
+  type: "HVAC Servicing",
+  description:
+    "Complete servicing of air conditioning units including gas pressure check, filter cleaning, and performance testing.",
+  performedOn: "05 Aug 2026",
+  nextDue: "05 Nov 2026",
+  cost: 5800,
+  performedBy: "CoolAir Solutions",
+  status: "In Progress",
+  notes:
+    "Two indoor units serviced. Remaining outdoor unit scheduled for completion."
+}
+],
   address: `Club House,
 Green View Apartment,
 Sector 45, Noida - 201301`,
@@ -181,8 +228,10 @@ additionalSettings: {
   bookingDuration: "2 Hours",
   repeatedBooking: "No",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 1 hour before the scheduled time.",
+ cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "06:00 AM - 08:00 PM",
   weeklyOff: "Monday",
@@ -194,6 +243,22 @@ additionalSettings: {
   maintenanceNotes:
     "Regular water quality check and cleaning.",
 
+maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0002",
+    type: "Water Quality Check",
+    description: "Water quality testing and chemical balancing.",
+    performedOn: "15 Jun 2025",
+    nextDue: "22 Jun 2025",
+    cost: 3200,
+    performedBy: "Aqua Care Services",
+    status: "Completed",
+    notes: "Water quality meets safety standards."
+  }
+],
+
+    
   address: `Swimming Pool,
 Green View Apartment,
 Sector 45, Noida - 201301`,
@@ -324,8 +389,10 @@ additionalSettings: {
   bookingDuration: "2 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 1 hour before use.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "05:00 AM - 10:00 PM",
   weeklyOff: "None",
@@ -337,6 +404,22 @@ additionalSettings: {
   maintenanceNotes:
     "Equipment inspection and cleaning completed.",
 
+
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0003",
+    type: "Equipment Servicing",
+    description: "Routine servicing of gym equipment.",
+    performedOn: "12 Jun 2025",
+    nextDue: "12 Jul 2025",
+    cost: 4800,
+    performedBy: "FitTech Services",
+    status: "Completed",
+    notes: "All equipment inspected and lubricated."
+  }
+],
   address: `Gymnasium,
 Block B, First Floor,
 Green View Apartment,
@@ -481,6 +564,22 @@ additionalSettings: {
   maintenanceNotes:
     "Play equipment safety inspection completed.",
 
+
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0004",
+    type: "Safety Inspection",
+    description: "Inspection of swings, slides and play equipment.",
+    performedOn: "10 Jun 2025",
+    nextDue: "10 Jul 2025",
+    cost: 1800,
+    performedBy: "Kids Safety Team",
+    status: "Completed",
+    notes: "All play equipment is safe for use."
+  }
+],
   address: `Children Play Area,
 Central Park,
 Green View Apartment,
@@ -612,8 +711,10 @@ additionalSettings: {
   bookingDuration: "8 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 24 hours before the event.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "09:00 AM - 10:00 PM",
   weeklyOff: "None",
@@ -625,6 +726,21 @@ additionalSettings: {
   maintenanceNotes:
     "Stage, lighting and seating inspected.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0005",
+    type: "Electrical Inspection",
+    description: "Inspection of lights, AC and electrical systems.",
+    performedOn: "08 Jun 2025",
+    nextDue: "08 Jul 2025",
+    cost: 3500,
+    performedBy: "Electrical Maintenance Team",
+    status: "Completed",
+    notes: "Electrical systems functioning normally."
+  }
+],
   address: `Multipurpose Hall,
 Block C, Ground Floor,
 Green View Apartment,
@@ -758,8 +874,10 @@ additionalSettings: {
   bookingDuration: "1 Hour",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 2 hours before the slot.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "Currently Under Maintenance",
   weeklyOff: "None",
@@ -771,6 +889,21 @@ additionalSettings: {
   maintenanceNotes:
     "Floor resurfacing and lighting upgrade in progress.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0006",
+    type: "Court Maintenance",
+    description: "Court cleaning and net inspection.",
+    performedOn: "05 Jun 2025",
+    nextDue: "05 Jul 2025",
+    cost: 2100,
+    performedBy: "Sports Facility Team",
+    status: "Completed",
+    notes: "Court surface cleaned and net adjusted."
+  }
+],
   address: `Badminton Court,
 Sports Complex,
 Green View Apartment,
@@ -901,8 +1034,10 @@ additionalSettings: {
   bookingDuration: "2 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 2 hours before the slot.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "06:00 AM - 08:00 PM",
   weeklyOff: "None",
@@ -914,6 +1049,22 @@ additionalSettings: {
   maintenanceNotes:
     "Net replacement and surface cleaning completed.",
 
+
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0007",
+    type: "Surface Inspection",
+    description: "Inspection of court surface and lighting.",
+    performedOn: "03 Jun 2025",
+    nextDue: "03 Jul 2025",
+    cost: 2700,
+    performedBy: "Sports Facility Team",
+    status: "Completed",
+    notes: "Court surface in good condition."
+  }
+],
   address: `Tennis Court,
 Sports Complex,
 Green View Apartment,
@@ -1044,8 +1195,10 @@ additionalSettings: {
   bookingDuration: "2 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 1 hour before the session.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "06:00 AM - 09:00 PM",
   weeklyOff: "None",
@@ -1057,6 +1210,21 @@ additionalSettings: {
   maintenanceNotes:
     "Room sanitization and ventilation check completed.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0008",
+    type: "Deep Cleaning",
+    description: "Deep cleaning and air conditioning check.",
+    performedOn: "01 Jun 2025",
+    nextDue: "01 Jul 2025",
+    cost: 1600,
+    performedBy: "Housekeeping Team",
+    status: "Completed",
+    notes: "Room cleaned and sanitized."
+  }
+],
   address: `Yoga & Meditation Room,
 Block B, Second Floor,
 Green View Apartment,
@@ -1201,6 +1369,21 @@ additionalSettings: {
   maintenanceNotes:
     "Library is temporarily closed for renovation and catalog update.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0009",
+    type: "Facility Inspection",
+    description: "Inspection of shelves, furniture and lighting.",
+    performedOn: "28 May 2025",
+    nextDue: "28 Jun 2025",
+    cost: 1400,
+    performedBy: "Library Maintenance Team",
+    status: "Completed",
+    notes: "Furniture and lighting checked."
+  }
+],
   address: `Library,
 Block A, First Floor,
 Green View Apartment,
@@ -1331,8 +1514,10 @@ additionalSettings: {
   bookingDuration: "6 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 24 hours before the event.",
+  cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "10:00 AM - 10:00 PM",
   weeklyOff: "None",
@@ -1344,6 +1529,21 @@ additionalSettings: {
   maintenanceNotes:
     "Stage lighting and seating inspection completed.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0010",
+    type: "Stage Inspection",
+    description: "Inspection of stage, seating and sound system.",
+    performedOn: "25 May 2025",
+    nextDue: "25 Jun 2025",
+    cost: 4200,
+    performedBy: "Event Support Team",
+    status: "Completed",
+    notes: "Stage equipment inspected successfully."
+  }
+],
   address: `Amphitheatre,
 Central Garden,
 Green View Apartment,
@@ -1474,8 +1674,10 @@ additionalSettings: {
   bookingDuration: "2 Hours",
   repeatedBooking: "Yes",
 
-  cancellationPolicy:
-    "Booking can be cancelled up to 1 hour before the scheduled slot.",
+cancellationPolicy: {
+  allowCancellation: true,
+  cancelBeforeHours: 2,
+},
 
   operatingHours: "09:00 AM - 09:00 PM",
   weeklyOff: "None",
@@ -1487,6 +1689,20 @@ additionalSettings: {
   maintenanceNotes:
     "Gaming tables and equipment inspected and serviced.",
 
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0011",
+    type: "Equipment Check",
+    description: "Inspection of indoor gaming equipment.",
+    performedOn: "22 May 2025",
+    nextDue: "22 Jun 2025",
+    cost: 1900,
+    performedBy: "Sports Maintenance Team",
+    status: "Completed",
+    notes: "Gaming equipment working properly."
+  }
+],
   address: `Indoor Games Room,
 Club House,
 Green View Apartment,
@@ -1627,6 +1843,21 @@ additionalSettings: {
   maintenanceNotes:
     "Track surface cleaned and safety inspection completed.",
 
+
+    maintenanceHistory: [
+  {
+    id: 1,
+    maintenanceId: "MNT-2025-0012",
+    type: "Track Inspection",
+    description: "Routine inspection and cleaning of the jogging track.",
+    performedOn: "20 May 2025",
+    nextDue: "20 Jun 2025",
+    cost: 2000,
+    performedBy: "Ground Maintenance Team",
+    status: "Completed",
+    notes: "Track surface cleaned and found safe for use."
+  }
+],
   address: `Jogging Track,
 Society Perimeter Road,
 Green View Apartment,
@@ -1732,107 +1963,107 @@ additionalSettings: {
    
   ]
 },
-]);
+];
 
 const  defaultBookings = [
-  {
-    id: 1,
-    amenityId: 1,
+//   {
+//     id: 1,
+//     amenityId: 1,
 
-    bookingId: "BK-2025-001",
+//     bookingId: "BK-2025-001",
 
-    residentName: "Rahul Mehta",
-    flatNumber: "A-101",
-    apartmentName: "Green View Apartment",
+//     residentName: "Rahul Mehta",
+//     flatNumber: "A-101",
+//     apartmentName: "Green View Apartment",
 
-    mobile: "9876543210",
-    email: "rahul.mehta@gmail.com",
+//     mobile: "9876543210",
+//     email: "rahul.mehta@gmail.com",
 
-    bookingDate: "16 May 2025",
-    bookingFor: "18 May 2025",
+//     bookingDate: "16 May 2025",
+//     bookingFor: "18 May 2025",
 
-    timeSlot: "10:00 AM - 02:00 PM",
+//     timeSlot: "10:00 AM - 02:00 PM",
 
-    start: "10:00 AM",
-    end: "02:00 PM",
+//     start: "10:00 AM",
+//     end: "02:00 PM",
 
-    status: "Confirmed",
+//     status: "Pending",
 
-    purpose: "Birthday Celebration",
+//     purpose: "Birthday Celebration",
 
-    numberOfPeople: 50,
+//     numberOfPeople: 50,
 
-    advanceBooking: "Yes",
-    repeatBooking: "No",
-    duration: "4 Hours",
+//     advanceBooking: "Yes",
+//     repeatBooking: "No",
+//     duration: "4 Hours",
 
-    paymentStatus: "Paid",
-    amountPaid: 2500,
+//     paymentStatus: "Paid",
+//     amountPaid: 2500,
 
-    notes: "Need projector and sound system.",
+//     notes: "Need projector and sound system.",
 
-    createdAt: "16 May 2025 09:15 AM",
+//     createdAt: "16 May 2025 09:15 AM",
 
-    timeline: [
-      {
-        title: "Booking Created",
-        date: "16 May 2025 09:15 AM",
-      },
-      {
-        title: "Booking Approved",
-        date: "16 May 2025 09:30 AM",
-      },
-    ],
-  },
+//     timeline: [
+//       {
+//         title: "Booking Created",
+//         date: "16 May 2025 09:15 AM",
+//       },
+//       {
+//         title: "Booking Approved",
+//         date: "16 May 2025 09:30 AM",
+//       },
+//     ],
+//   },
 
-  {
-    id: 2,
-    amenityId: 1,
+//   {
+//     id: 2,
+//     amenityId: 1,
 
-    bookingId: "BK-2025-002",
+//     bookingId: "BK-2025-002",
 
-    residentName: "Priya Sharma",
-    flatNumber: "B-204",
-    apartmentName: "Green View Apartment",
+//     residentName: "Priya Sharma",
+//     flatNumber: "B-204",
+//     apartmentName: "Green View Apartment",
 
-    mobile: "9876501234",
-    email: "priya.sharma@gmail.com",
+//     mobile: "9876501234",
+//     email: "priya.sharma@gmail.com",
 
-    bookingDate: "17 May 2025",
-    bookingFor: "19 May 2025",
+//     bookingDate: "17 May 2025",
+//     bookingFor: "19 May 2025",
 
-    timeSlot: "04:00 PM - 06:00 PM",
+//     timeSlot: "04:00 PM - 06:00 PM",
 
-    start: "04:00 PM",
-    end: "06:00 PM",
+//     start: "04:00 PM",
+//     end: "06:00 PM",
 
-    status: "Pending",
+//     status: "Confirmed",
 
-    purpose: "Yoga Session",
+//     purpose: "Yoga Session",
 
-    numberOfPeople: 15,
+//     numberOfPeople: 15,
 
-    advanceBooking: "Yes",
-    repeatBooking: "Yes",
-    duration: "2 Hours",
+//     advanceBooking: "Yes",
+//     repeatBooking: "Yes",
+//     duration: "2 Hours",
 
-    paymentStatus: "Pending",
-    amountPaid: 0,
+//     paymentStatus: "Pending",
+//     amountPaid: 2000,
 
-    notes: "",
+//     notes: "",
 
-    createdAt: "17 May 2025 10:00 AM",
+//     createdAt: "17 May 2025 10:00 AM",
 
-    timeline: [
-      {
-        title: "Booking Created",
-        date: "17 May 2025 10:00 AM",
-      },
-    ],
-  },
+//     timeline: [
+//       {
+//         title: "Booking Created",
+//         date: "17 May 2025 10:00 AM",
+//       },
+//     ],
+//   },
 
   
-];
+ ];
 const [bookings, setBookings] = useState(() => {
   const savedBookings = localStorage.getItem("amenityBookings");
 
@@ -1840,12 +2071,39 @@ const [bookings, setBookings] = useState(() => {
     ? JSON.parse(savedBookings)
     : defaultBookings;
 });
+
+
+
+const [amenities, setAmenities] = useState(() => {
+  const savedAmenities = localStorage.getItem("amenities");
+
+  return savedAmenities
+    ? JSON.parse(savedAmenities)
+    : defaultAmenities;
+});
 useEffect(() => {
   localStorage.setItem(
     "amenityBookings",
     JSON.stringify(bookings)
   );
 }, [bookings]);
+
+
+useEffect(() => {
+  localStorage.setItem(
+    "amenities",
+    JSON.stringify(amenities)
+  );
+
+
+  
+}, 
+
+
+
+
+
+[amenities]);
   return (
   <AmenityContext.Provider
     value={{

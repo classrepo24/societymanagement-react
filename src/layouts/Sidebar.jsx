@@ -162,6 +162,12 @@ amenities: [
     label: " Amenity Schedule",
   },
 
+  {
+
+     path:"/amenities/booking-history",
+    icon: "bi-plus-circle",
+    label: " Booking History",
+  },
   
 ],
 

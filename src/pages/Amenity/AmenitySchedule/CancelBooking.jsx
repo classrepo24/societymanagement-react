@@ -1,24 +1,36 @@
-
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../../components/Breadcrumbs";
 import { useAmenity } from "../../../context/AmenityContext";
 
-
 const CancelBooking = () => {
   const location = useLocation();
   const navigate = useNavigate();
+const [cancelErrorMessage, setCancelErrorMessage] = useState("");
 
-  const { bookings, setBookings } = useAmenity();
+const { bookings, setBookings, amenities } =
+    useAmenity();
 
   const { booking } = location.state || {};
 
-    const [cancelReason, setCancelReason] = useState("");
-  const [additionalDetails, setAdditionalDetails] = useState("");
+  const currentAmenity = amenities.find(
+    (item) =>
+      Number(item.id) ===
+      Number(booking?.amenityId)
+  );
+
+  
+console.log("CURRENT AMENITY CANCEL", currentAmenity);
+
+  const [cancelReason, setCancelReason] =
+    useState("");
+
+  const [additionalDetails, setAdditionalDetails] =
+    useState("");
 
   const [errors, setErrors] = useState({});
 
-    if (!booking) {
+  if (!booking) {
     return (
       <div className="p-6 text-center">
         Booking not found
@@ -26,86 +38,189 @@ const CancelBooking = () => {
     );
   }
 
-console.log("Booking Object:", booking);
-console.log("Time Slot:", booking.timeSlot);
+  console.log("Booking Object:", booking);
+  console.log("Time Slot:", booking.timeSlot);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!cancelReason) {
+      newErrors.cancelReason =
+        "Cancellation reason is required";
+    }
+
+    setErrors(newErrors);
+
+    return (
+      Object.keys(newErrors).length === 0
+    );
+  };
 
 
-
-
-const validateForm = () => {
-  const newErrors = {};
-
-  if (!cancelReason) {
-    newErrors.cancelReason = "Cancellation reason is required";
-  }
-
-  setErrors(newErrors);
-
-  return Object.keys(newErrors).length === 0;
-};
-
-const handleCancelBooking = () => {
-  if (!validateForm()) return;
-
-  const updatedBookings = bookings.map((item) =>
-    item.bookingId === booking.bookingId
-      ? {
-          ...item,
-          status: "Cancelled",
-          cancellationReason: cancelReason,
-          cancellationRemarks: additionalDetails,
-          cancelledAt: new Date().toISOString(),
-        }
-      : item
-  );
-
-  setBookings(updatedBookings);
-
-  localStorage.setItem(
-    "amenityBookings",
-    JSON.stringify(updatedBookings)
-  );
-
-navigate("/amenities/AmenitySchedule/schedule");
-};
-
-
-
-const breadcrumbItems=[
-{label:"Dashboard",path:"/"},
-{label:"Amenities",path:"/amenities"},
-{label:"Booking Details",path:"/amenities/booking"},
-{label:"Re-schedule Booking"},
-];
-
-
-const startTime = booking.timeSlot.split("-")[0].trim();
-
-const bookingStartTime = new Date(
-  `${booking.bookingFor} ${startTime}`
+  console.log(
+  "ALLOW CANCEL VALUE:",
+  currentAmenity?.cancellationPolicy?.allowCancellation
 );
+  const handleCancelBooking = () => {
 
-console.log("Booking Start Time:", bookingStartTime);
-
-
-const currentTime = new Date();
-
-const diffInHours =
-  (bookingStartTime - currentTime) / (1000 * 60 * 60);
-
-const isRefundEligible = diffInHours >= 2;
-
-const refundAmount = isRefundEligible
-  ? booking.amountPaid
-  : 0;
+  if (
+    currentAmenity?.cancellationPolicy?.allowCancellation === false
+  ) {
+    setCancelErrorMessage(
+  `This booking cannot be cancelled because it has already started or is within the ${cancelBeforeHours}-hour cancellation window.`
+);
+    return;
+  
 
 
+    }
+     if (!validateForm()) return;
+
+    const cancelBeforeHours =
+      currentAmenity?.cancellationPolicy
+        ?.cancelBeforeHours || 0;
+
+    const bookingDateTime = new Date(
+      `${booking.bookingDate} ${
+        booking.timeSlot.split(" - ")[0]
+      }`
+    );
+
+console.log("Booking Date:", booking.bookingDate);
+console.log("Start Time:", booking.timeSlot.split(" - ")[0]);
+console.log("Booking DateTime:", bookingDateTime);
 
 
+    const now = new Date();
+
+    const diffHours =
+      (bookingDateTime - now) /
+      (1000 * 60 * 60);
+
+   if (diffHours < cancelBeforeHours) {
+  setCancelErrorMessage(
+    `Cancellation is allowed only ${cancelBeforeHours} hours before booking time.`
+  );
+  return;
+}
+    const updatedBookings =
+      bookings.map((item) =>
+        item.bookingId ===
+        booking.bookingId
+          ? {
+              ...item,
+              status: "Cancelled",
+              cancellationReason:
+                cancelReason,
+              cancellationRemarks:
+                additionalDetails,
+              cancelledAt:
+                new Date().toISOString(),
+            }
+          : item
+      );
+
+    setBookings(updatedBookings);
+
+    localStorage.setItem(
+      "amenityBookings",
+      JSON.stringify(updatedBookings)
+    );
+
+    navigate(
+      "/amenities/AmenitySchedule/schedule"
+    );
+  };
+
+  const breadcrumbItems = [
+    {
+      label: "Dashboard",
+      path: "/",
+    },
+    {
+      label: "Amenities",
+      path: "/amenities",
+    },
+    {
+      label: "Booking Details",
+      path: "/amenities/booking",
+    },
+    {
+      label: "Re-schedule Booking",
+    },
+  ];
+
+  const startTime =
+    booking.timeSlot
+      .split("-")[0]
+      .trim();
+
+  const bookingStartTime =
+    new Date(
+      `${booking.bookingFor} ${startTime}`
+    );
+
+  console.log(
+    "Booking Start Time:",
+    bookingStartTime
+  );
+
+  const amenity = currentAmenity;
+
+  const currentTime = new Date();
+
+  const diffInHours =
+    (bookingStartTime -
+      currentTime) /
+    (1000 * 60 * 60);
+
+  const cancellationHours =
+    amenity?.cancellationPolicy
+      ?.cancelBeforeHours || 2;
+
+  const isRefundEligible =
+    diffInHours >=
+    cancellationHours;
+
+  const refundAmount =
+    isRefundEligible
+      ? booking.amountPaid
+      : 0;
     return (
     <div className="p-6">
 
+{cancelErrorMessage && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white rounded-2xl p-6 w-[450px] shadow-xl">
 
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+          <i className="bi bi-x-circle text-red-600 text-2xl"></i>
+        </div>
+
+        <div>
+          <h2 className="text-xl font-bold text-[#16216C]">
+            Cancellation Not Allowed
+          </h2>
+        </div>
+      </div>
+
+      <p className="text-gray-600 leading-7">
+        {cancelErrorMessage}
+      </p>
+
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={() => setCancelErrorMessage("")}
+          className="px-5 py-2 bg-[#16216C] text-white rounded-xl"
+        >
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
 
         
   <Breadcrumbs items={breadcrumbItems} />
@@ -615,7 +730,6 @@ const refundAmount = isRefundEligible
     </div>
   </div>
 </div>
-
 
 
        

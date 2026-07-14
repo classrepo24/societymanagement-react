@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAmenity } from "../../context/AmenityContext";
 
 export const BookingSettings = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { amenities, setAmenities } = useAmenity();
+  const [saved, setSaved] = useState(false);
 
   const amenity = amenities.find(
     (item) => item.id.toString() === id
@@ -14,15 +16,15 @@ export const BookingSettings = () => {
 
   const [settings, setSettings] = useState(amenity);
 
-  const days = [
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun",
-  ];
+  // const days = [
+  //   "Mon",
+  //   "Tue",
+  //   "Wed",
+  //   "Thu",
+  //   "Fri",
+  //   "Sat",
+  //   "Sun",
+  // ];
 
   const toggleDay = (day) => {
     const updatedAvailability =
@@ -57,18 +59,28 @@ export const BookingSettings = () => {
     });
   };
 
-  const handleSave = () => {
-    const updatedAmenities = amenities.map(
-      (item) =>
-        item.id.toString() === id
-          ? settings
-          : item
-    );
 
-    setAmenities(updatedAmenities);
+const handleSave = () => {
+  const updatedAmenities = amenities.map(
+    (item) =>
+      item.id.toString() === id
+        ? settings
+        : item
+  );
 
-    
-  };
+  setAmenities(updatedAmenities);
+
+  localStorage.setItem(
+    "amenities",
+    JSON.stringify(updatedAmenities)
+  );
+
+  setSaved(true);
+
+  setTimeout(() => {
+    setSaved(false);
+  }, 3000);
+};
 
   if (!settings) {
     return (
@@ -118,7 +130,10 @@ export const BookingSettings = () => {
           </p>
         </div>
 
-        <button className="border rounded-lg px-5 py-3 flex items-center gap-2 text-[#16216C] font-medium bg-white">
+        <button 
+         onClick={() =>navigate(`/amenities/edit/${id}`)
+}
+        className="border rounded-lg px-5 py-3 flex items-center gap-2 text-[#16216C] font-medium bg-white">
   <i className="bi bi-arrow-left"></i>
   Back to Edit Amenity
 </button>
@@ -581,7 +596,7 @@ checked={
   ...settings,
 cancellationPolicy: {
   ...settings.cancellationPolicy,
-  cancelBeforeHours: Number(e.target.value),
+  allowCancellation: e.target.checked,
 }
 })
         }
@@ -690,15 +705,15 @@ cancellationPolicy: {
     </div>
 
     <input
-      type="checkbox"
-      checked={settings.additionalSettings.requireSecurityDeposit}
-      onChange={(e) =>
-        handleAdditionalSetting(
-          "requireSecurityDeposit",
-          e.target.checked
-        )
-      }
-    />
+  type="checkbox"
+  checked={settings.additionalSettings?.requireSecurityDeposit || false}
+  onChange={(e) =>
+    handleAdditionalSetting(
+      "requireSecurityDeposit",
+      e.target.checked
+    )
+  }
+/>
   </div>
 
   {/* Deposit Amount */}
@@ -713,9 +728,9 @@ cancellationPolicy: {
       disabled={
         !settings.additionalSettings.requireSecurityDeposit
       }
-      value={
-        settings.additionalSettings.securityDepositAmount
-      }
+     value={
+  settings.additionalSettings?.securityDepositAmount || 0
+}
       onChange={(e) =>
         handleAdditionalSetting(
           "securityDepositAmount",
@@ -760,8 +775,14 @@ cancellationPolicy: {
 </div>
 
       {/* Footer Buttons */}
+    
 
       <div className="flex justify-end gap-4 mt-8">
+          {saved && (
+  <div className="mb-4 text-green-600 font-medium">
+    Booking settings saved successfully.
+  </div>
+)}
         <button className="border rounded-lg px-8 py-3 bg-white">
           Cancel
         </button>

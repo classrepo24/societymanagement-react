@@ -779,6 +779,11 @@ const handleRemoveFacility = (facility) => {
 
     {/* Maintenance History */}
     <button
+
+
+onClick={() =>
+    navigate(`/amenities/edit/${id}/maintenance-history`)
+  }
       className="w-full h-11 rounded-xl border border-[#CBD5E1] hover:bg-[#F8FAFC] flex items-center justify-center gap-2 text-sm font-medium text-[#01214A]"
     >
       <i className="bi bi-tools"></i>
@@ -913,14 +918,17 @@ const handleRemoveFacility = (facility) => {
     <label className="block text-[14px] font-medium text-[#334155] mb-2">
       Cancellation Policy
     </label>
-
-    <textarea
-      rows={5}
-      name="cancellationPolicy"
-      value={formData.cancellationPolicy}
-      onChange={handleChange}
-      className="w-full rounded-xl border border-[#CBD5E1] px-4 py-3 resize-none outline-none focus:ring-2 focus:ring-[#DBEAFE]"
-    />
+<textarea
+  rows={5}
+  name="cancellationPolicy"
+  value={
+    formData.cancellationPolicy?.allowCancellation
+      ? `Cancellation Allowed: Yes\nCancel Before: ${formData.cancellationPolicy.cancelBeforeHours} Hours`
+      : "Cancellation Not Allowed"
+  }
+  onChange={handleChange}
+  className="w-full rounded-xl border border-[#CBD5E1] px-4 py-3 resize-none outline-none focus:ring-2 focus:ring-[#DBEAFE]"
+/>
 
   </div>
 

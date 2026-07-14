@@ -1,10 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const BookingQuickActions = ({
   onConfirm,
   onReset,
   isBlocked,
 }) => {
+
+
+  const navigate = useNavigate();
   return (
     <>
       {/* Quick Actions Card */}
@@ -34,6 +39,8 @@ const BookingQuickActions = ({
           {/* Check Availability */}
 
           <button
+
+          onClick={() => navigate("/amenities/AmenitySchedule/schedule")}
             className="
             w-full
             flex
@@ -78,6 +85,8 @@ const BookingQuickActions = ({
           {/* Booking History */}
 
           <button
+          onClick={() => navigate("/amenities/booking-history")}
+
             className="
             w-full
             flex

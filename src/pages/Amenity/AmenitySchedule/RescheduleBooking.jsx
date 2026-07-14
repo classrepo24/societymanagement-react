@@ -25,6 +25,8 @@ bookings[bookings.length-1];
 const amenity = amenities.find(
 item=>item.id===booking?.amenityId
 );
+const [popupMessage, setPopupMessage] = useState("");
+const [showPopup, setShowPopup] = useState(false);
 
 const breadcrumbItems=[
 {label:"Dashboard",path:"/"},
@@ -54,6 +56,8 @@ const daysInMonth = new Date(
 
 const handleReschedule = () => {
   if (!selectedSlot) return;
+
+
 
   const updatedBookings = bookings.map((item) =>
     item.bookingId === booking.bookingId
@@ -863,19 +867,24 @@ return (
 <div className="col-span-3 flex justify-end gap-4 mt-6">
 
   <button
-    className="
-      w-[180px]
-      h-[52px]
-      border border-[#E2E8F0]
-      rounded-xl
-      bg-white
-      text-[#16216C]
-      font-semibold
-      hover:bg-[#F8FAFC]
-    "
-  >
-    Cancel
-  </button>
+  onClick={() =>
+    navigate("/amenities/booking", {
+      state: { booking },
+    })
+  }
+  className="
+    w-[180px]
+    h-[52px]
+    border border-[#E2E8F0]
+    rounded-xl
+    bg-white
+    text-[#16216C]
+    font-semibold
+    hover:bg-[#F8FAFC]
+  "
+>
+  Cancel
+</button>
 
   <button
   onClick={handleReschedule}
@@ -904,6 +913,41 @@ return (
 
 
 </div>
+
+
+
+{showPopup && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white rounded-2xl p-6 w-[420px] shadow-xl">
+      
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+          <i className="bi bi-exclamation-circle text-red-600 text-xl"></i>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-bold text-[#16216C]">
+            Reschedule Not Allowed
+          </h3>
+        </div>
+      </div>
+
+      <p className="text-gray-600 mb-6">
+        {popupMessage}
+      </p>
+
+      <div className="flex justify-end">
+        <button
+          onClick={() => setShowPopup(false)}
+          className="px-5 py-2 bg-[#2952FF] text-white rounded-xl"
+        >
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
 </div>
 
 

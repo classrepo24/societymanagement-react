@@ -307,6 +307,7 @@ export const Amenity = () => {
 
             <tbody>
               {sortedData.map((item, index) => (
+                 console.log("TABLE ITEM:", item),
                 <tr key={item.id} className="border-b hover:bg-gray-50">
                   {/* Amenity Name */}
                   <td className="p-4">
@@ -475,11 +476,16 @@ export const Amenity = () => {
 
                             <button
                               onClick={() => {
-                                setSelectedImages(item.images || []);
-                                setCurrentImageIndex(0);
-                                setShowImagesModal(true);
-                                setActiveMenu(null);
-                              }}
+  console.log(item.images);
+
+  setSelectedImages(
+    item.images?.map((img) => img.url || img) || []
+  );
+
+  setCurrentImageIndex(0);
+  setShowImagesModal(true);
+  setActiveMenu(null);
+}}
                               className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded"
                             >
                               <i className="bi bi-image-fill"></i>

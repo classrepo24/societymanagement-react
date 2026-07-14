@@ -4,13 +4,18 @@ const BookingSummary = ({
   amenity,
   selectedDate,
   selectedSlot,
+ 
+  securityDeposit
 }) => {
 
   const cleaningCharges = 500;
 
   const slotPrice = selectedSlot?.price || 0;
 
-  const totalAmount = slotPrice + cleaningCharges;
+ const totalAmount =
+  slotPrice +
+  cleaningCharges +
+  (securityDeposit || 0);
 
 
   const formatDate = (date) => {
