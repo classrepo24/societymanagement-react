@@ -19,7 +19,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                                 : "bg-red-100 text-red-700"
                         }`}
                 >
-                    ● {data.status}
+                     {data.status}
                 </span>
 
                 {isEditing ? (

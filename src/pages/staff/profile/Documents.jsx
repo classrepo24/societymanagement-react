@@ -12,6 +12,7 @@ import Edit from "../../../component/Edit";
 import DeleteModal from "../../../component/DeleteModal";
 import { useParams } from "react-router-dom";
 import staffData from "../../../data/staff.json";
+import Breadcrumb from "../../../component/Breadcrumb";
 
 const Documents = () => {
     const [activeTab, setActiveTab] = useState("Overview");
@@ -80,7 +81,7 @@ const staff = selectedStaff
     const { getStatusStyle } = useApp();
 
 
-    //file ipload in list
+    //file upload in list
     const handleFileUpload = (files) => {
         const newDocuments = files.map((file, index) => ({
             id: documentList.length + index + 1,
@@ -108,14 +109,14 @@ const staff = selectedStaff
         <div className="p-6 bg-gray-50 min-h-screen">
 
             {/* Breadcrumb */}
-            <p className="text-sm text-gray-500">
-                <button onClick={() => navigate("/dashboard")}> Dashboard</button>  /
-                <span className="text-sm text-gray-500"><button onClick={() => navigate("/staff")}>Staff</button></span> /
-                <span className="text-sm text-gray-500">
-                    {" "}
-                    <button onClick={() => navigate(`/staff/profile/${id}`)}>Staff Profile</button> /<span className="font-bold text-black">{" "}Documents</span>
-                </span>
-            </p>
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Staff Profile", path: `/staff/profile/${id}` },
+        { label: "Documents" },
+    ]}
+/>
 
             {/* Header */}
             <div className="flex justify-between items-center mt-2 mb-6">

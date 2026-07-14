@@ -3,13 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import payslipData from "../../data/payslip.json";
 import { downloadPDF } from "../../utils/downloadPDF";
 import { ToWords } from "to-words";
+import Breadcrumb from "../../component/Breadcrumb";
 
 const ViewpayslipPdf = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const payslipRef = useRef();
 
-    const [isDownloading, setIsDownloading] = useState(false);
+    const [ setIsDownloading] = useState(false);
     const [zoom, setZoom] = useState(100);
 
     const employee = payslipData.find(
@@ -58,15 +59,17 @@ const ViewpayslipPdf = () => {
             <div className="p-6 flex justify-between items-start">
 
                 <div>
-                    <p className="text-md text-gray-500">
-                        <button onClick={() => navigate("/dashboard")}> Dashboard</button> /
-                        <button onClick={() => navigate("/staff/profile/salary-payroll")}>Payroll</button>  /
-                        <button
-                            onClick={() => navigate(`/staff/profile/salary-payroll/view-payslip/${employee.id}`)}>Payslip </button> /
-
-                        <span className="font-bold text-gray-900 pl-2">Download PDF</span>
-                    </p>
-
+                    <Breadcrumb
+                        items={[
+                            { label: "Dashboard", path: "/dashboard" },
+                            { label: "Payroll", path: "/staff/profile/salary-payroll" },
+                            {
+                                label: "Payslip",
+                                path: `/staff/profile/salary-payroll/view-payslip/${employee.id}`,
+                            },
+                            { label: "Download PDF" },
+                        ]}
+                    />
                     <h1 className="text-4xl font-bold  mt-2">
                         Download PDF
                     </h1>

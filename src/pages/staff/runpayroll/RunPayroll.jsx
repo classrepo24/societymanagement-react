@@ -5,6 +5,7 @@ import Step1SelectPayPeriod from "./Step1SelectPayPeriod";
 import Step2ReviewEmployees from "./Step2ReviewEmployees";
 import Step3ReviewSummary from "./Step3ReviewSummary";
 import Step4ConfirmProcess from "./Step4ConfirmProcess";
+import Breadcrumb from "../../../component/Breadcrumb";
 
 const RunPayroll = () => {
   const navigate = useNavigate();
@@ -89,25 +90,13 @@ const RunPayroll = () => {
 
       <div className="flex justify-between items-center mb-6">
         <div>
-          <p className="text-sm text-gray-500">
-            <button onClick={() => navigate("/dashboard")}>
-              Dashboard
-            </button>{" "}
-            /
-            <button
-              onClick={() =>
-                navigate("/staff/profile/salary-payroll")
-              }
-            >
-              {" "}
-              Payroll
-            </button>{" "}
-            /
-            <span className="font-bold text-gray-900">
-              {" "}
-              Run Payroll
-            </span>
-          </p>
+          <Breadcrumb
+            items={[
+              { label: "Dashboard", path: "/dashboard" },
+              { label: "Payroll", path: "/staff/profile/salary-payroll" },
+              { label: "Run Payroll" },
+            ]}
+          />
 
           <h1 className="text-4xl font-bold mt-2">
             Run Payroll
@@ -144,13 +133,12 @@ const RunPayroll = () => {
             <div
               onClick={() => goToStep(i + 1)}
               className={`w-12 h-12 rounded-full cursor-pointer flex items-center justify-center text-white font-bold
-              ${
-                currentStep > i + 1
+              ${currentStep > i + 1
                   ? "bg-blue-600"
                   : currentStep === i + 1
-                  ? "bg-blue-700"
-                  : "bg-gray-300"
-              }`}
+                    ? "bg-blue-700"
+                    : "bg-gray-300"
+                }`}
             >
               {currentStep > i + 1 ? (
                 <i className="bi bi-check-lg"></i>

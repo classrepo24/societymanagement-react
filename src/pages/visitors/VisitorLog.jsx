@@ -3,16 +3,15 @@ import * as XLSX from "xlsx";
 import { useApp } from "../../context/AppContext";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
-import { useNavigate } from "react-router-dom";
 import Pagination from "../../component/Pagination";
 import { useState } from "react";
+import Breadcrumb from "../../component/Breadcrumb";
 const VisitorLog = () => {
   const { visitors,
     getStatusStyle,
     monthGrowth,
   } = useApp();
 
-  const navigate = useNavigate();
 
   //filter
   const [startDate, setStartDate] = useState("");
@@ -125,12 +124,13 @@ const VisitorLog = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
         <div>
-          <p className="text-sm text-gray-500">
-            <button onClick={() => navigate("/dashboard")}>Dashboard</button> /
-            <button onClick={() => navigate("/visitors")}>visitors </button>/
-            <span className="font-semibold text-black"> Visitor Log</span>
-          </p>
-
+          <Breadcrumb
+  items={[
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Visitors", path: "/visitors" },
+    { label: "Visitor Log" },
+  ]}
+/>
           <h1 className="text-3xl font-bold mt-2">Visitor Log</h1>
 
           <p className="text-gray-500 mt-1">

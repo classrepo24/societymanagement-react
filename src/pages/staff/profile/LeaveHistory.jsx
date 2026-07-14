@@ -5,18 +5,17 @@ import SortableHeader from "../../../component/SortableHeader";
 import useTable from "../../../hooks/useTable";
 import Pagination from "../../../component/Pagination";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import DeleteModal from "../../../component/DeleteModal";
 import ActionMenu from "../../../component/ActionMenu";
+import Breadcrumb from "../../../component/Breadcrumb";
 
 
 
 
 const LeaveHistory = () => {
 
-    const navigate = useNavigate();
 
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
@@ -171,10 +170,13 @@ const LeaveHistory = () => {
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
-            <div className="text-sm text-gray-500 mb-2">
-                <button onClick={() => navigate("/dashboard")}>Dashboard </button> /
-                <button onClick={() => navigate("/staff")}> Staff </button> / <span className="text-gray-900 font-bold">Leave History</span>
-            </div>
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Leave History" },
+    ]}
+/>
 
             <div className="flex items-start justify-between mb-6">
                 <div>

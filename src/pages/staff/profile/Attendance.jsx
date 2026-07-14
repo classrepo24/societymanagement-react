@@ -1,13 +1,13 @@
-import React from "react";
 import StatsCards from "../../../component/StatsCards";
 import Pagination from "../../../component/Pagination";
 import attendance from "../../../data/attendance.json"
 import useTable from "../../../hooks/useTable";
 import SortableHeader from "../../../component/SortableHeader";
-import { useNavigate,useParams} from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import { useState } from "react";
 import ActionMenu from "../../../component/ActionMenu";
 import { exportToExcel } from "../../../utils/exportToExcel";
+import Breadcrumb from "../../../component/Breadcrumb";
 const Attendance = () => {
 
   const [search, setSearch] = useState("");
@@ -30,8 +30,8 @@ const Attendance = () => {
     checkOut: "",
   });
 
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const location = useLocation();
+const staffId = location.state?.staffId;
 
   //edit attendance
 
@@ -234,25 +234,17 @@ const Attendance = () => {
     <div className="p-6 bg-[#F8FAFC] min-h-screen">
 
       {/* Breadcrumb */}
-      <p className="text-sm text-gray-500 mb-2">
-        <button onClick={() => navigate("/dashboard")}>Dashboard </button> /
-        <button onClick={() => navigate("/staff")}> Staff</button>  /
-        <button onClick={()=>navigate(`/staff/profile/${id}`)}>Staff Profile</button>/
 
-{/* <button
-  onClick={() => {
-    if (id) {
-      navigate(`/staff/profile/${id}`);
-    } else {
-      navigate("/staff");
-    }
-  }}
->
-  Staff Profile
-</button>/ */}
-        <span className="font-bold text-gray-700">Attendance</span>
-      </p>
-
+      <Breadcrumb
+  items={[
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Staff", path: "/staff" },
+    ...(staffId
+      ? [{ label: "Staff Profile", path: `/staff/profile/${staffId}` }]
+      : []),
+    { label: "Attendance" },
+  ]}
+/>
 
       {/* Heading */}
       <div className="flex justify-between items-center mb-6">

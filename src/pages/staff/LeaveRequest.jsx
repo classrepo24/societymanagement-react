@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Breadcrumb from "../../component/Breadcrumb";
 
 
 const LeaveRequest = () => {
@@ -92,16 +93,13 @@ const LeaveRequest = () => {
 
             {/* Header */}
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-500 mb-2">
-                <button
-                    onClick={() => navigate("/dashboard")} > Dashboard</button> /
-                <button
-                    onClick={() => navigate("/staff")} >Staff</button>/
-       
-                <span className="text-gray-900 font-bold">
-                     Leave Request
-                </span>
-            </div>
+            <Breadcrumb
+                items={[
+                    { label: "Dashboard", path: "/dashboard" },
+                    { label: "Staff", path: "/staff" },
+                    { label: "Leave Request" },
+                ]}
+            />
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-3xl font-bold text-[#0B1F66]">
@@ -112,7 +110,7 @@ const LeaveRequest = () => {
                     </p>
                 </div>
 
-                
+
             </div>
 
             <div className="grid grid-cols-3 gap-6">
@@ -557,7 +555,7 @@ const LeaveRequest = () => {
 
             <div className="flex justify-end gap-4 mt-8">
 
-                <button onClick={()=>navigate("/staff")} className="border px-8 py-3 rounded-lg">
+                <button onClick={() => navigate("/staff")} className="border px-8 py-3 rounded-lg">
                     Cancel
                 </button>
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {  useNavigate } from "react-router-dom";
 import activityLogData from "../../../data/activitylog.json";
 import Pagination from "../../../component/Pagination";
 import SortableHeader from "../../../component/SortableHeader";
@@ -8,9 +7,9 @@ import useTable from "../../../hooks/useTable";
 import DatePicker from "react-datepicker";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import "react-datepicker/dist/react-datepicker.css";
+import Breadcrumb from "../../../component/Breadcrumb";
 const ActivityLog = () => {
 
-    const navigate = useNavigate();
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -85,11 +84,13 @@ const ActivityLog = () => {
         <div className="p-6 bg-[#F8FAFC] min-h-screen">
 
             {/* Breadcrumb */}
-            <p className="text-sm text-gray-500 mb-2">
-               <button onClick={()=>navigate("/dashboard")}>Dashboard</button>  /
-               <button onClick={()=>navigate("/staff")}>Staff </button> /{" "}
-                <span className="text-[#0B1F66] font-semibold">Activity Log</span>
-            </p>
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Activity Log" },
+    ]}
+/>
 
             {/* Heading */}
             <div className="flex justify-between items-start flex-wrap gap-4 mb-6">

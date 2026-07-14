@@ -7,6 +7,7 @@ import Pagination from "../../../component/Pagination";
 import SortableHeader from "../../../component/SortableHeader";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import ActionMenu from "../../../component/ActionMenu";
+import Breadcrumb from "../../../component/Breadcrumb";
 const SalaryPayroll = () => {
 
     const [month, setMonth] = useState("");
@@ -98,13 +99,14 @@ const SalaryPayroll = () => {
     return (
         <div className="p-6 bg-[#F8FAFC] min-h-screen">
             {/* Breadcrumb */}
-            <p className="text-sm text-gray-500 mb-2">
-                <button onClick={() => navigate("/dashboard")}>Dashboard</button> /
-                <button onClick={() => navigate("/staff")}> Staff</button> /
-                <span className="font-bold text-gray-700">
-                    Salary & Payroll
-                </span>
-            </p>
+            
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Salary & Payroll" },
+    ]}
+/>
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6">

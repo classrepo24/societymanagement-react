@@ -2,10 +2,10 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import payslipData from "../../data/payslip.json"
 import { useState, useRef } from "react";
-import { downloadPDF } from "../../utils/downloadPDF";
+import Breadcrumb from "../../component/Breadcrumb";
 
 const ViewPayslip = () => {
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloading] = useState(false);
   const [visiblePeriods, setVisiblePeriods] = useState(6);
 
   const navigate = useNavigate();
@@ -70,11 +70,13 @@ const ViewPayslip = () => {
       <div className="flex justify-between items-center mb-6">
 
         <div>
-          <p className="text-sm text-gray-500">
-            <button onClick={() => navigate("/dashboard")}>Dashboard</button>  /
-            <button onClick={() => navigate("/staff/profile/salary-payroll")} >Payroll</button>  /{" "}
-            <span className="text-gray-900 font-semibold">Payslip</span>
-          </p>
+          <Breadcrumb
+            items={[
+              { label: "Dashboard", path: "/dashboard" },
+              { label: "Payroll", path: "/staff/profile/salary-payroll" },
+              { label: "Payslip" },
+            ]}
+          />
 
           <h1 className="text-4xl font-bold  mt-2">
             Payslip

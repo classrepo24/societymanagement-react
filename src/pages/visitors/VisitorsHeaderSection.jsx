@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import StatsCards from "../../component/StatsCards";
+import Breadcrumb from "../../component/Breadcrumb";
 
 const VisitorsHeaderSection = ({
   visitorsToday,
@@ -56,9 +57,12 @@ const VisitorsHeaderSection = ({
       {/* HEADER */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
         <div>
-          <p className="text-sm">
-            <button onClick={() => navigate("/dashboard")}>Dashboard</button>  / <span className="font-bold">visitors</span>
-          </p>
+          <Breadcrumb
+            items={[
+              { label: "Dashboard", path: "/dashboard" },
+              { label: "Visitors" },
+            ]}
+          />
 
           <h1 className="text-2xl font-semibold mt-2">
             Visitor Management

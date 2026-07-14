@@ -7,6 +7,7 @@ import AccountInfoCard from "./AccountInfoCard";
 import { useParams } from "react-router-dom";
 import staffData from "../../../data/staff.json";
 import { useLocation, useNavigate } from "react-router-dom";
+import Breadcrumb from "../../../component/Breadcrumb";
 
 const StaffProfile = () => {
     const [activeTab, setActiveTab] = useState("Overview");
@@ -51,9 +52,6 @@ const StaffProfile = () => {
         };
     });
 
-    if (!staff) {
-        return <h2 className="p-6"></h2>;
-    }
     const handleChange = (field, value) => {
         setStaff((prev) => ({
             ...prev,
@@ -66,14 +64,13 @@ const StaffProfile = () => {
         <div className="p-6 bg-gray-50 min-h-screen">
 
             {/* Breadcrumb */}
-            <p className="text-sm text-gray-500">
-                <button onClick={() => Navigate("/dashboard")}> Dashboard </button>/
-                <span className="text-sm text-gray-500"><button onClick={() => Navigate("/staff")}>Staff</button></span> /
-                <span className="font-bold text-black">
-                    {" "}
-                    Staff Profile
-                </span>
-            </p>
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Staff Profile" },
+    ]}
+/>
 
             {/* Header */}
             <div className="flex justify-between items-center mt-2 mb-6">

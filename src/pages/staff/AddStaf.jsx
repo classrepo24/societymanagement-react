@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Breadcrumb from "../../component/Breadcrumb";
 
 const AddStaf = () => {
 
@@ -212,10 +213,13 @@ const AddStaf = () => {
         <div className="bg-gray-50 min-h-screen p-6">
 
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-500 mb-2">
-                <button onClick={() => navigate("/dashboard")}> Dashboard </button> /
-                <button onClick={() => navigate("/staff")}> Staff</button> / <span className="text-gray-900 font-bold">Add Staff</span>
-            </div>
+            <Breadcrumb
+    items={[
+        { label: "Dashboard", path: "/dashboard" },
+        { label: "Staff", path: "/staff" },
+        { label: "Add Staff" },
+    ]}
+/>
 
             {/* Title */}
             <div className="flex justify-between items-start mb-6">

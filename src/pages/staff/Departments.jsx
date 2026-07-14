@@ -5,6 +5,7 @@ import useTable from "../../hooks/useTable";
 import SortableHeader from "../../component/SortableHeader";
 import Pagination from "../../component/Pagination";
 import { exportToExcel } from "../../utils/exportToExcel";
+import Breadcrumb from "../../component/Breadcrumb";
 
 
 const cards = [
@@ -86,11 +87,13 @@ const Departments = () => {
         <div className="p-6 bg-[#f8faff] min-h-screen">
 
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-500 mb-2">
-                Dashboard <span className="mx-2">/</span> Settings{" "}
-                <span className="mx-2">/</span>
-                <span className="text-gray-900 font-bold">Department</span>
-            </div>
+            <Breadcrumb
+  items={[
+    {label: "Dashboard",path: "/dashboard",},
+    {label: "Settings",path: "/settings",},
+    {label: "Department",},
+  ]}
+/>
 
             {/* Header */}
             <div className="flex justify-between items-start mb-6">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useTable from "../../hooks/useTable";
 import { useApp } from "../../context/AppContext";
@@ -8,6 +8,8 @@ import ActionMenu from "../../component/ActionMenu";
 import Pagination from "../../component/Pagination";
 import { exportToExcel } from "../../utils/exportToExcel";
 import DeleteModal from "../../component/DeleteModal";
+import Breadcrumb from "../../component/Breadcrumb";
+
 
 const Staff = () => {
 
@@ -142,11 +144,12 @@ const Staff = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
         <div>
-          <p className="text-sm text-gray-500">
-            <button onClick={() => navigate("/dashboard")}>Dashboard </button>/
-            <span className="font-semibold text-black"> Staff</span>
-          </p>
-
+          <Breadcrumb
+            items={[
+              { label: "Dashboard", path: "/dashboard" },
+              { label: "Staff" },
+            ]}
+          />
           <h1 className="text-3xl font-bold mt-2">Staff Management</h1>
 
           <p className="text-gray-500 mt-1">

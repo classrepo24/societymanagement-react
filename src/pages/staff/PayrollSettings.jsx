@@ -1,8 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import StatsCards from "../../component/StatsCards";
-import { useNavigate } from "react-router-dom";
+import Breadcrumb from "../../component/Breadcrumb";
 const PayrollSettings = () => {
-    const navigate = useNavigate();
     const [frequency, setFrequency] = useState("Monthly");
     const [payDay, setPayDay] = useState("31");
     const [financialYear, setFinancialYear] = useState("April - March (Default)");
@@ -17,20 +16,20 @@ const PayrollSettings = () => {
     const [allowOvertime, setAllowOvertime] = useState(true);
 
     useEffect(() => {
-  const saved = localStorage.getItem("payrollSettings");
+        const saved = localStorage.getItem("payrollSettings");
 
-  if (saved) {
-    const data = JSON.parse(saved);
+        if (saved) {
+            const data = JSON.parse(saved);
 
-    setFrequency(data.frequency);
-    setPayDay(data.payDay);
-    setFinancialYear(data.financialYear);
-    setAllowOvertime(data.allowOvertime);
-    setSalaryComponents(data.salaryComponents);
-    setDeductionComponents(data.deductionComponents);
-    setCompanyLogo(data.companyLogo);
-  }
-}, []);
+            setFrequency(data.frequency);
+            setPayDay(data.payDay);
+            setFinancialYear(data.financialYear);
+            setAllowOvertime(data.allowOvertime);
+            setSalaryComponents(data.salaryComponents);
+            setDeductionComponents(data.deductionComponents);
+            setCompanyLogo(data.companyLogo);
+        }
+    }, []);
 
     const [deductionComponents, setDeductionComponents] = useState([
         {
@@ -180,34 +179,34 @@ const PayrollSettings = () => {
     };
     //save settings
     const handleSaveSettings = () => {
-  const payrollSettings = {
-    frequency,
-    payDay,
-    financialYear,
-    allowOvertime,
-    salaryComponents,
-    deductionComponents,
-    companyLogo,
-  };
+        const payrollSettings = {
+            frequency,
+            payDay,
+            financialYear,
+            allowOvertime,
+            salaryComponents,
+            deductionComponents,
+            companyLogo,
+        };
 
-  localStorage.setItem(
-    "payrollSettings",
-    JSON.stringify(payrollSettings)
-  );
+        localStorage.setItem(
+            "payrollSettings",
+            JSON.stringify(payrollSettings)
+        );
 
-};
+    };
     return (
         <div className="bg-[#F8FAFC] min-h-screen p-6">
 
             {/* Breadcrumb */}
 
-            <p className="text-sm text-gray-500 mb-3">
-               <button onClick={()=>navigate("/dashboard")}>Dashboard</button>  /
-                <span className="mx-2"><button onClick={()=>navigate("/staff/profile/salary-payroll")}>Payroll</button></span> /
-                <span className="font-semibold text-[#0B1F66]">
-                    Payroll Settings
-                </span>
-            </p>
+            <Breadcrumb
+                items={[
+                    { label: "Dashboard", path: "/dashboard" },
+                    { label: "Payroll", path: "/staff/profile/salary-payroll" },
+                    { label: "Payroll Settings" },
+                ]}
+            />
 
             {/* Header */}
 
@@ -226,12 +225,12 @@ const PayrollSettings = () => {
                 </div>
 
                 <button
-  onClick={handleSaveSettings}
-  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 flex items-center gap-2"
->
-  <i className="bi bi-floppy"></i>
-  Save Settings
-</button>
+                    onClick={handleSaveSettings}
+                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 flex items-center gap-2"
+                >
+                    <i className="bi bi-floppy"></i>
+                    Save Settings
+                </button>
 
             </div>
 
@@ -728,27 +727,27 @@ const PayrollSettings = () => {
                             />
 
                         </label>
-                        
+
                     </div>
-                {companyLogo && (
-  <div className="mt-4 flex items-center justify-between border rounded-lg p-2">
+                    {companyLogo && (
+                        <div className="mt-4 flex items-center justify-between border rounded-lg p-2">
 
-    <img
-      src={companyLogo}
-      alt="Company Logo"
-      className="h-16 w-auto border object-contain"
-    />
+                            <img
+                                src={companyLogo}
+                                alt="Company Logo"
+                                className="h-16 w-auto border object-contain"
+                            />
 
-    <button
-      onClick={() => setCompanyLogo(null)}
-      className="text-red-600 hover:text-red-700 text-xl"
-      title="Remove Logo"
-    >
-      <i className="bi bi-trash"></i>
-    </button>
+                            <button
+                                onClick={() => setCompanyLogo(null)}
+                                className="text-red-600 hover:text-red-700 text-xl"
+                                title="Remove Logo"
+                            >
+                                <i className="bi bi-trash"></i>
+                            </button>
 
-  </div>
-)}
+                        </div>
+                    )}
                 </div>
                 {showModal && (
                     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
