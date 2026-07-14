@@ -7,9 +7,6 @@ const ActionMenu = ({
   onClose,
 
   onView,
-  onAssignRole,
-  onResetPassword,
-  onChangeStatus,
   onDelete,
   onEdit,
 
@@ -28,31 +25,33 @@ const ActionMenu = ({
   });
 
   useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
+  if (isOpen && buttonRef.current) {
+    const rect = buttonRef.current.getBoundingClientRect();
 
-      const menuHeight =
-        payrollMenu ? 100 : editOnly ? 110 : 320;
-      const spaceBelow = window.innerHeight - rect.bottom;
+    const actualMenuHeight =
+      menuRef.current?.offsetHeight ||
+      (payrollMenu ? 100 : editOnly ? 110 : 160);
 
-      let topPosition;
+    const spaceBelow = window.innerHeight - rect.bottom;
 
-      if (spaceBelow > menuHeight) {
-        topPosition = rect.bottom + 8;
-      } else {
-        topPosition = rect.top - menuHeight;
-      }
+    let topPosition;
 
-      if (topPosition < 10) {
-        topPosition = 10;
-      }
-
-      setPosition({
-        top: topPosition,
-        right: window.innerWidth - rect.right,
-      });
+    if (spaceBelow >= actualMenuHeight + 10) {
+      // Open below
+      topPosition = rect.bottom + 8;
+    } else {
+      // Open above
+      topPosition = rect.top - actualMenuHeight - 8;
     }
-  }, [isOpen, editOnly,payrollMenu]);
+
+    if (topPosition < 10) topPosition = 10;
+
+    setPosition({
+      top: topPosition,
+      right: window.innerWidth - rect.right,
+    });
+  }
+}, [isOpen, editOnly, payrollMenu]);
 
   useEffect(() => {
     const handleOutside = (e) => {
@@ -112,16 +111,7 @@ const ActionMenu = ({
                   View Payslip
                 </button>
 
-                <button
-                  onClick={() => {
-                    onEdit?.();
-                    onClose();
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
-                >
-                  <i className="bi bi-pencil-square text-yellow-600"></i>
-                  Edit Payroll
-                </button>
+                
               </>
             ) : (
               <>
@@ -148,45 +138,6 @@ const ActionMenu = ({
                   <i className="bi bi-pencil-square text-yellow-600"></i>
                   Edit
                 </button>
-
-                {!editOnly && (
-                  <button
-                    onClick={() => {
-                      onAssignRole?.();
-                      onClose();
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
-                  >
-                    <i className="bi bi-person-gear text-indigo-600"></i>
-                    Assign Role
-                  </button>
-                )}
-
-                {!editOnly && (
-                  <button
-                    onClick={() => {
-                      onResetPassword?.();
-                      onClose();
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
-                  >
-                    <i className="bi bi-key text-gray-700"></i>
-                    Reset Password
-                  </button>
-                )}
-
-                {!editOnly && (
-                  <button
-                    onClick={() => {
-                      onChangeStatus?.();
-                      onClose();
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left"
-                  >
-                    <i className="bi bi-arrow-repeat text-green-600"></i>
-                    Change Status
-                  </button>
-                )}
 
                 {showDelete && (
                   <button

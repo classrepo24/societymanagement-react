@@ -28,6 +28,9 @@ import AddStaf from "../pages/staff/AddStaf";
 import LeaveRequest from "../pages/staff/LeaveRequest";
 import PayrollSettings from "../pages/staff/PayrollSettings";
 import ViewPayslip from "../pages/staff/ViewPayslip";
+import Departments from "../pages/staff/Departments";
+import RunPayroll from "../pages/staff/runpayroll/RunPayroll";
+import ViewpayslipPdf from "../pages/staff/ViewpayslipPdf";
 
 const Allroutes = () => {
   return (
@@ -75,10 +78,14 @@ const Allroutes = () => {
       <Route path="/staff/profile/leave-history" element={<LeaveHistory />} />
       <Route path="/staff/profile/salary-payroll" element={<SalaryPayroll />} />
       <Route path="/staff/profile/salary-payroll/view-payslip/:id" element={<ViewPayslip />} />
+      <Route path="/staff/profile/salary-payroll/view-payslip/viewpayslip-pdf/:id" element={<ViewpayslipPdf />} />
+      
       <Route path="/staff/profile/salary-payroll/payroll-settings" element={<PayrollSettings />} />
+      <Route path="/staff/profile/salary-payroll/run-payroll" element={<RunPayroll />} />
       <Route path="/staff/profile/activity-log" element={<ActivityLog />} />
       <Route path="/staff/profile/add-staf" element={<AddStaf />} />
       <Route path="/staff/profile/leave-request" element={<LeaveRequest />} />
+      <Route path="/staff/profile/departments" element={<Departments />} />
 
 
     </Routes>

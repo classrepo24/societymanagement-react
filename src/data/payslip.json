@@ -43,7 +43,7 @@
     "esi": 300,
     "grossSalary": 31500,
     "deduction": 1500,
-    "netSalary": 30000,
+    "netSalary": 30401,
     "paymentStatus": "Pending",
     "payrollStatus": "Draft"
   },

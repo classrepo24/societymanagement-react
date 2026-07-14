@@ -4,7 +4,7 @@ import Pagination from "../../../component/Pagination";
 import attendance from "../../../data/attendance.json"
 import useTable from "../../../hooks/useTable";
 import SortableHeader from "../../../component/SortableHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams} from "react-router-dom";
 import { useState } from "react";
 import ActionMenu from "../../../component/ActionMenu";
 import { exportToExcel } from "../../../utils/exportToExcel";
@@ -31,6 +31,7 @@ const Attendance = () => {
   });
 
   const navigate = useNavigate();
+  const { id } = useParams();
 
   //edit attendance
 
@@ -236,9 +237,22 @@ const Attendance = () => {
       <p className="text-sm text-gray-500 mb-2">
         <button onClick={() => navigate("/dashboard")}>Dashboard </button> /
         <button onClick={() => navigate("/staff")}> Staff</button>  /
-        <button onClick={() => navigate("/staff/profile")}>Staff Profile</button> /
+        <button onClick={()=>navigate(`/staff/profile/${id}`)}>Staff Profile</button>/
+
+{/* <button
+  onClick={() => {
+    if (id) {
+      navigate(`/staff/profile/${id}`);
+    } else {
+      navigate("/staff");
+    }
+  }}
+>
+  Staff Profile
+</button>/ */}
         <span className="font-bold text-gray-700">Attendance</span>
       </p>
+
 
       {/* Heading */}
       <div className="flex justify-between items-center mb-6">

@@ -10,7 +10,7 @@ const StaffTabs = () => {
     { label: "Overview", path: `/staff/profile/${id}` }, 
     { label: "Documents", path: `/staff/profile/${id}/documents` },
 
-    { label: "Attendance", path: "/staff/profile/attendance" },
+    { label: "Attendance", path:"/staff/profile/attendance"},
     { label: "Leave History", path: "/staff/profile/leave-history" },
     { label: "Salary & Payroll", path: "/staff/profile/salary-payroll" },
     { label: "Activity Log", path: "/staff/profile/activity-log" },

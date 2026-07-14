@@ -281,14 +281,7 @@ const ActivityLog = () => {
                                     Description
                                 </th>
 
-                                <SortableHeader
-                                    label="IP Address"
-                                    field="ip"
-                                    sortField={sortField}
-                                    sortOrder={sortOrder}
-                                    handleSort={handleSort}
-                                    className="px-4 py-4 text-left"
-                                />
+                                
                                 
 
                             </tr>
@@ -361,9 +354,7 @@ const ActivityLog = () => {
                                         {item.description}
                                     </td>
 
-                                    <td className="px-4 py-4">
-                                        {item.ip}
-                                    </td>
+                                    
                                     
                                 </tr>
                             ))}

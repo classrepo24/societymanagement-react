@@ -30,33 +30,10 @@ const Staff = () => {
   const [appliedPurpose, setAppliedPurpose] = useState("All");
   const [roleFilter, setRoleFilter] = useState("All");
   const [appliedRole, setAppliedRole] = useState("All");
-  const [editingRoleId, setEditingRoleId] = useState(null);
-  const [editingStatusId, setEditingStatusId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [staffToDelete, setStaffToDelete] = useState(null);
+  const [editingStaffId, setEditingStaffId] = useState(null);
 
-  //for action reset
-  useEffect(() => {
-
-    const handleClickOutside = (e) => {
-
-      if (
-        actionEditRef.current &&
-        !actionEditRef.current.contains(e.target)
-      ) {
-        setEditingRoleId(null);
-        setEditingStatusId(null);
-      }
-
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-
-  }, []);
 
   //  filter
   const filteredstaffs = staffs.filter((staff) => {
@@ -429,36 +406,41 @@ const Staff = () => {
                       {staff.id}
                     </td>
                     {/* Visitor Details */}
-                    <td className="p-2">
-                      <div className="flex items-center gap-3">
-
-                        <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold">
-                          {staff.name.charAt(0)}
-                        </div>
-
-                        <div>
-                          <div className="font-medium">{staff.name}</div>
-                        </div>
-                      </div>
+                    <td className="px-3 py-3">
+                      {editingStaffId === staff.id ? (
+                        <input
+                          className="border rounded px-2 py-1 w-full"
+                          value={staff.name}
+                          onChange={(e) =>
+                            setStaffs(prev =>
+                              prev.map(item =>
+                                item.id === staff.id
+                                  ? { ...item, name: e.target.value }
+                                  : item
+                              )
+                            )
+                          }
+                        />
+                      ) : (
+                        staff.name
+                      )}
                     </td>
                     {/* Role*/}
                     <td
                       className="px-3 py-3">
-                      {editingRoleId === staff.id ? (
+                      {editingStaffId === staff.id ? (
                         <select
-                          onMouseDown={(e) => e.stopPropagation()}
+                          className="border rounded px-2 py-1"
                           value={staff.role}
-                          onChange={(e) => {
-                            setStaffs((prev) =>
-                              prev.map((item) =>
+                          onChange={(e) =>
+                            setStaffs(prev =>
+                              prev.map(item =>
                                 item.id === staff.id
                                   ? { ...item, role: e.target.value }
                                   : item
                               )
-                            );
-                            setEditingRoleId(null);
-                          }}
-                          className="border rounded px-2 py-1"
+                            )
+                          }
                         >
                           <option>Security Guard</option>
                           <option>Security Supervisor</option>
@@ -481,34 +463,72 @@ const Staff = () => {
                       )}
                     </td>
                     {/* Department */}
-                    <td className="px-3 py-3">{staff.department}</td>
-
+                    <td className="px-3 py-3">
+                      {editingStaffId === staff.id ? (
+                        <select
+                          className="border rounded px-2 py-1 w-full"
+                          value={staff.department}
+                          onChange={(e) =>
+                            setStaffs((prev) =>
+                              prev.map((item) =>
+                                item.id === staff.id
+                                  ? { ...item, department: e.target.value }
+                                  : item
+                              )
+                            )
+                          }
+                        >
+                          <option>Security</option>
+                          <option>Maintenance</option>
+                          <option>Housekeeping</option>
+                          <option>Administration</option>
+                          <option>Finance</option>
+                        </select>
+                      ) : (
+                        staff.department
+                      )}
+                    </td>
                     {/* Phone */}
                     <td className="px-3 py-3">
-                      {staff.phone}
+                      {editingStaffId === staff.id ? (
+                        <input
+                          type="text"
+                          className="border rounded px-2 py-1 w-full"
+                          value={staff.phone}
+                          onChange={(e) =>
+                            setStaffs((prev) =>
+                              prev.map((item) =>
+                                item.id === staff.id
+                                  ? { ...item, phone: e.target.value }
+                                  : item
+                              )
+                            )
+                          }
+                        />
+                      ) : (
+                        staff.phone
+                      )}
                     </td>
 
                     {/* Status */}
-                    <td
-                      className="px-3 py-3">
-                      {editingStatusId === staff.id ? (
+                    <td className="px-3 py-3">
+                      {editingStaffId === staff.id ? (
                         <select
-                          onMouseDown={(e) => e.stopPropagation()}
+                          className="border rounded px-2 py-1 w-full"
                           value={staff.status}
-                          onChange={(e) => {
+                          onChange={(e) =>
                             setStaffs((prev) =>
                               prev.map((item) =>
                                 item.id === staff.id
                                   ? { ...item, status: e.target.value }
                                   : item
                               )
-                            );
-                            setEditingStatusId(null);
-                          }}
-                          className="border rounded px-2 py-1"
+                            )
+                          }
                         >
                           <option>Active</option>
                           <option>On Leave</option>
+                          <option>Inactive</option>
                         </select>
                       ) : (
                         staff.status
@@ -518,48 +538,65 @@ const Staff = () => {
 
                     {/* Joining date */}
                     <td className="px-3 py-3">
-                      {staff.joiningDate}
+                      {editingStaffId === staff.id ? (
+                        <input
+                          type="date"
+                          className="border rounded px-2 py-1 w-full"
+                          value={staff.joiningDate}
+                          onChange={(e) =>
+                            setStaffs((prev) =>
+                              prev.map((item) =>
+                                item.id === staff.id
+                                  ? { ...item, joiningDate: e.target.value }
+                                  : item
+                              )
+                            )
+                          }
+                        />
+                      ) : (
+                        staff.joiningDate
+                      )}
                     </td>
 
 
                     {/* Actions */}
-                    <td className=" px-3 py-3  ">
-                      <ActionMenu
-                        isOpen={openMenu === staff.id}
-                        onToggle={() =>
-                          setOpenMenu((prev) => (prev === staff.id ? null : staff.id))
-                        }
-                        onClose={() => setOpenMenu(null)}
+                    <td className="px-3 py-3">
+                      {editingStaffId === staff.id ? (
+                        <div className="flex gap-2">
+                          <button
+                            className="bg-green-600 text-white px-3 py-1 rounded"
+                            onClick={() => setEditingStaffId(null)}
+                          >
+                            Save
+                          </button>
 
-                        onView={() =>
-                          navigate(`/staff/profile/${staff.id}`)
-                        }
-                        onEdit={() => {
-                          navigate("/staff/profile", {
-                            state: {
-                              editMode: true,
-                              staff,
-                            },
-                          });
-                        }}
+                          <button
+                            className="bg-gray-500 text-white px-3 py-1 rounded"
+                            onClick={() => setEditingStaffId(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      ) : (
+                        <ActionMenu
+                          isOpen={openMenu === staff.id}
+                          onToggle={() =>
+                            setOpenMenu((prev) => (prev === staff.id ? null : staff.id))
+                          }
+                          onClose={() => setOpenMenu(null)}
 
-                        onAssignRole={() => {
-                          setEditingRoleId(staff.id);
-                          setEditingStatusId(null);
-                        }}
+                          onView={() => navigate(`/staff/profile/${staff.id}`)}
 
-                        onChangeStatus={() => {
-                          setEditingStatusId(staff.id);
-                          setEditingRoleId(null);
-                        }}
-                        onDelete={() => {
-                          setStaffToDelete(staff);
-                          setShowDeleteModal(true);
-                        }}
-                        onResetPassword={() => {
+                          onEdit={() => setEditingStaffId(staff.id)}
 
-                        }}
-                      />
+                          onDelete={() => {
+                            setStaffToDelete(staff);
+                            setShowDeleteModal(true);
+                          }}
+
+                          showDelete={true}
+                        />
+                      )}
                     </td>
                   </tr>
                 )

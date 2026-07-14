@@ -134,7 +134,8 @@ const SalaryPayroll = () => {
                         <i className="bi bi-download"></i>
                         Export
                     </button>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2">
+                    <button onClick={()=>navigate("/staff/profile/salary-payroll/run-payroll")} 
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2">
                         <i className="bi bi-plus-lg"></i>
                         Run Payroll
                     </button>
@@ -366,23 +367,23 @@ const SalaryPayroll = () => {
 
                                             <td className="px-4 py-4">{item.department}</td>
 
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 ">
                                                 ₹{item.basic.toLocaleString()}
                                             </td>
 
-                                            <td className="px-4 py-4 text-right text-green-600">
+                                            <td className="px-4 py-4  text-green-600">
                                                 ₹{item.allowance.toLocaleString()}
                                             </td>
 
-                                            <td className="px-4 py-4 text-right text-red-600">
+                                            <td className="px-4 py-4  text-red-600">
                                                 ₹{item.deduction.toLocaleString()}
                                             </td>
 
-                                            <td className="px-4 py-4 text-right font-semibold">
+                                            <td className="px-4 py-4  font-semibold">
                                                 ₹{item.netSalary.toLocaleString()}
                                             </td>
 
-                                            <td className="px-4 py-4 text-center">
+                                            <td className="pl-8 py-4 ">
                                                 <span
                                                     className={`px-3 py-1 rounded-full text-xs font-medium ${item.paymentStatus === "Paid"
                                                         ? "bg-green-100 text-green-700"
@@ -393,7 +394,7 @@ const SalaryPayroll = () => {
                                                 </span>
                                             </td>
 
-                                            <td className="px-4 py-4 text-center">
+                                            <td className="px-4 py-4 ">
                                                 <span
                                                     className={`px-3 py-1 rounded-full text-xs font-medium ${item.payrollStatus === "Processed"
                                                         ? "bg-blue-100 text-blue-700"
@@ -416,16 +417,7 @@ const SalaryPayroll = () => {
                                                         navigate(`/staff/profile/salary-payroll/view-payslip/${item.id}`)
                                                     }
 
-                                                    onEdit={() =>
-                                                        navigate(`/staff/profile/salary-payroll/edit/${item.id}`)
-                                                    }
-
-                                                    onDelete={() => {
-                                                        console.log("Delete", item.id);
-                                                    }}
-
-                                                    payrollMenu
-                                                    showDelete={false}
+                                                  payrollMenu
                                                 />
                                             </td>
                                         </tr>

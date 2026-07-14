@@ -11,7 +11,6 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
   // Current route information
   const location = useLocation();
 
-
   // Toggle submenu visibility
   const toggleMenu = (label) => {
     setOpenMenus((prev) => ({
@@ -128,7 +127,7 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
         label: "Departments",
       },
       {
-        path: "/staff/profile/attendance",
+        path:"/staff/profile/attendance",
         icon: "bi bi-calendar2-check",
         label: "Attendance",
       },
@@ -142,11 +141,7 @@ export const Sidebar = ({ isSidebarOpen, mobileSidebarOpen, setMobileSidebarOpen
         icon: "bi-credit-card",
         label: "Payroll",
       },
-      {
-        path: "/staff/profile/view-payslip",
-        icon:"bi bi-journals",
-        label: "View Payslip",
-      },
+      
     ],
 
 

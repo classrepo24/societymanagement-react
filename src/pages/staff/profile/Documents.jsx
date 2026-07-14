@@ -10,6 +10,8 @@ import { useApp } from "../../../context/AppContext";
 import ActionMenu from "../../../component/ActionMenu";
 import Edit from "../../../component/Edit";
 import DeleteModal from "../../../component/DeleteModal";
+import { useParams } from "react-router-dom";
+import staffData from "../../../data/staff.json";
 
 const Documents = () => {
     const [activeTab, setActiveTab] = useState("Overview");
@@ -17,23 +19,12 @@ const Documents = () => {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [selectedDocument, setSelectedDocument] = useState(null);
 const [showDelete, setShowDelete] = useState(false);
-    const Navigate = useNavigate();
+   
+const navigate = useNavigate();
+    const { id } = useParams();
 
-    const staff = {
-        id: "STF001",
-        name: "Rajesh Kumar",
-        role: "Security Guard",
-        department: "Security",
-        status: "Active",
-        phone: "+91 98765 43210",
-        email: "rajesh.kumar@society.com",
-        joiningDate: "01 Jan 2024",
-        reporting: "Ramesh Sharma",
-        gender: "Male",
-        dob: "15 Aug 1988",
-        address: "B-102, Green View Apartments",
-    };
 
+    
     //drag and drop
     const [dragging, setDragging] = useState(false);
 
@@ -42,6 +33,23 @@ const [showDelete, setShowDelete] = useState(false);
     const [category, setCategory] = useState("All Categories");
     const [status, setStatus] = useState("All Status");
     const [openMenu, setOpenMenu] = useState(null);
+
+    const selectedStaff = staffData.staff.find(
+  (item) => String(item.id) === String(id)
+);
+
+const staff = selectedStaff
+  ? {
+      ...selectedStaff,
+      gender: "Male",
+      dob: "15 Aug 1988",
+      address: "B-102, Green View Apartments",
+      email:
+        selectedStaff.email ||
+        `${selectedStaff.name.toLowerCase().replace(/\s/g, ".")}@society.com`,
+      reporting: "Ramesh Sharma",
+    }
+  : null;
 
     const itemsPerPage = 7;
 
@@ -101,11 +109,11 @@ const [showDelete, setShowDelete] = useState(false);
 
             {/* Breadcrumb */}
             <p className="text-sm text-gray-500">
-                <button onClick={() => Navigate("/dashboard")}> Dashboard</button>  /
-                <span className="text-sm text-gray-500"><button onClick={() => Navigate("/staff")}>Staff</button></span> /
+                <button onClick={() => navigate("/dashboard")}> Dashboard</button>  /
+                <span className="text-sm text-gray-500"><button onClick={() => navigate("/staff")}>Staff</button></span> /
                 <span className="text-sm text-gray-500">
                     {" "}
-                    <button onClick={() => Navigate("/staff/profile")}>Staff Profile</button> /<span className="font-bold text-black">{" "}Documents</span>
+                    <button onClick={() => navigate(`/staff/profile/${id}`)}>Staff Profile</button> /<span className="font-bold text-black">{" "}Documents</span>
                 </span>
             </p>
 
@@ -120,7 +128,7 @@ const [showDelete, setShowDelete] = useState(false);
                 </div>
 
                 <div className="flex gap-3">
-                    <button onClick={() => Navigate("/staff")} className="border rounded-lg px-5 py-2 hover:bg-gray-100">
+                    <button onClick={() => navigate("/staff")} className="border rounded-lg px-5 py-2 hover:bg-gray-100">
                         <i className="bi bi-arrow-left"></i> Back to Staff
                     </button>
 
