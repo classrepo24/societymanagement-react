@@ -325,7 +325,7 @@ const Staff = () => {
             <thead className="bg-gray-100 text-xs md:text-sm">
               <tr className="text-left">
                 <SortableHeader
-                  label="staff ID"
+                  label="Staff ID"
                   field="id"
                   sortField={sortField}
                   sortOrder={sortOrder}
@@ -334,7 +334,7 @@ const Staff = () => {
                 />
 
                 <SortableHeader
-                  label="name"
+                  label="Name"
                   field="name"
                   sortField={sortField}
                   sortOrder={sortOrder}
@@ -425,9 +425,16 @@ const Staff = () => {
                           }
                         />
                       ) : (
-                        staff.name
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold">
+                            {staff?.name?.charAt(0)?.toUpperCase() || "?"}
+                          </div>
+
+                          <span>{staff.name}</span>
+                        </div>
                       )}
                     </td>
+
                     {/* Role*/}
                     <td
                       className="px-3 py-3">
@@ -581,7 +588,8 @@ const Staff = () => {
                           </button>
                         </div>
                       ) : (
-                        <ActionMenu
+                        <ActionMenu 
+                        viewLabel="View Profile"
                           isOpen={openMenu === staff.id}
                           onToggle={() =>
                             setOpenMenu((prev) => (prev === staff.id ? null : staff.id))

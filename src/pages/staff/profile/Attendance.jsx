@@ -457,7 +457,7 @@ const staffId = location.state?.staffId;
 
                   <td className="px-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-14 h-14 rounded-full bg-blue-100 text-2xl text-blue-600 flex items-center justify-center ">
+                      <div className="w-9 h-9 rounded-full bg-blue-100 text-1xl text-blue-600 flex items-center justify-center ">
                         {item.staffName.charAt(0).toUpperCase()}
                       </div>
 

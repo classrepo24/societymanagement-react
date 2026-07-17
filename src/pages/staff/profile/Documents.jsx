@@ -11,7 +11,6 @@ import ActionMenu from "../../../component/ActionMenu";
 import Edit from "../../../component/Edit";
 import DeleteModal from "../../../component/DeleteModal";
 import { useParams } from "react-router-dom";
-import staffData from "../../../data/staff.json";
 import Breadcrumb from "../../../component/Breadcrumb";
 
 const Documents = () => {
@@ -35,23 +34,7 @@ const navigate = useNavigate();
     const [status, setStatus] = useState("All Status");
     const [openMenu, setOpenMenu] = useState(null);
 
-    const selectedStaff = staffData.staff.find(
-  (item) => String(item.id) === String(id)
-);
-
-const staff = selectedStaff
-  ? {
-      ...selectedStaff,
-      gender: "Male",
-      dob: "15 Aug 1988",
-      address: "B-102, Green View Apartments",
-      email:
-        selectedStaff.email ||
-        `${selectedStaff.name.toLowerCase().replace(/\s/g, ".")}@society.com`,
-      reporting: "Ramesh Sharma",
-    }
-  : null;
-
+    
     const itemsPerPage = 7;
 
     const filteredDocuments = documentList.filter((doc) => {
@@ -78,9 +61,28 @@ const staff = selectedStaff
 
     } = useTable(filteredDocuments, itemsPerPage);
 
-    const { getStatusStyle } = useApp();
+const { staffs, getStatusStyle } = useApp();
 
+const selectedStaff = staffs.find(
+  (item) => String(item.id) === String(id)
+);
 
+if (!selectedStaff) {
+  return (
+    <div className="p-6">
+      <h2 className="text-xl font-semibold">Staff not found</h2>
+    </div>
+  );
+}
+
+const staff = {
+  ...selectedStaff,
+  gender: selectedStaff.gender || "-",
+  dob: selectedStaff.dob || "-",
+  address: selectedStaff.address || "-",
+  email: selectedStaff.email || "-",
+  reporting: selectedStaff.reportingTo || "-",
+};
     //file upload in list
     const handleFileUpload = (files) => {
         const newDocuments = files.map((file, index) => ({

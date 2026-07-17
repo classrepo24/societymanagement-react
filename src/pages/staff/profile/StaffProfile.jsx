@@ -5,13 +5,14 @@ import AboutCard from "./AboutCard";
 import WorkInfoCard from "./WorkInfoCard";
 import AccountInfoCard from "./AccountInfoCard";
 import { useParams } from "react-router-dom";
-import staffData from "../../../data/staff.json";
+import { useApp } from "../../../context/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumb from "../../../component/Breadcrumb";
 
 const StaffProfile = () => {
     const [activeTab, setActiveTab] = useState("Overview");
 
+    const { staffs } = useApp();
 
     const Navigate = useNavigate();
     const location = useLocation();
@@ -20,9 +21,11 @@ const StaffProfile = () => {
     const [isEditing, setIsEditing] = useState(
         location.state?.editMode || false
     );
-    const selectedStaff = staffData.staff.find(
-        (item) => item.id === id
-    );
+
+    const selectedStaff = staffs.find(
+    (item) => item.id === id
+);
+
 
 
 
@@ -51,7 +54,13 @@ const StaffProfile = () => {
             reporting: "Ramesh Sharma",
         };
     });
-
+if (!selectedStaff) {
+  return (
+    <div className="p-6">
+      <h2 className="text-xl font-semibold">Staff not found</h2>
+    </div>
+  );
+}
     const handleChange = (field, value) => {
         setStaff((prev) => ({
             ...prev,
