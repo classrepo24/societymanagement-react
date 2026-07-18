@@ -1,6 +1,7 @@
 import useTable from "../../hooks/useTable";
 import SortableHeader from "../../component/SortableHeader";
 import Pagination from "../../component/Pagination";
+import { useApp } from "../../context/AppContext";
 const InsidevisitorsTable = ({
   showAllvisitors,
   setShowAllvisitors,
@@ -8,6 +9,7 @@ const InsidevisitorsTable = ({
   setvisitors,
 }) => {
 
+  const { getStatusStyle } = useApp();
 
   const itemsPerPage = 7;
 
@@ -66,7 +68,7 @@ const InsidevisitorsTable = ({
   const finalvisitors = showAllvisitors
     ? paginatedvisitors
     : sortedvisitors.slice(0, 1);
-  
+
   return (
     <>
       <div className="bg-white rounded-xl shadow p-2 mt-2 flex flex-col">
@@ -201,18 +203,15 @@ const InsidevisitorsTable = ({
                   </td>
                   <td className="whitespace-nowrap">
                     <span
-                      className={`px-3 py-1 rounded-md text-xs font-medium  ${v.status === "inside"
-                        ? "bg-green-100 text-green-700 "
-                        : "bg-gray-100 text-gray-700 border-gray-300"
-                        }`}
+                      className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(v.status)}`}
                     >
-                      {v.status === "inside" ? "inside" : "Exited"}
+                      {v.status}
                     </span>
                   </td>
 
                   <td className="whitespace-nowrap ">
                     <div className="flex justify-center">
-                      
+
                       <button
                         onClick={() => handleCheckout(v.phone)}
                         disabled={v.status === "exited"}
@@ -244,16 +243,16 @@ const InsidevisitorsTable = ({
           </button>
         </div>
 
-        
-         {showAllvisitors && (
-  <Pagination
-  currentPage={currentPage}
-  setCurrentPage={setCurrentPage}
-  totalPages={totalPages}
-  totalItems={insidevisitors.length}
-  itemsPerPage={itemsPerPage}
-/>
-)}
+
+        {showAllvisitors && (
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            totalItems={insidevisitors.length}
+            itemsPerPage={itemsPerPage}
+          />
+        )}
       </div>
     </>
   );

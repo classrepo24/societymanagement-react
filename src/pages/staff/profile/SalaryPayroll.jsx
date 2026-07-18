@@ -8,7 +8,10 @@ import SortableHeader from "../../../component/SortableHeader";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import ActionMenu from "../../../component/ActionMenu";
 import Breadcrumb from "../../../component/Breadcrumb";
+import { useApp } from "../../../context/AppContext";
 const SalaryPayroll = () => {
+
+    const { getStatusStyle } = useApp();
 
     const [month, setMonth] = useState("");
     const [department, setDepartment] = useState("");
@@ -99,14 +102,14 @@ const SalaryPayroll = () => {
     return (
         <div className="p-6 bg-[#F8FAFC] min-h-screen">
             {/* Breadcrumb */}
-            
+
             <Breadcrumb
-    items={[
-        { label: "Dashboard", path: "/dashboard" },
-        { label: "Staff", path: "/staff" },
-        { label: "Salary & Payroll" },
-    ]}
-/>
+                items={[
+                    { label: "Dashboard", path: "/dashboard" },
+                    { label: "Staff", path: "/staff" },
+                    { label: "Salary & Payroll" },
+                ]}
+            />
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
@@ -136,8 +139,8 @@ const SalaryPayroll = () => {
                         <i className="bi bi-download"></i>
                         Export
                     </button>
-                    <button onClick={()=>navigate("/staff/profile/salary-payroll/run-payroll")} 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2">
+                    <button onClick={() => navigate("/staff/profile/salary-payroll/run-payroll")}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center gap-2">
                         <i className="bi bi-plus-lg"></i>
                         Run Payroll
                     </button>
@@ -324,15 +327,6 @@ const SalaryPayroll = () => {
                                             className="px-4 py-4 text-center"
                                         />
 
-                                        <SortableHeader
-                                            label="Payroll Status"
-                                            field="payrollStatus"
-                                            sortField={sortField}
-                                            sortOrder={sortOrder}
-                                            handleSort={handleSort}
-                                            className="px-4 py-4 text-center"
-                                        />
-
                                         <th className="px-4 py-4 text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -387,25 +381,14 @@ const SalaryPayroll = () => {
 
                                             <td className="pl-8 py-4 ">
                                                 <span
-                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${item.paymentStatus === "Paid"
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-yellow-100 text-yellow-700"
-                                                        }`}
+                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                                                        item.paymentStatus
+                                                    )}`}
                                                 >
                                                     {item.paymentStatus}
                                                 </span>
                                             </td>
 
-                                            <td className="px-4 py-4 ">
-                                                <span
-                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${item.payrollStatus === "Processed"
-                                                        ? "bg-blue-100 text-blue-700"
-                                                        : "bg-gray-100 text-gray-700"
-                                                        }`}
-                                                >
-                                                    {item.payrollStatus}
-                                                </span>
-                                            </td>
 
                                             <td className="px-4 py-4 text-center">
                                                 <ActionMenu
@@ -419,7 +402,7 @@ const SalaryPayroll = () => {
                                                         navigate(`/staff/profile/salary-payroll/view-payslip/${item.id}`)
                                                     }
 
-                                                  payrollMenu
+                                                    payrollMenu
                                                 />
                                             </td>
                                         </tr>

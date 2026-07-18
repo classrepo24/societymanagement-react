@@ -3,11 +3,12 @@ import Pagination from "../../../component/Pagination";
 import attendance from "../../../data/attendance.json"
 import useTable from "../../../hooks/useTable";
 import SortableHeader from "../../../component/SortableHeader";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import ActionMenu from "../../../component/ActionMenu";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import Breadcrumb from "../../../component/Breadcrumb";
+import { useApp } from "../../../context/AppContext";
 const Attendance = () => {
 
   const [search, setSearch] = useState("");
@@ -31,7 +32,7 @@ const Attendance = () => {
   });
 
   const location = useLocation();
-const staffId = location.state?.staffId;
+  const staffId = location.state?.staffId;
 
   //edit attendance
 
@@ -186,6 +187,8 @@ const staffId = location.state?.staffId;
 
   } = useTable(filteredAttendance, itemsPerPage);
 
+  const { getStatusStyle } = useApp();
+
   //cards
   const attendanceCards = [
     {
@@ -236,15 +239,15 @@ const staffId = location.state?.staffId;
       {/* Breadcrumb */}
 
       <Breadcrumb
-  items={[
-    { label: "Dashboard", path: "/dashboard" },
-    { label: "Staff", path: "/staff" },
-    ...(staffId
-      ? [{ label: "Staff Profile", path: `/staff/profile/${staffId}` }]
-      : []),
-    { label: "Attendance" },
-  ]}
-/>
+        items={[
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Staff", path: "/staff" },
+          ...(staffId
+            ? [{ label: "Staff Profile", path: `/staff/profile/${staffId}` }]
+            : []),
+          { label: "Attendance" },
+        ]}
+      />
 
       {/* Heading */}
       <div className="flex justify-between items-center mb-6">
@@ -532,10 +535,15 @@ const staffId = location.state?.staffId;
                         <option>Leave</option>
                       </select>
                     ) : (
-                      item.status
+                      <span
+                        className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold ${getStatusStyle(
+                          item.status
+                        )}`}
+                      >
+                        {item.status}
+                      </span>
                     )}
                   </td>
-
                   <td className="pl-5">
                     {editingId === item.id ? (
                       <div className="flex gap-2">

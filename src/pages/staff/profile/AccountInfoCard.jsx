@@ -1,6 +1,8 @@
 import { useState } from "react";
-
+import { useApp } from "../../../context/AppContext";
 const AccountInfoCard = ({ staff, isEditing, handleChange }) => {
+  const { getStatusStyle } = useApp();
+
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -106,12 +108,9 @@ const AccountInfoCard = ({ staff, isEditing, handleChange }) => {
             </select>
           ) : (
             <span
-              className={`px-3 py-1 rounded-full text-sm ${staff.status === "Active"
-                  ? "bg-green-100 text-green-700"
-                  : staff.status === "Inactive"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-red-100 text-red-700"
-                }`}
+              className={`px-3 py-1 rounded-md text-sm ${getStatusStyle(
+                staff.status
+              )}`}
             >
               {staff.status}
             </span>

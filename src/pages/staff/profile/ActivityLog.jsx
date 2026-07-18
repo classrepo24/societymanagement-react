@@ -8,8 +8,10 @@ import DatePicker from "react-datepicker";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import "react-datepicker/dist/react-datepicker.css";
 import Breadcrumb from "../../../component/Breadcrumb";
+import { useApp } from "../../../context/AppContext";
 const ActivityLog = () => {
 
+const { getStatusStyle } = useApp();
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -85,12 +87,12 @@ const ActivityLog = () => {
 
             {/* Breadcrumb */}
             <Breadcrumb
-    items={[
-        { label: "Dashboard", path: "/dashboard" },
-        { label: "Staff", path: "/staff" },
-        { label: "Activity Log" },
-    ]}
-/>
+                items={[
+                    { label: "Dashboard", path: "/dashboard" },
+                    { label: "Staff", path: "/staff" },
+                    { label: "Activity Log" },
+                ]}
+            />
 
             {/* Heading */}
             <div className="flex justify-between items-start flex-wrap gap-4 mb-6">
@@ -282,8 +284,8 @@ const ActivityLog = () => {
                                     Description
                                 </th>
 
-                                
-                                
+
+
 
                             </tr>
                         </thead>
@@ -309,17 +311,9 @@ const ActivityLog = () => {
 
                                     <td className="px-4 py-4">
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-medium
-                ${item.role === "Admin"
-                                                    ? "bg-blue-100 text-blue-700"
-                                                    : item.role === "HR Manager"
-                                                        ? "bg-purple-100 text-purple-700"
-                                                        : item.role === "Accountant"
-                                                            ? "bg-orange-100 text-orange-700"
-                                                            : item.role === "Security"
-                                                                ? "bg-red-100 text-red-700"
-                                                                : "bg-gray-100 text-gray-700"
-                                                }`}
+                                            className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(
+                                                item.role
+                                            )}`}
                                         >
                                             {item.role}
                                         </span>
@@ -331,21 +325,9 @@ const ActivityLog = () => {
 
                                     <td className="px-4 py-4">
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-medium
-                ${item.action === "Created"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : item.action === "Updated"
-                                                        ? "bg-blue-100 text-blue-700"
-                                                        : item.action === "Deleted"
-                                                            ? "bg-red-100 text-red-700"
-                                                            : item.action === "Approved"
-                                                                ? "bg-emerald-100 text-emerald-700"
-                                                                : item.action === "Rejected"
-                                                                    ? "bg-orange-100 text-orange-700"
-                                                                    : item.action === "Processed"
-                                                                        ? "bg-purple-100 text-purple-700"
-                                                                        : "bg-gray-100 text-gray-700"
-                                                }`}
+                                            className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(
+                                                item.action
+                                            )}`}
                                         >
                                             {item.action}
                                         </span>
@@ -355,8 +337,8 @@ const ActivityLog = () => {
                                         {item.description}
                                     </td>
 
-                                    
-                                    
+
+
                                 </tr>
                             ))}
                         </tbody>

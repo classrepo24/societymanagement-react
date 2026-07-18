@@ -93,7 +93,7 @@ const Allroutes = () => {
       {/* Notices */}
       <Route path="/notices" element={<Notices />} />
       <Route path="/notices/new-notice" element={<CreateNotices />} />
-<Route path="/notices/view/:id" element={<ViewNotice />} />
+      <Route path="/notices/view/:id" element={<ViewNotice />} />
     </Routes>
 
   );

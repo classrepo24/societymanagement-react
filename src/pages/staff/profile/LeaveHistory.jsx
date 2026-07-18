@@ -10,13 +10,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import DeleteModal from "../../../component/DeleteModal";
 import ActionMenu from "../../../component/ActionMenu";
 import Breadcrumb from "../../../component/Breadcrumb";
-
+import { useApp } from "../../../context/AppContext";
 
 
 
 const LeaveHistory = () => {
 
-
+    const { getStatusStyle } = useApp();
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
     const [selectedStaff, setSelectedStaff] = useState("");
@@ -171,12 +171,12 @@ const LeaveHistory = () => {
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
             <Breadcrumb
-    items={[
-        { label: "Dashboard", path: "/dashboard" },
-        { label: "Staff", path: "/staff" },
-        { label: "Leave History" },
-    ]}
-/>
+                items={[
+                    { label: "Dashboard", path: "/dashboard" },
+                    { label: "Staff", path: "/staff" },
+                    { label: "Leave History" },
+                ]}
+            />
 
             <div className="flex items-start justify-between mb-6">
                 <div>
@@ -382,7 +382,11 @@ const LeaveHistory = () => {
                                             <option>Earned Leave</option>
                                         </select>
                                     ) : (
-                                        <span className="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700">
+                                        <span
+                                            className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(
+                                                item.type
+                                            )}`}
+                                        >
                                             {item.type}
                                         </span>
                                     )}
@@ -421,15 +425,9 @@ const LeaveHistory = () => {
                                         </select>
                                     ) : (
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-medium
-      ${item.status === "Approved"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : item.status === "Rejected"
-                                                        ? "bg-red-100 text-red-600"
-                                                        : item.status === "Cancelled"
-                                                            ? "bg-orange-100 text-orange-600"
-                                                            : "bg-purple-100 text-purple-700"
-                                                }`}
+                                            className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(
+                                                item.status
+                                            )}`}
                                         >
                                             {item.status}
                                         </span>

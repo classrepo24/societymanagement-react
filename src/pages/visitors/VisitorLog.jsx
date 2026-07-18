@@ -418,7 +418,7 @@ const VisitorLog = () => {
                   {/* Status */}
                   <td className="px-3 py-3">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(
+                      className={`px-3 py-1 rounded-md text-xs ${getStatusStyle(
                         visitor.status
                       )}`}
                     >

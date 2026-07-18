@@ -17,6 +17,7 @@ const Staff = () => {
     staffs,
     setStaffs,
     monthGrowth,
+    getStatusStyle
   } = useApp();
 
   const navigate = useNavigate();
@@ -252,6 +253,7 @@ const Staff = () => {
             >
               <option value="All">All</option>
               <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
               <option value="On Leave">On Leave</option>
             </select>
           </div>
@@ -541,11 +543,15 @@ const Staff = () => {
                           <option>Inactive</option>
                         </select>
                       ) : (
-                        staff.status
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold ${getStatusStyle(
+                            staff.status
+                          )}`}
+                        >
+                          {staff.status}
+                        </span>
                       )}
                     </td>
-
-
                     {/* Joining date */}
                     <td className="px-3 py-3">
                       {editingStaffId === staff.id ? (
@@ -588,8 +594,8 @@ const Staff = () => {
                           </button>
                         </div>
                       ) : (
-                        <ActionMenu 
-                        viewLabel="View Profile"
+                        <ActionMenu
+                          viewLabel="View Profile"
                           isOpen={openMenu === staff.id}
                           onToggle={() =>
                             setOpenMenu((prev) => (prev === staff.id ? null : staff.id))

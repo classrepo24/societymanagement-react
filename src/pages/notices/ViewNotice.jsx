@@ -83,10 +83,13 @@ const ViewNotice = () => {
                             </div>
                             <div className="flex-1">
 
-                                <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
+                                <span
+                                    className={`inline-flex items-center text-xs font-semibold px-3 py-1 rounded-md ${getStatusStyle(
+                                        notice.category
+                                    )}`}
+                                >
                                     {notice.category}
                                 </span>
-
                                 <h2 className="text-4xl font-bold mt-3">
 
                                     {notice.title}
@@ -187,7 +190,7 @@ const ViewNotice = () => {
                         <div className="mt-10 bg-blue-50 border border-blue-100 rounded-xl p-5 flex gap-3">
 
                             <i
-                                className="bi bi-info-circle-fill text-primary"
+                                className="bi bi-exclamation-circle text-blue-700"
                                 style={{ fontSize: 24 }}
                             ></i>
 
@@ -222,8 +225,7 @@ const ViewNotice = () => {
 
                             <div className="bg-blue-100 rounded-lg p-2">
 
-                                <i className="bi bi-info-circle text-primary"></i>
-
+<i className="bi bi-exclamation-circle text-blue-700"></i>
                             </div>
 
                             <h4 className="font-bold text-xl">
@@ -242,7 +244,11 @@ const ViewNotice = () => {
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Category</span>
 
-                                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                                <span
+                                    className={`px-3 py-1 rounded-md text-sm ${getStatusStyle(
+                                        notice.category
+                                    )}`}
+                                >
                                     {notice.category}
                                 </span>
                             </div>
@@ -251,7 +257,7 @@ const ViewNotice = () => {
                                 <span className="text-gray-500">Status</span>
 
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm ${getStatusStyle(
+                                    className={`px-3 py-1 rounded-md text-sm ${getStatusStyle(
                                         notice.status
                                     )}`}
                                 >
@@ -263,12 +269,9 @@ const ViewNotice = () => {
                                 <span className="text-gray-500">Priority</span>
 
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm ${notice.priority === "Urgent"
-                                        ? "bg-red-100 text-red-700"
-                                        : notice.priority === "High"
-                                            ? "bg-orange-100 text-orange-700"
-                                            : "bg-green-100 text-green-700"
-                                        }`}
+                                    className={`px-3 py-1 rounded-md text-sm ${getStatusStyle(
+                                        notice.priority
+                                    )}`}
                                 >
                                     {notice.priority || "Normal"}
                                 </span>
@@ -301,7 +304,7 @@ const ViewNotice = () => {
 
                             <div className="bg-blue-100 rounded-lg p-2">
 
-                                <i className="bi bi-people text-primary"></i>
+                                <i className="bi bi-people text-blue-700"></i>
 
                             </div>
 
@@ -410,7 +413,7 @@ const ViewNotice = () => {
 
                             <div className="bg-blue-100 rounded-lg p-2">
 
-                                <i className="bi bi-lightning-charge text-primary"></i>
+                                <i className="bi bi-lightning-charge text-blue-700"></i>
 
                             </div>
 

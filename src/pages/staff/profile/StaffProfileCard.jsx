@@ -1,6 +1,9 @@
 import React from "react";
+import { useApp } from "../../../context/AppContext";
 
 const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }) => {
+    const { getStatusStyle} = useApp();
+
     const data = isEditing ? (formData || {}) : (staff || {});
 
     return (
@@ -12,14 +15,11 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                 </div>
 
                 <span
-                    className={`px-3 py-1 rounded-md text-sm mt-4 ${data.status === "Active"
-                            ? "bg-green-100 text-green-700"
-                            : data.status === "Inactive"
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-red-100 text-red-700"
-                        }`}
+                    className={`px-3 py-1 rounded-md text-sm mt-4 ${getStatusStyle(
+                        data.status
+                    )}`}
                 >
-                     {data.status}
+                    {data.status}
                 </span>
 
                 {isEditing ? (

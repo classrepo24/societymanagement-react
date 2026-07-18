@@ -9,12 +9,12 @@ import AudienceModal from "../../component/AudienceModal";
 const CreateNotices = () => {
 
   const location = useLocation();
+const { setNotices,getStatusStyle } = useApp();
+  const navigate = useNavigate();
 
   const duplicateNotice = location.state?.duplicateNotice;
   const editNotice = location.state?.editNotice;
-  const { setNotices } = useApp();
-  const navigate = useNavigate();
-
+  
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -350,6 +350,8 @@ const CreateNotices = () => {
                 <option value="Event">Event</option>
                 <option value="Emergency">Emergency</option>
                 <option value="General">General</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Parking">Parking</option>
               </select>
 
               {errors.category && (
@@ -450,7 +452,6 @@ const CreateNotices = () => {
           {/* Audience + Dates */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-            {/* Audience */}
             {/* Audience */}
             <div>
               <label className="font-medium">
@@ -745,9 +746,13 @@ const CreateNotices = () => {
 
               {/* Category */}
               <div className="mt-4">
-                <span className="inline-block bg-blue-50 text-blue-600 text-xs font-medium px-3 py-1 rounded-md">
-                  {category || "Category Name"}
-                </span>
+                <span
+  className={`inline-block text-xs font-medium px-3 py-1 rounded-md ${getStatusStyle(
+    category
+  )}`}
+>
+  {category || "Category Name"}
+</span>
               </div>
 
               <hr className="my-5" />

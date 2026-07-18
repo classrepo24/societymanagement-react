@@ -144,7 +144,7 @@ const Notices = () => {
         setShowDeleteModal(false);
         setSelectedNotice(null);
     };
-console.log(notices);
+    console.log(notices);
     const itemsPerPage = 5;
     const {
         paginatedData,
@@ -365,12 +365,15 @@ console.log(notices);
                                         </td>
 
                                         {/* Category */}
-                                        <td className="px-6 py-5">
-                                            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs">
+                                        <td>
+                                            <span
+                                                className={` items-center px-3 py-1 rounded-md text-xs font-semibold ${getStatusStyle(
+                                                    notice.category
+                                                )}`}
+                                            >
                                                 {notice.category}
                                             </span>
                                         </td>
-
                                         {/* Published By */}
                                         <td className="px-6 py-5">
                                             <div className="flex items-center gap-3">
@@ -405,7 +408,7 @@ console.log(notices);
                                         {/* Status */}
                                         <td className="px-6 py-5">
                                             <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                                                className={`px-3 py-1 rounded-md text-xs font-medium ${getStatusStyle(
                                                     notice.status
                                                 )}`}
                                             >
