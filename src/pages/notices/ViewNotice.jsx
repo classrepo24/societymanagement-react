@@ -1,15 +1,20 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../component/Breadcrumb";
-import { useApp } from "../../context/AppContext";
+import { useSelector } from "react-redux";
+import { getStatusStyle } from "../../utils/statusStyle";
 
 const ViewNotice = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const { notices, getStatusStyle } = useApp();
+const notices = useSelector(
+  (state) => state.notices.notices
+);
 
-    const notice = notices.find((n) => n.id === Number(id));
+const notice = notices.find(
+  (n) => String(n.id) === String(id)
+);
 
     if (!notice) {
         return (

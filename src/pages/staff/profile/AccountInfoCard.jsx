@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useApp } from "../../../context/AppContext";
+import { getStatusStyle } from "../../../utils/statusStyle";
 const AccountInfoCard = ({ staff, isEditing, handleChange }) => {
-  const { getStatusStyle } = useApp();
 
   const [showPassword, setShowPassword] = useState(false);
 

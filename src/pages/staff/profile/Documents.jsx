@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import StaffProfileCard from "./StaffProfileCard";
 import StaffTabs from "./StaffTabs";
@@ -6,14 +7,18 @@ import SortableHeader from "../../../component/SortableHeader";
 import documents from "../../../data/documents.json";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../../component/Pagination";
-import { useApp } from "../../../context/AppContext";
 import ActionMenu from "../../../component/ActionMenu";
 import Edit from "../../../component/Edit";
 import DeleteModal from "../../../component/DeleteModal";
 import { useParams } from "react-router-dom";
 import Breadcrumb from "../../../component/Breadcrumb";
-
+import { getStatusStyle } from "../../../utils/statusStyle";
 const Documents = () => {
+
+    const staffs = useSelector(
+  (state) => state.staff.staffs
+);
+
     const [activeTab, setActiveTab] = useState("Overview");
     const [documentList, setDocumentList] = useState(documents);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -61,11 +66,11 @@ const navigate = useNavigate();
 
     } = useTable(filteredDocuments, itemsPerPage);
 
-const { staffs, getStatusStyle } = useApp();
 
 const selectedStaff = staffs.find(
   (item) => String(item.id) === String(id)
 );
+
 
 if (!selectedStaff) {
   return (
@@ -77,12 +82,34 @@ if (!selectedStaff) {
 
 const staff = {
   ...selectedStaff,
-  gender: selectedStaff.gender || "-",
-  dob: selectedStaff.dob || "-",
-  address: selectedStaff.address || "-",
-  email: selectedStaff.email || "-",
-  reporting: selectedStaff.reportingTo || "-",
+
+  gender: selectedStaff.gender || "Male",
+  dob: selectedStaff.dob || "1988-08-15",
+
+  address:
+    selectedStaff.address || "B-102, Green View Apartments",
+
+  email:
+    selectedStaff.email ||
+    `${selectedStaff.name.toLowerCase().replace(/\s/g, ".")}@society.com`,
+
+  username:
+    selectedStaff.username ||
+    selectedStaff.name.toLowerCase().replace(/\s/g, ""),
+
+  password: selectedStaff.password || "********",
+  lastLogin: selectedStaff.lastLogin || "Today, 10:30 AM",
+  employmentType: selectedStaff.employmentType || "Full Time",
+  shift: selectedStaff.shift || "Morning",
+
+  reporting:
+    selectedStaff.reporting || "Ramesh Sharma",
 };
+
+console.log("ID:", id);
+console.log("Selected Staff:", selectedStaff);
+console.log("Staff:", staff);
+
     //file upload in list
     const handleFileUpload = (files) => {
         const newDocuments = files.map((file, index) => ({

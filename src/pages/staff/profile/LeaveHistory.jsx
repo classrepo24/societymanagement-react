@@ -10,13 +10,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import DeleteModal from "../../../component/DeleteModal";
 import ActionMenu from "../../../component/ActionMenu";
 import Breadcrumb from "../../../component/Breadcrumb";
-import { useApp } from "../../../context/AppContext";
-
+import { getStatusStyle } from "../../../utils/statusStyle";
 
 
 const LeaveHistory = () => {
 
-    const { getStatusStyle } = useApp();
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
     const [selectedStaff, setSelectedStaff] = useState("");

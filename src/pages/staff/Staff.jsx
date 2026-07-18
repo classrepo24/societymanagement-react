@@ -1,7 +1,8 @@
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedStaff, deleteStaff, updateStaff, } from "../../redux/staffSlice";
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useTable from "../../hooks/useTable";
-import { useApp } from "../../context/AppContext";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
 import ActionMenu from "../../component/ActionMenu";
@@ -9,16 +10,17 @@ import Pagination from "../../component/Pagination";
 import { exportToExcel } from "../../utils/exportToExcel";
 import DeleteModal from "../../component/DeleteModal";
 import Breadcrumb from "../../component/Breadcrumb";
-
+import { getStatusStyle } from "../../utils/statusStyle";
 
 const Staff = () => {
 
-  const {
-    staffs,
-    setStaffs,
-    monthGrowth,
-    getStatusStyle
-  } = useApp();
+  const dispatch = useDispatch();
+
+  const staffs = useSelector(
+    (state) => state.staff.staffs
+  );
+  console.log("STAFF DATA:", staffs);
+  const monthGrowth = useSelector((state) => state.staff.monthGrowth);
 
   const navigate = useNavigate();
   const actionEditRef = useRef(null);
@@ -417,12 +419,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1 w-full"
                           value={staff.name}
                           onChange={(e) =>
-                            setStaffs(prev =>
-                              prev.map(item =>
-                                item.id === staff.id
-                                  ? { ...item, name: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                name: e.target.value,
+                              })
                             )
                           }
                         />
@@ -445,12 +446,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1"
                           value={staff.role}
                           onChange={(e) =>
-                            setStaffs(prev =>
-                              prev.map(item =>
-                                item.id === staff.id
-                                  ? { ...item, role: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                role: e.target.value,
+                              })
                             )
                           }
                         >
@@ -481,12 +481,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1 w-full"
                           value={staff.department}
                           onChange={(e) =>
-                            setStaffs((prev) =>
-                              prev.map((item) =>
-                                item.id === staff.id
-                                  ? { ...item, department: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                department: e.target.value,
+                              })
                             )
                           }
                         >
@@ -508,12 +507,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1 w-full"
                           value={staff.phone}
                           onChange={(e) =>
-                            setStaffs((prev) =>
-                              prev.map((item) =>
-                                item.id === staff.id
-                                  ? { ...item, phone: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                phone: e.target.value,
+                              })
                             )
                           }
                         />
@@ -529,12 +527,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1 w-full"
                           value={staff.status}
                           onChange={(e) =>
-                            setStaffs((prev) =>
-                              prev.map((item) =>
-                                item.id === staff.id
-                                  ? { ...item, status: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                status: e.target.value,
+                              })
                             )
                           }
                         >
@@ -560,12 +557,11 @@ const Staff = () => {
                           className="border rounded px-2 py-1 w-full"
                           value={staff.joiningDate}
                           onChange={(e) =>
-                            setStaffs((prev) =>
-                              prev.map((item) =>
-                                item.id === staff.id
-                                  ? { ...item, joiningDate: e.target.value }
-                                  : item
-                              )
+                            dispatch(
+                              updateStaff({
+                                ...staff,
+                                joiningDate: e.target.value,
+                              })
                             )
                           }
                         />
@@ -602,8 +598,10 @@ const Staff = () => {
                           }
                           onClose={() => setOpenMenu(null)}
 
-                          onView={() => navigate(`/staff/profile/${staff.id}`)}
-
+                          onView={() => {
+                            dispatch(setSelectedStaff(staff));
+                            navigate(`/staff/profile/${staff.id}`);
+                          }}
                           onEdit={() => setEditingStaffId(staff.id)}
 
                           onDelete={() => {
@@ -640,9 +638,7 @@ const Staff = () => {
           setStaffToDelete(null);
         }}
         onDelete={() => {
-          setStaffs(prev =>
-            prev.filter(item => item.id !== staffToDelete.id)
-          );
+          dispatch(deleteStaff(staffToDelete.id));
           setShowDeleteModal(false);
           setStaffToDelete(null);
         }}

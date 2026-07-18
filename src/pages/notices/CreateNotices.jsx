@@ -1,15 +1,24 @@
+
+import { useSelector, useDispatch } from "react-redux";
+import { setNotices } from "../../redux/noticeSlice";
+
 import Breadcrumb from "../../component/Breadcrumb";
+
 import { useState, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
 import AudienceModal from "../../component/AudienceModal";
+import { getStatusStyle } from "../../utils/statusStyle";
 
 const CreateNotices = () => {
 
+  const dispatch = useDispatch();
+
+const notices = useSelector(
+  (state) => state.notices.notices
+);
   const location = useLocation();
-const { setNotices,getStatusStyle } = useApp();
   const navigate = useNavigate();
 
   const duplicateNotice = location.state?.duplicateNotice;
@@ -25,7 +34,6 @@ const { setNotices,getStatusStyle } = useApp();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("");
 
   const [errors, setErrors] = useState({});
   const [audience, setAudience] = useState("");
@@ -98,7 +106,6 @@ const { setNotices,getStatusStyle } = useApp();
     }
 
     const publishDateObj = new Date(publishOn);
-    const now = new Date();
 
     let finalStatus = "Draft";
 
@@ -134,12 +141,16 @@ const { setNotices,getStatusStyle } = useApp();
 
       createdAt: new Date().toISOString(),
 
-      scheduledAt: publishDateObj.toISOString(),
+      scheduledAt:
+  option === "schedule"
+    ? publishDateObj.toISOString()
+    : null,
 
-      expiryAt: expiryDate
-        ? new Date(expiryDate).toISOString()
-        : null,
-
+expiryAt:
+  option === "schedule" && expiryDate
+    ? new Date(expiryDate).toISOString()
+    : null,
+    
       author: {
         name: "Rahul Mehta",
         role: "Admin",
@@ -148,13 +159,15 @@ const { setNotices,getStatusStyle } = useApp();
     };
 
     if (editNotice) {
-      setNotices((prev) => [
-        { ...newNotice, id: editNotice.id },
-        ...prev.filter((n) => n.id !== editNotice.id),
-      ]);
-    } else {
-      setNotices((prev) => [newNotice, ...prev]);
-    }
+  const updatedNotices = [
+    { ...newNotice, id: editNotice.id },
+    ...notices.filter((n) => n.id !== editNotice.id),
+  ];
+
+  dispatch(setNotices(updatedNotices));
+} else {
+  dispatch(setNotices([newNotice, ...notices]));
+}
 
     navigate("/notices");
   };
@@ -166,15 +179,12 @@ const { setNotices,getStatusStyle } = useApp();
 
     setTitle(noticeData.title || "");
     setCategory(noticeData.category || "");
-    setStatus(noticeData.status || "Draft");
     setPriority(noticeData.priority || "");
     setContent(noticeData.description || "");
     setAudience(noticeData.audience || "");
     setSelectedTowers(noticeData.selectedTowers || []);
     setSelectedFlats(noticeData.selectedFlats || []);
-    setSelectedTowers(noticeData.selectedTowers || []);
-    setSelectedFlats(noticeData.selectedFlats || []);
-
+   
     // Publish date load
     if (noticeData.createdAt) {
       const date = new Date(noticeData.createdAt);
@@ -285,13 +295,11 @@ const { setNotices,getStatusStyle } = useApp();
       {/* Heading */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold">
-          <h1 className="text-3xl font-bold">
             {editNotice
               ? "Edit Notice"
               : duplicateNotice
                 ? "Duplicate Notice"
                 : "Create New Notice"}
-          </h1>
         </h1>
         <p className="text-gray-500 mt-1">
           Create and publish a new notice for society members.

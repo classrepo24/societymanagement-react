@@ -8,10 +8,9 @@ import DatePicker from "react-datepicker";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import "react-datepicker/dist/react-datepicker.css";
 import Breadcrumb from "../../../component/Breadcrumb";
-import { useApp } from "../../../context/AppContext";
+import { getStatusStyle } from "../../../utils/statusStyle";
 const ActivityLog = () => {
 
-const { getStatusStyle } = useApp();
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);

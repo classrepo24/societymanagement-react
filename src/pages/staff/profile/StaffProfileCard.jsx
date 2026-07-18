@@ -1,11 +1,10 @@
 import React from "react";
-import { useApp } from "../../../context/AppContext";
+import { getStatusStyle } from "../../../utils/statusStyle";
 
-const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }) => {
-    const { getStatusStyle} = useApp();
+const StaffProfileCard = ({ staff, isEditing, handleChange }) => {
+      console.log("Profile Card Staff:", staff);
 
-    const data = isEditing ? (formData || {}) : (staff || {});
-
+    const data = staff || {};
     return (
         <div className="bg-white rounded-xl border p-4 h-[750px]">
             {/* Avatar */}
@@ -26,14 +25,16 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                     <>
                         <input
                             name="name"
-                            value={staff.name}
+                            value={data.name || ""}
+
                             onChange={(e) => handleChange("name", e.target.value)}
                             className="border rounded px-3 py-2 mt-3 text-center font-bold text-xl w-full"
                         />
 
                         <select
                             name="role"
-                            value={staff.role}
+                            value={data.role || ""}
+
                             onChange={(e) => handleChange("role", e.target.value)}
                             className="border rounded px-3 py-2 mt-2 text-gray-500 w-full"
                         >
@@ -72,7 +73,8 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <input
                                 name="id"
-                                value={staff.id}
+                                value={data.id || ""}
+
                                 onChange={(e) => handleChange("id", e.target.value)}
                                 className="border rounded px-2 py-1 w-full"
                             />
@@ -90,7 +92,8 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <select
                                 name="department"
-                                value={staff.department}
+                                value={data.department || ""}
+
                                 onChange={(e) => handleChange("department", e.target.value)}
                                 className="border rounded px-2 py-1 w-full"
                             >
@@ -115,7 +118,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <select
                                 name="role"
-                                value={staff.role}
+                                value={data.role || ""}
                                 onChange={(e) => handleChange("role", e.target.value)}
                                 className="border rounded px-2 py-1 w-full"
                             >
@@ -143,7 +146,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                             <input
                                 type="email"
                                 name="email"
-                                value={staff.email}
+                                value={data.email || ""}
                                 onChange={(e) => handleChange("email", e.target.value)}
                                 className="border rounded px-2 py-1 w-full"
                             />
@@ -163,7 +166,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <input
                                 name="phone"
-                                value={staff.phone}
+                                value={data.phone || ""}
                                 onChange={(e) => handleChange("phone", e.target.value)}
 
                                 className="border rounded px-2 py-1 w-full"
@@ -183,7 +186,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                             <input
                                 type="date"
                                 name="dob"
-                                value={staff.dob}
+                                value={data.dob || ""}
                                 onChange={(e) => handleChange("dob", e.target.value)}
                                 className="border rounded px-2 py-1 w-full"
                             />
@@ -201,7 +204,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <select
                                 name="gender"
-                                value={staff.gender}
+                                value={data.gender || ""}
                                 onChange={(e) => handleChange("gender", e.target.value)}
 
                                 className="border rounded px-2 py-1 w-full"
@@ -224,7 +227,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <textarea
                                 name="address"
-                                value={staff.address}
+                                value={data.address || ""}
                                 onChange={(e) => handleChange("address", e.target.value)}
 
                                 className="border rounded px-2 py-1 w-full"
@@ -245,7 +248,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                             <input
                                 type="date"
                                 name="joiningDate"
-                                value={staff.joiningDate}
+                                value={data.joiningDate || ""}
                                 onChange={(e) => handleChange("joiningDate", e.target.value)}
 
                                 className="border rounded px-2 py-1 w-full"
@@ -264,7 +267,7 @@ const StaffProfileCard = ({ staff, isEditing, formData, onChange, handleChange }
                         {isEditing ? (
                             <input
                                 name="reporting"
-                                value={staff.reporting}
+                                value={data.reporting || ""}
                                 onChange={(e) => handleChange("reporting", e.target.value)}
 
                                 className="border rounded px-2 py-1 w-full"

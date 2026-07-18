@@ -1,9 +1,9 @@
+import { useSelector } from "react-redux";
 import React, { useState } from 'react'
-
 import useTable from "../../hooks/useTable";
-import { useApp } from "../../context/AppContext";
 import SortableHeader from "../../component/SortableHeader";
 import Pagination from "../../component/Pagination";
+import { getStatusStyle } from "../../utils/statusStyle";
 
 const VisitorsTable = ({
   activeTab,
@@ -12,8 +12,7 @@ const VisitorsTable = ({
   setVisitorToDelete,
 }) => {
 
-  const { visitors, getStatusStyle } = useApp();
-
+const visitors = useSelector((state) => state.visitors.visitors);
 
   const filteredvisitors = visitors.filter((visitor) => {
     if (activeTab === "All visitors") return true;

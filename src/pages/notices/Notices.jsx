@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useApp } from "../../context/AppContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setNotices } from "../../redux/noticeSlice";
+import { getStatusStyle } from "../../utils/statusStyle";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
 import useTable from "../../hooks/useTable";
@@ -14,7 +16,11 @@ import DeleteModal from "../../component/DeleteModal";
 
 const Notices = () => {
     const navigate = useNavigate();
-    const { notices, setNotices, getStatusStyle } = useApp();
+
+    const dispatch = useDispatch();
+
+const notices = useSelector(
+  (state) => state.notices.notices);
 
     const stats = [
         {
@@ -137,13 +143,16 @@ const Notices = () => {
     };
 
     const confirmDelete = () => {
-        setNotices((prev) =>
-            prev.filter((item) => item.id !== selectedNotice.id)
-        );
+  const updatedNotices = notices.filter(
+    (item) => item.id !== selectedNotice.id
+  );
 
-        setShowDeleteModal(false);
-        setSelectedNotice(null);
-    };
+  dispatch(setNotices(updatedNotices));
+
+  setShowDeleteModal(false);
+  setSelectedNotice(null);
+};
+
     console.log(notices);
     const itemsPerPage = 5;
     const {

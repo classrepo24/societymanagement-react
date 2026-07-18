@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import StatsCards from "../../../component/StatsCards";
 import Pagination from "../../../component/Pagination";
 import attendance from "../../../data/attendance.json"
@@ -8,8 +9,13 @@ import { useState } from "react";
 import ActionMenu from "../../../component/ActionMenu";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import Breadcrumb from "../../../component/Breadcrumb";
-import { useApp } from "../../../context/AppContext";
+import { getStatusStyle } from "../../../utils/statusStyle";
+
 const Attendance = () => {
+  
+  const staffs = useSelector(
+  (state) => state.staff.staffs
+);
 
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("");
@@ -187,7 +193,6 @@ const Attendance = () => {
 
   } = useTable(filteredAttendance, itemsPerPage);
 
-  const { getStatusStyle } = useApp();
 
   //cards
   const attendanceCards = [

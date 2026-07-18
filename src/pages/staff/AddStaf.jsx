@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addStaff } from "../../redux/staffSlice";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../component/Breadcrumb";
-import { useApp } from "../../context/AppContext";
 
 const AddStaf = () => {
 
-    const { setStaffs } = useApp();
+    const dispatch = useDispatch();
+const staffs = useSelector((state) => state.staff.staffs);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState(() => {
@@ -56,14 +58,18 @@ const AddStaf = () => {
     }, [formData]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+  const { name, value } = e.target;
 
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
 
+  setErrors((prev) => ({
+    ...prev,
+    [name]: "",
+  }));
+};
     //validation
     const [errors, setErrors] = useState({});
     const [showSuccess, setShowSuccess] = useState(false);
@@ -148,55 +154,51 @@ const AddStaf = () => {
         console.log("Validation Passed");
 
         // Check duplicate Employee ID
-        setStaffs((prev) => {
-            const exists = prev.some(
-                (staff) =>
-                    staff.id.toLowerCase() === formData.employeeId.toLowerCase()
-            );
+        const exists = staffs.some(
+  (staff) =>
+    staff.id.toLowerCase() === formData.employeeId.toLowerCase()
+);
 
-            if (exists) {
-                alert("Employee ID already exists");
-                return prev;
-            }
+if (exists) {
+  setErrors((prev) => ({
+    ...prev,
+    employeeId: "Employee ID already exists",
+  }));
+  return;
+}
 
-            const newStaff = {
-                id: formData.employeeId,
-                name: formData.fullName,
-                role: formData.designation || formData.role,
-                department: formData.department,
-                phone: `+91 ${formData.mobile}`,
-                status: formData.status,
-                joiningDate: new Date(formData.joiningDate).toLocaleDateString(
-                    "en-GB",
-                    {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                    }
-                ),
+const newStaff = {
+  id: formData.employeeId,
+  name: formData.fullName,
+  role: formData.designation || formData.role,
+  department: formData.department,
+  phone: `+91 ${formData.mobile}`,
+  status: formData.status,
+  joiningDate: new Date(formData.joiningDate).toLocaleDateString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
+  ),
 
-                // Extra fields
-                email: formData.email,
-                profilePhoto: formData.profilePhoto || "",
-                dob: formData.dob,
-                gender: formData.gender,
-                address: formData.address,
-                employmentType: formData.employmentType,
-                basicSalary: formData.basicSalary,
-                emergencyName: formData.emergencyName,
-                emergencyMobile: formData.emergencyMobile,
-                relationship: formData.relationship,
-                designation: formData.designation,
-                reportingTo: formData.reportingTo,
-                workShift: formData.workShift,
-                accessLevel: formData.accessLevel,
-            };
-
-            const updatedStaffs = [newStaff, ...prev];
-            localStorage.setItem("staff", JSON.stringify(updatedStaffs));
-
-            return updatedStaffs;
-        });
+  email: formData.email,
+  profilePhoto: formData.profilePhoto || "",
+  dob: formData.dob,
+  gender: formData.gender,
+  address: formData.address,
+  employmentType: formData.employmentType,
+  basicSalary: formData.basicSalary,
+  emergencyName: formData.emergencyName,
+  emergencyMobile: formData.emergencyMobile,
+  relationship: formData.relationship,
+  designation: formData.designation,
+  reportingTo: formData.reportingTo,
+  workShift: formData.workShift,
+  accessLevel: formData.accessLevel,
+};
+dispatch(addStaff(newStaff));
 
         localStorage.removeItem("staffForm");
         setErrors({});
@@ -279,12 +281,7 @@ const AddStaf = () => {
                                     type="text"
                                     name="fullName"
                                     value={formData.fullName}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            fullName: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     placeholder="Enter full name"
                                     className="w-full mt-2 border rounded-lg px-4 py-3"
                                 />
@@ -303,12 +300,7 @@ const AddStaf = () => {
                                     type="text"
                                     name="employeeId"
                                     value={formData.employeeId}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            employeeId: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     placeholder="Enter employee ID"
                                     className="w-full mt-2 border rounded-lg px-4 py-3 outline-none"
                                 />
@@ -327,12 +319,7 @@ const AddStaf = () => {
                                     type="date"
                                     name="dob"
                                     value={formData.dob}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            dob: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="w-full mt-2 border rounded-lg px-4 py-3 outline-none"
                                 />
                                 {errors.dob && (
@@ -434,12 +421,7 @@ const AddStaf = () => {
                                             name="gender"
                                             value="Male"
                                             checked={formData.gender === "Male"}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    gender: e.target.value,
-                                                })
-                                            }
+                                            onChange={handleChange}
                                         />
                                         Male
                                     </label>
@@ -450,12 +432,7 @@ const AddStaf = () => {
                                             name="gender"
                                             value="Female"
                                             checked={formData.gender === "Female"}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    gender: e.target.value,
-                                                })
-                                            }
+                                            onChange={handleChange}
                                         />
                                         Female
                                     </label>
@@ -466,12 +443,7 @@ const AddStaf = () => {
                                             name="gender"
                                             value="Other"
                                             checked={formData.gender === "Other"}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    gender: e.target.value,
-                                                })
-                                            }
+                                            onChange={handleChange}
                                         />
                                         Other
                                     </label>
@@ -494,12 +466,7 @@ const AddStaf = () => {
                                     rows="3"
                                     name="address"
                                     value={formData.address}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            address: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     placeholder="Enter Full Address"
                                     className="w-full mt-2 border rounded-lg px-4 py-3 outline-none"
                                 />
@@ -599,12 +566,7 @@ const AddStaf = () => {
                                 <select
                                     name="department"
                                     value={formData.department}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            department: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="w-full border rounded-lg px-4 py-3"
                                 >
 
@@ -628,12 +590,7 @@ const AddStaf = () => {
                                 <select
                                     name="designation"
                                     value={formData.designation}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            designation: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="w-full border rounded-lg px-4 py-3"
                                 >
 
@@ -675,12 +632,7 @@ const AddStaf = () => {
                                     type="date"
                                     name="joiningDate"
                                     value={formData.joiningDate}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            joiningDate: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="w-full border rounded-lg px-4 py-3"
                                 />
                                 {errors.joiningDate && <p className="text-red-500 text-sm mt-1">{errors.joiningDate}</p>}
@@ -695,12 +647,7 @@ const AddStaf = () => {
                                 <select
                                     name="employmentType"
                                     value={formData.employmentType}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            employmentType: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="w-full border rounded-lg px-4 py-3"
                                 >
                                     <option value="">Select Employment Type</option>
@@ -788,12 +735,7 @@ const AddStaf = () => {
                                     type="text"
                                     name="basicSalary"
                                     value={formData.basicSalary}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            basicSalary: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     placeholder="Enter Basic Salary"
                                     className="w-full border rounded-lg px-4 py-3"
                                 />
@@ -885,12 +827,7 @@ const AddStaf = () => {
                                         type="tel"
                                         name="mobile"
                                         value={formData.mobile}
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                mobile: e.target.value,
-                                            })
-                                        }
+                                        onChange={handleChange}
                                         placeholder="Enter 10 digit mobile number"
                                         className="flex-1 border rounded-r-lg px-4 py-3 outline-none"
                                     />
@@ -988,12 +925,7 @@ const AddStaf = () => {
                                     <select
                                         name="role"
                                         value={formData.role}
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                role: e.target.value,
-                                            })
-                                        }
+                                        onChange={handleChange}
                                         className="w-full border rounded-lg px-4 py-3"
                                     >
 
@@ -1023,12 +955,7 @@ const AddStaf = () => {
                                                 name="loginAccess"
                                                 value="Allow"
                                                 checked={formData.loginAccess === "Allow"}
-                                                onChange={(e) =>
-                                                    setFormData({
-                                                        ...formData,
-                                                        loginAccess: e.target.value,
-                                                    })
-                                                }
+                                                onChange={handleChange}
                                             />
                                             Allow System Login
                                         </label>
@@ -1039,12 +966,7 @@ const AddStaf = () => {
                                                 name="loginAccess"
                                                 value="Deny"
                                                 checked={formData.loginAccess === "Deny"}
-                                                onChange={(e) =>
-                                                    setFormData({
-                                                        ...formData,
-                                                        loginAccess: e.target.value,
-                                                    })
-                                                }
+                                                onChange={handleChange}
                                             />
                                             Deny system login
                                         </label>
@@ -1071,12 +993,7 @@ const AddStaf = () => {
                                             name="status"
                                             value="Active"
                                             checked={formData.status === "Active"}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    status: e.target.value,
-                                                })
-                                            }
+                                            onChange={handleChange}
                                         />
                                         Active
                                     </label>
@@ -1087,12 +1004,7 @@ const AddStaf = () => {
                                             name="status"
                                             value="Inactive"
                                             checked={formData.status === "Inactive"}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    status: e.target.value,
-                                                })
-                                            }
+                                            onChange={handleChange}
                                         />
                                         Inactive
                                     </label>
@@ -1129,12 +1041,7 @@ const AddStaf = () => {
                                         type="text"
                                         name="emergencyName"
                                         value={formData.emergencyName}
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                emergencyName: e.target.value,
-                                            })
-                                        }
+                                       onChange={handleChange}
                                         placeholder="Enter emergency contact name"
                                         className="w-full border rounded-lg px-4 py-3"
                                     />
@@ -1153,12 +1060,7 @@ const AddStaf = () => {
                                         type="text"
                                         name="relationship"
                                         value={formData.relationship}
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                relationship: e.target.value,
-                                            })
-                                        }
+                                        onChange={handleChange}
                                         placeholder="Enter Relationship"
                                         className="w-full border rounded-lg px-4 py-3"
                                     />
@@ -1186,12 +1088,7 @@ const AddStaf = () => {
                                         type="tel"
                                         name="emergencyMobile"
                                         value={formData.emergencyMobile}
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                emergencyMobile: e.target.value,
-                                            })
-                                        }
+                                        onChange={handleChange}
                                         placeholder="Enter 10 digit mobile number"
                                         className="flex-1 border rounded-r-lg px-4 py-3"
                                     />

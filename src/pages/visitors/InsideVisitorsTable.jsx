@@ -1,15 +1,18 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setVisitors } from "../../redux/visitorsSlice";
 import useTable from "../../hooks/useTable";
 import SortableHeader from "../../component/SortableHeader";
 import Pagination from "../../component/Pagination";
-import { useApp } from "../../context/AppContext";
+import { getStatusStyle } from "../../utils/statusStyle";
+
 const InsidevisitorsTable = ({
   showAllvisitors,
   setShowAllvisitors,
   insidevisitors,
-  setvisitors,
 }) => {
 
-  const { getStatusStyle } = useApp();
+  const dispatch = useDispatch();
+const visitors = useSelector((state) => state.visitors.visitors);
 
   const itemsPerPage = 7;
 
@@ -25,43 +28,41 @@ const InsidevisitorsTable = ({
   } = useTable(insidevisitors, itemsPerPage);
 
   const handleCheckout = (phone) => {
-    const outTime = Date.now();
+  const outTime = Date.now();
 
-    setvisitors(prev =>
-      prev.map(v => {
-        if (v.phone !== phone) return v;
+  const updatedVisitors = visitors.map((v) => {
+    if (v.phone !== phone) return v;
 
-        // convert string OR fallback
-        let inTime = v.inTime;
+    let inTime = v.inTime;
 
-        // agar string hai to try convert
-        if (typeof inTime === "string") {
-          inTime = Date.parse(inTime);
-        }
+    if (typeof inTime === "string") {
+      inTime = Date.parse(inTime);
+    }
 
-        if (!inTime || isNaN(inTime)) {
-          return {
-            ...v,
-            status: "exited",
-            outTime: new Date(outTime).toLocaleTimeString(),
-            duration: "0h 0m",
-          };
-        }
+    if (!inTime || isNaN(inTime)) {
+      return {
+        ...v,
+        status: "exited",
+        outTime: new Date(outTime).toLocaleTimeString(),
+        duration: "0h 0m",
+      };
+    }
 
-        const diffMs = outTime - inTime;
+    const diffMs = outTime - inTime;
 
-        const hours = Math.floor(diffMs / (1000 * 60 * 60));
-        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-        return {
-          ...v,
-          status: "exited",
-          outTime: new Date(outTime).toLocaleTimeString(),
-          duration: `${hours}h ${minutes}m`,
-        };
-      })
-    );
-  };
+    return {
+      ...v,
+      status: "exited",
+      outTime: new Date(outTime).toLocaleTimeString(),
+      duration: `${hours}h ${minutes}m`,
+    };
+  });
+
+  dispatch(setVisitors(updatedVisitors));
+};
 
   //pagination
 

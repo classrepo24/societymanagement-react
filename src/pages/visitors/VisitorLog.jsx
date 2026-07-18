@@ -1,17 +1,34 @@
+import { useSelector } from "react-redux";
+import { getStatusStyle } from "../../utils/statusStyle";
 import useTable from "../../hooks/useTable";
 import * as XLSX from "xlsx";
-import { useApp } from "../../context/AppContext";
 import StatsCards from "../../component/StatsCards";
 import SortableHeader from "../../component/SortableHeader";
 import Pagination from "../../component/Pagination";
 import { useState } from "react";
 import Breadcrumb from "../../component/Breadcrumb";
 const VisitorLog = () => {
-  const { visitors,
-    getStatusStyle,
-    monthGrowth,
-  } = useApp();
+  const visitors = useSelector((state) => state.visitors.visitors);
+  
+  const last30Days = new Date();
+last30Days.setDate(last30Days.getDate() - 30);
 
+const previous30Days = new Date();
+previous30Days.setDate(previous30Days.getDate() - 60);
+
+const thisMonth = visitors.filter(
+  (v) => new Date(v.date) >= last30Days
+).length;
+
+const previousMonth = visitors.filter((v) => {
+  const d = new Date(v.date);
+  return d >= previous30Days && d < last30Days;
+}).length;
+
+const monthGrowth =
+  previousMonth === 0
+    ? 0
+    : Math.round(((thisMonth - previousMonth) / previousMonth) * 100);
 
   //filter
   const [startDate, setStartDate] = useState("");
@@ -125,12 +142,12 @@ const VisitorLog = () => {
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
         <div>
           <Breadcrumb
-  items={[
-    { label: "Dashboard", path: "/dashboard" },
-    { label: "Visitors", path: "/visitors" },
-    { label: "Visitor Log" },
-  ]}
-/>
+            items={[
+              { label: "Dashboard", path: "/dashboard" },
+              { label: "Visitors", path: "/visitors" },
+              { label: "Visitor Log" },
+            ]}
+          />
           <h1 className="text-3xl font-bold mt-2">Visitor Log</h1>
 
           <p className="text-gray-500 mt-1">

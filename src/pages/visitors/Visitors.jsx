@@ -1,22 +1,20 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setVisitors } from "../../redux/visitorsSlice";
 import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useApp } from "../../context/AppContext";
 import InsideVisitorsTable from "./InsideVisitorsTable";
 import VisitorsTable from "./VisitorsTable";
 import VisitorCharts from "./VisitorCharts";
 import VisitorsHeaderSection from "./VisitorsHeaderSection";
 import DeleteVisitorModal from "../../component/DeleteModal";
+import { getStatusStyle } from "../../utils/statusStyle";
+
 const Visitors = () => {
-  const { visitors,
-    setvisitors,
-    getStatusStyle,
-  } = useApp();
+const dispatch = useDispatch();
+const visitors = useSelector((state) => state.visitors.visitors);
 
   const [activeTab, setActiveTab] = useState("All visitors");
   const [showAllvisitors, setShowAllvisitors] = useState(false);
-
-  const [insideSortField, setInsideSortField] = useState(null);
-  const [insideSortOrder, setInsideSortOrder] = useState("asc");
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [visitorToDelete, setVisitorToDelete] = useState(null);
@@ -114,15 +112,15 @@ const Visitors = () => {
 
 
   const handleDeleteVisitor = () => {
-    console.log(visitorToDelete);
+  const updatedVisitors = visitors.filter(
+    (v) => v.id !== visitorToDelete.id
+  );
 
-    setvisitors((prev) =>
-      prev.filter((v) => v !== visitorToDelete)
-    );
+  dispatch(setVisitors(updatedVisitors));
 
-    setShowDeleteModal(false);
-    setVisitorToDelete(null);
-  };
+  setShowDeleteModal(false);
+  setVisitorToDelete(null);
+};
 
   //for quick links
   const location = useLocation();
@@ -193,12 +191,6 @@ const Visitors = () => {
             showAllvisitors={showAllvisitors}
             setShowAllvisitors={setShowAllvisitors}
             insidevisitors={visitors.filter(v => v.status === "inside")}
-
-            setvisitors={setvisitors}
-            sortField={insideSortField}
-            sortOrder={insideSortOrder}
-            setSortField={setInsideSortField}
-            setSortOrder={setInsideSortOrder}
           />
         </>
       )}

@@ -8,10 +8,9 @@ import SortableHeader from "../../../component/SortableHeader";
 import { exportToExcel } from "../../../utils/exportToExcel";
 import ActionMenu from "../../../component/ActionMenu";
 import Breadcrumb from "../../../component/Breadcrumb";
-import { useApp } from "../../../context/AppContext";
+import { getStatusStyle } from "../../../utils/statusStyle";
 const SalaryPayroll = () => {
 
-    const { getStatusStyle } = useApp();
 
     const [month, setMonth] = useState("");
     const [department, setDepartment] = useState("");
