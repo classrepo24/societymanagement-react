@@ -1,0 +1,191 @@
+ [
+    {
+      "id": 1,
+      "departmentName": "Administration",
+      "departmentHead": "Vikram Singh",
+      "email": "admin1@society.com",
+      "staffCount": 8,
+      "description": "Handles overall administration and society management.",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "departmentName": "Maintenance",
+      "departmentHead": "Ramesh Patel",
+      "email": "maintenance2@society.com",
+      "staffCount": 12,
+      "description": "Responsible for maintenance and repair works.",
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "departmentName": "Security",
+      "departmentHead": "Arun Kumar",
+      "email": "security3@society.com",
+      "staffCount": 15,
+      "description": "Manages security personnel and safety operations.",
+      "status": "Active"
+    },
+    {
+      "id": 4,
+      "departmentName": "Finance",
+      "departmentHead": "Neha Sharma",
+      "email": "finance4@society.com",
+      "staffCount": 5,
+      "description": "Handles accounts and billing.",
+      "status": "Active"
+    },
+    {
+      "id": 5,
+      "departmentName": "Housekeeping",
+      "departmentHead": "Suman Das",
+      "email": "housekeeping5@society.com",
+      "staffCount": 6,
+      "description": "Oversees cleaning and hygiene activities.",
+      "status": "Active"
+    },
+    {
+      "id": 6,
+      "departmentName": "Landscaping",
+      "departmentHead": "Mahesh Yadav",
+      "email": "landscape6@society.com",
+      "staffCount": 4,
+      "description": "Maintains gardens and lawns.",
+      "status": "Active"
+    },
+    {
+      "id": 7,
+      "departmentName": "Recreation",
+      "departmentHead": "Pooja Verma",
+      "email": "recreation7@society.com",
+      "staffCount": 3,
+      "description": "Organizes recreational activities.",
+      "status": "Active"
+    },
+    {
+      "id": 8,
+      "departmentName": "Transport",
+      "departmentHead": "Suresh Nair",
+      "email": "transport8@society.com",
+      "staffCount": 2,
+      "description": "Manages transport facilities.",
+      "status": "Inactive"
+    },
+    {
+      "id": 9,
+      "departmentName": "IT Support",
+      "departmentHead": "Ajay Sharma",
+      "email": "it9@society.com",
+      "staffCount": 5,
+      "description": "Handles technical support.",
+      "status": "Active"
+    },
+    {
+      "id": 10,
+      "departmentName": "Legal",
+      "departmentHead": "Karan Joshi",
+      "email": "legal10@society.com",
+      "staffCount": 3,
+      "description": "Manages legal documentation.",
+      "status": "Active"
+    },
+    {
+      "id": 11,
+      "departmentName": "HR",
+      "departmentHead": "Anita Verma",
+      "email": "hr11@society.com",
+      "staffCount": 7,
+      "description": "Manages staff recruitment.",
+      "status": "Active"
+    },
+    {
+      "id": 12,
+      "departmentName": "Purchase",
+      "departmentHead": "Rahul Shah",
+      "email": "purchase12@society.com",
+      "staffCount": 4,
+      "description": "Handles procurement.",
+      "status": "Active"
+    },
+    {
+      "id": 13,
+      "departmentName": "Electrical",
+      "departmentHead": "Deepak Patil",
+      "email": "electrical13@society.com",
+      "staffCount": 6,
+      "description": "Maintains electrical systems.",
+      "status": "Active"
+    },
+    {
+      "id": 14,
+      "departmentName": "Water Supply",
+      "departmentHead": "Rohit Kale",
+      "email": "water14@society.com",
+      "staffCount": 5,
+      "description": "Manages water supply.",
+      "status": "Active"
+    },
+    {
+      "id": 15,
+      "departmentName": "Parking",
+      "departmentHead": "Sanjay More",
+      "email": "parking15@society.com",
+      "staffCount": 4,
+      "description": "Controls parking operations.",
+      "status": "Active"
+    },
+    {
+      "id": 16,
+      "departmentName": "Garden",
+      "departmentHead": "Prakash Jadhav",
+      "email": "garden16@society.com",
+      "staffCount": 3,
+      "description": "Maintains gardens.",
+      "status": "Active"
+    },
+    {
+      "id": 17,
+      "departmentName": "Reception",
+      "departmentHead": "Sneha Kulkarni",
+      "email": "reception17@society.com",
+      "staffCount": 4,
+      "description": "Handles visitor reception.",
+      "status": "Active"
+    },
+    {
+      "id": 18,
+      "departmentName": "Fire Safety",
+      "departmentHead": "Amit Pawar",
+      "email": "fire18@society.com",
+      "staffCount": 5,
+      "description": "Ensures fire safety compliance.",
+      "status": "Active"
+    },
+    {
+      "id": 19,
+      "departmentName": "Audit",
+      "departmentHead": "Rajesh Gupta",
+      "email": "audit19@society.com",
+      "staffCount": 2,
+      "description": "Conducts financial audits.",
+      "status": "Active"
+    },
+    {
+      "id": 20,
+      "departmentName": "Store",
+      "departmentHead": "Nitin Patil",
+      "email": "store20@society.com",
+      "staffCount": 4,
+      "description": "Maintains inventory.",
+      "status": "Active"
+    },
+    {
+      "id": 21,
+      "departmentName": "Events",
+      "departmentHead": "Meera Singh",
+      "email": "events21@society.com",
+      "staffCount": 5,
+      "description": "Organizes society events.",
+      "status": "Active"
+    }
+  ]

@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Parking Rules Update",
+    "description": "New parking guidelines will be effective from 1st June 2025. Please ensure all vehicles are parked only in allotted spaces.",
+    "category": "Parking",
+    "author": "Rahul Mehta",
+    "role": "Admin",
+    "publishDate": "2025-05-24",
+    "publishTime": "10:30 AM",
+    "status": "Published"
+  },
+  {
+    "id": 2,
+    "title": "Water Supply Maintenance",
+    "description": "Water supply will remain unavailable between 10:00 AM and 2:00 PM due to maintenance work.",
+    "category": "Maintenance",
+    "author": "Priya Sharma",
+    "role": "Secretary",
+    "publishDate": "2025-05-23",
+    "publishTime": "09:00 AM",
+    "status": "Published"
+  },
+  {
+    "id": 3,
+    "title": "Community Tree Plantation Drive",
+    "description": "Join us this Sunday morning for a community tree plantation event in the central garden.",
+    "category": "Environment",
+    "author": "Amit Verma",
+    "role": "Committee Member",
+    "publishDate": "2025-05-22",
+    "publishTime": "04:15 PM",
+    "status": "Published"
+  },
+  {
+    "id": 4,
+    "title": "Lift Inspection Notice",
+    "description": "Annual lift inspection will be conducted on 27th May. Temporary interruptions may occur.",
+    "category": "Maintenance",
+    "author": "Suresh Patil",
+    "role": "Maintenance Head",
+    "publishDate": "2025-05-21",
+    "publishTime": "11:00 AM",
+    "status": "Scheduled"
+  },
+  {
+    "id": 5,
+    "title": "Society Annual General Meeting",
+    "description": "Annual General Meeting will be held on 30th May in the Community Hall at 6:00 PM.",
+    "category": "Meeting",
+    "author": "Neha Joshi",
+    "role": "Chairperson",
+    "publishDate": "2025-05-20",
+    "publishTime": "06:00 PM",
+    "status": "Published"
+  },
+  {
+    "id": 6,
+    "title": "Holi Celebration Invitation",
+    "description": "Celebrate Holi with all residents on the clubhouse lawn. Cultural programs and refreshments included.",
+    "category": "Events",
+    "author": "Anjali Desai",
+    "role": "Event Coordinator",
+    "publishDate": "2025-05-18",
+    "publishTime": "03:30 PM",
+    "status": "Expired"
+  },
+  {
+    "id": 7,
+    "title": "Security Awareness",
+    "description": "Residents are requested not to allow unknown visitors without proper verification.",
+    "category": "Security",
+    "author": "Vikas Singh",
+    "role": "Security Manager",
+    "publishDate": "2025-05-17",
+    "publishTime": "08:45 AM",
+    "status": "Published"
+  },
+  {
+    "id": 8,
+    "title": "Swimming Pool Maintenance",
+    "description": "Swimming pool will remain closed for cleaning and maintenance from 25th to 27th May.",
+    "category": "Facilities",
+    "author": "Rohan Kulkarni",
+    "role": "Facility Manager",
+    "publishDate": "2025-05-16",
+    "publishTime": "12:00 PM",
+    "status": "Scheduled"
+  }
+]

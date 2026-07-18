@@ -1,0 +1,182 @@
+{
+  "towers": [
+    { "id": 1, "name": "Tower A" },
+    { "id": 2, "name": "Tower B" },
+    { "id": 3, "name": "Tower C" },
+    { "id": 4, "name": "Tower D" },
+    { "id": 5, "name": "Tower E" },
+    { "id": 6, "name": "Tower F" },
+    { "id": 7, "name": "Tower G" },
+    { "id": 8, "name": "Tower H" }
+  ],
+
+  "flats": [
+    {
+      "id": 1,
+      "tower": "Tower A",
+      "name": "A-101"
+    },
+    {
+      "id": 2,
+      "tower": "Tower A",
+      "name": "A-102"
+    },
+    {
+      "id": 3,
+      "tower": "Tower A",
+      "name": "A-201"
+    },
+    {
+      "id": 4,
+      "tower": "Tower A",
+      "name": "A-202"
+    },
+
+    {
+      "id": 5,
+      "tower": "Tower B",
+      "name": "B-101"
+    },
+    {
+      "id": 6,
+      "tower": "Tower B",
+      "name": "B-102"
+    },
+    {
+      "id": 7,
+      "tower": "Tower B",
+      "name": "B-201"
+    },
+    {
+      "id": 8,
+      "tower": "Tower B",
+      "name": "B-202"
+    },
+
+    {
+      "id": 9,
+      "tower": "Tower C",
+      "name": "C-101"
+    },
+    {
+      "id": 10,
+      "tower": "Tower C",
+      "name": "C-102"
+    },
+    {
+      "id": 11,
+      "tower": "Tower C",
+      "name": "C-201"
+    },
+    {
+      "id": 12,
+      "tower": "Tower C",
+      "name": "C-202"
+    },
+
+    {
+      "id": 13,
+      "tower": "Tower D",
+      "name": "D-101"
+    },
+    {
+      "id": 14,
+      "tower": "Tower D",
+      "name": "D-102"
+    },
+    {
+      "id": 15,
+      "tower": "Tower D",
+      "name": "D-201"
+    },
+    {
+      "id": 16,
+      "tower": "Tower D",
+      "name": "D-202"
+    },
+
+    {
+      "id": 17,
+      "tower": "Tower E",
+      "name": "E-101"
+    },
+    {
+      "id": 18,
+      "tower": "Tower E",
+      "name": "E-102"
+    },
+    {
+      "id": 19,
+      "tower": "Tower E",
+      "name": "E-301"
+    },
+    {
+      "id": 20,
+      "tower": "Tower E",
+      "name": "E-302"
+    },
+
+    {
+      "id": 21,
+      "tower": "Tower F",
+      "name": "F-101"
+    },
+    {
+      "id": 22,
+      "tower": "Tower F",
+      "name": "F-102"
+    },
+    {
+      "id": 23,
+      "tower": "Tower F",
+      "name": "F-201"
+    },
+    {
+      "id": 24,
+      "tower": "Tower F",
+      "name": "F-202"
+    },
+
+    {
+      "id": 25,
+      "tower": "Tower G",
+      "name": "G-101"
+    },
+    {
+      "id": 26,
+      "tower": "Tower G",
+      "name": "G-102"
+    },
+    {
+      "id": 27,
+      "tower": "Tower G",
+      "name": "G-201"
+    },
+    {
+      "id": 28,
+      "tower": "Tower G",
+      "name": "G-202"
+    },
+
+    {
+      "id": 29,
+      "tower": "Tower H",
+      "name": "H-101"
+    },
+    {
+      "id": 30,
+      "tower": "Tower H",
+      "name": "H-102"
+    },
+    {
+      "id": 31,
+      "tower": "Tower H",
+      "name": "H-201"
+    },
+    {
+      "id": 32,
+      "tower": "Tower H",
+      "name": "H-202"
+    }
+  ]
+}

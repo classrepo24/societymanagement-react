@@ -1,0 +1,284 @@
+{
+  "summary": {
+    "totalStaff": 24,
+    "activeStaff": 21,
+    "departments": 6,
+    "onLeave": 3
+  },
+  "staff": [
+    {
+      "id": "STF-001",
+      "name": "Rajesh Kumar",
+      "role": "Security Guard",
+      "department": "Security",
+      "phone": "+91 98765 43210",
+      "status": "Active",
+      "joiningDate": "15 Jan 2022"
+    },
+    {
+      "id": "STF-002",
+      "name": "Suresh Yadav",
+      "role": "Supervisor",
+      "department": "Maintenance",
+      "phone": "+91 98765 43211",
+      "status": "Active",
+      "joiningDate": "10 Mar 2021"
+    },
+    {
+      "id": "STF-003",
+      "name": "Amit Singh",
+      "role": "Technician",
+      "department": "Maintenance",
+      "phone": "+91 98765 43212",
+      "status": "Active",
+      "joiningDate": "05 Jun 2022"
+    },
+    {
+      "id": "STF-004",
+      "name": "Priya Sharma",
+      "role": "Housekeeping Staff",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43213",
+      "status": "Active",
+      "joiningDate": "12 Feb 2022"
+    },
+    {
+      "id": "STF-005",
+      "name": "Manoj Verma",
+      "role": "Gardener",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43214",
+      "status": "Active",
+      "joiningDate": "18 Apr 2022"
+    },
+    {
+      "id": "STF-006",
+      "name": "Ramesh Patel",
+      "role": "Plumber",
+      "department": "Maintenance",
+      "phone": "+91 98765 43215",
+      "status": "On Leave",
+      "joiningDate": "22 Jul 2021"
+    },
+    {
+      "id": "STF-007",
+      "name": "Vikram Das",
+      "role": "Security Guard",
+      "department": "Security",
+      "phone": "+91 98765 43216",
+      "status": "Active",
+      "joiningDate": "30 Sep 2022"
+    },
+    {
+      "id": "STF-008",
+      "name": "Neha Gupta",
+      "role": "Admin Assistant",
+      "department": "Administration",
+      "phone": "+91 98765 43217",
+      "status": "Active",
+      "joiningDate": "01 Nov 2021"
+    },
+    {
+      "id": "STF-009",
+      "name": "Anil Joshi",
+      "role": "Electrician",
+      "department": "Maintenance",
+      "phone": "+91 98765 43218",
+      "status": "Active",
+      "joiningDate": "16 Jan 2023"
+    },
+    {
+      "id": "STF-010",
+      "name": "Pooja Mishra",
+      "role": "Receptionist",
+      "department": "Administration",
+      "phone": "+91 98765 43219",
+      "status": "Active",
+      "joiningDate": "20 Aug 2022"
+    },
+    {
+      "id": "STF-011",
+      "name": "Deepak Sharma",
+      "role": "Lift Operator",
+      "department": "Maintenance",
+      "phone": "+91 98765 43220",
+      "status": "Active",
+      "joiningDate": "11 May 2021"
+    },
+    {
+      "id": "STF-012",
+      "name": "Sunita Patil",
+      "role": "Cleaner",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43221",
+      "status": "Active",
+      "joiningDate": "03 Dec 2022"
+    },
+    {
+      "id": "STF-013",
+      "name": "Kiran More",
+      "role": "Security Supervisor",
+      "department": "Security",
+      "phone": "+91 98765 43222",
+      "status": "On Leave",
+      "joiningDate": "07 Jan 2020"
+    },
+    {
+      "id": "STF-014",
+      "name": "Rohit Kulkarni",
+      "role": "Electrician",
+      "department": "Maintenance",
+      "phone": "+91 98765 43223",
+      "status": "Active",
+      "joiningDate": "18 Apr 2023"
+    },
+    {
+      "id": "STF-015",
+      "name": "Sneha Desai",
+      "role": "HR Executive",
+      "department": "Administration",
+      "phone": "+91 98765 43224",
+      "status": "Active",
+      "joiningDate": "15 Jul 2022"
+    },
+    {
+      "id": "STF-016",
+      "name": "Arun Nair",
+      "role": "Technician",
+      "department": "Maintenance",
+      "phone": "+91 98765 43225",
+      "status": "Active",
+      "joiningDate": "09 Feb 2023"
+    },
+    {
+      "id": "STF-017",
+      "name": "Meena Shah",
+      "role": "Housekeeping Staff",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43226",
+      "status": "Active",
+      "joiningDate": "04 Oct 2021"
+    },
+    {
+      "id": "STF-018",
+      "name": "Ajay Pawar",
+      "role": "Security Guard",
+      "department": "Security",
+      "phone": "+91 98765 43227",
+      "status": "Active",
+      "joiningDate": "12 Mar 2022"
+    },
+    {
+      "id": "STF-019",
+      "name": "Kavita Rao",
+      "role": "Office Assistant",
+      "department": "Administration",
+      "phone": "+91 98765 43228",
+      "status": "Active",
+      "joiningDate": "19 Jan 2023"
+    },
+    {
+      "id": "STF-020",
+      "name": "Sanjay Thakur",
+      "role": "Plumber",
+      "department": "Maintenance",
+      "phone": "+91 98765 43229",
+      "status": "Active",
+      "joiningDate": "24 Jun 2020"
+    },
+    {
+      "id": "STF-021",
+      "name": "Nisha Kapoor",
+      "role": "Receptionist",
+      "department": "Administration",
+      "phone": "+91 98765 43230",
+      "status": "Active",
+      "joiningDate": "15 Nov 2022"
+    },
+    {
+      "id": "STF-022",
+      "name": "Ganesh Patil",
+      "role": "Gardener",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43231",
+      "status": "On Leave",
+      "joiningDate": "07 Aug 2021"
+    },
+    {
+      "id": "STF-023",
+      "name": "Ritu Singh",
+      "role": "Accountant",
+      "department": "Finance",
+      "phone": "+91 98765 43232",
+      "status": "Active",
+      "joiningDate": "13 Feb 2023"
+    },
+    {
+      "id": "STF-024",
+      "name": "Mohit Jain",
+      "role": "Finance Executive",
+      "department": "Finance",
+      "phone": "+91 98765 43233",
+      "status": "Active",
+      "joiningDate": "01 Apr 2022"
+    },
+    {
+      "id": "STF-025",
+      "name": "Ganesh Patil",
+      "role": "Gardener",
+      "department": "Housekeeping",
+      "phone": "+91 98765 43231",
+      "status": "On Leave",
+      "joiningDate": "07 Aug 2021"
+    },
+    {
+      "id": "STF-026",
+      "name": "Ritu Singh",
+      "role": "Accountant",
+      "department": "Finance",
+      "phone": "+91 98765 43232",
+      "status": "Active",
+      "joiningDate": "13 Feb 2023"
+    },
+    {
+      "id": "STF-027",
+      "name": "Mohit Jain",
+      "role": "Finance Executive",
+      "department": "Finance",
+      "phone": "+91 98765 43233",
+      "status": "Active",
+      "joiningDate": "01 Apr 2022"
+    }
+  ],
+  "departments": [
+    "All",
+    "Security",
+    "Maintenance",
+    "Housekeeping",
+    "Administration",
+    "Finance"
+  ],
+  "roles": [
+    "All",
+    "Security Guard",
+    "Security Supervisor",
+    "Supervisor",
+    "Technician",
+    "Electrician",
+    "Plumber",
+    "Gardener",
+    "Housekeeping Staff",
+    "Cleaner",
+    "Receptionist",
+    "Office Assistant",
+    "HR Executive",
+    "Admin Assistant",
+    "Accountant",
+    "Finance Executive"
+  ],
+  "statusOptions": [
+    "All",
+    "Active",
+    "On Leave"
+  ]
+}
